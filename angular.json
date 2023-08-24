@@ -1,0 +1,170 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "gcomponents": {
+      "projectType": "library",
+      "root": "projects/gcomponents",
+      "sourceRoot": "projects/gcomponents/src",
+      "prefix": "g",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/gcomponents/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/gcomponents/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/gcomponents/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/gcomponents/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },    
+    "gtester": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/gtester",
+      "sourceRoot": "projects/gtester/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/gtester",
+            "index": "projects/gtester/src/index.html",
+            "main": "projects/gtester/src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "projects/gtester/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/gtester/src/favicon.ico",
+              "projects/gtester/src/assets"
+            ],
+            "styles": [
+              "projects/gtester/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "gtester:build:production"
+            },
+            "development": {
+              "browserTarget": "gtester:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+         "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "gtester:build"
+          }
+        }, 
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "projects/gtester/tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/gtester/src/favicon.ico",
+              "projects/gtester/src/assets"
+            ],
+            "styles": [
+              "projects/gtester/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "ghelpers": {
+      "projectType": "library",
+      "root": "projects/ghelpers",
+      "sourceRoot": "projects/ghelpers/src",
+      "prefix": "g",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ghelpers/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ghelpers/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ghelpers/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/ghelpers/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

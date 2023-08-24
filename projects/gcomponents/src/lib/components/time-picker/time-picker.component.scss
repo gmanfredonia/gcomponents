@@ -1,0 +1,10 @@
+.dropdown {
+  .dropdown-toggle::after {
+    content: none !important;
+  }
+
+  .dropdown-menu {
+    margin-top: .18rem !important;
+    padding: 0 1rem;
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "example": {
+    "input": {
+      "label": "Value",
+      "placeholder": "Insert a value"
+    },
+    "textArea": {
+      "label": "Text",
+      "placeholder": "Insert a text"
+    },
+    "checkBox": {
+      "label": "Click me!"
+    },
+    "radioBox": {
+      "label1": "Male",
+      "label2": "Female"
+    },
+    "dropdown": {
+      "label": "Name",
+      "placeholderToggle": "Select an item"
+    },
+    "datepicker": {
+      "label": "Date",
+      "placeholder": "Insert a date"
+    },
+    "timepicker": {
+      "label": "Time",
+      "placeholder": "Insert a time hh:mm"
+    }
+  },
+  "hello": "My First Page {{value}}, {{value2}}",
+  "month": {
+    "1": "Jan",
+    "10": "Oct",
+    "11": "Nov",
+    "12": "Dec",
+    "2": "Feb",
+    "3": "Mar",
+    "4": "Apr",
+    "5": "May",
+    "6": "Jun",
+    "7": "Jul",
+    "8": "Aug",
+    "9": "Sep"
+  },
+  "weekday": {
+    "1": "Mo",
+    "2": "Tu",
+    "3": "We",
+    "4": "Th",
+    "5": "Fr",
+    "6": "Sa",
+    "7": "Su"
+  },
+  "gdropdown": {
+    "labelNoItemsFound": "No items found!",
+    "labelNoResultsFiltered": "No results filtered!",
+    "placeholderSearch": "Insert a text to search",
+    "status": {
+      "labelCount": "Count",
+      "labelFiltered": "Filtered",
+      "labelSelected": "Selected",
+      "labelJumpToFirst": "Jump to first",
+      "labelSelectAll": "Select all",
+      "labelDeselectAll": "Deselect all",
+      "labelCancel": "Cancel selection"
+    }
+  }
+}

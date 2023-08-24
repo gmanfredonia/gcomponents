@@ -1,0 +1,19 @@
+<div class="form-check">
+  <input
+    class="form-check-input"
+    type="radio"
+    [id]="uniqueId"
+    [disabled]="disabled"
+    [checked]="checked"
+    [name]="this.ngControl.name"
+    [value]="value"
+    (change)="onChange($any($event.target).value)"
+    (blur)="onTouched()"
+  />
+  <label class="form-check-label" [for]="uniqueId" *ngIf="label">
+    {{ label }}
+  </label>
+</div>
+<app-validation-message *ngIf="showValidationMessage"
+  [formControlValue]="formControl"
+></app-validation-message>

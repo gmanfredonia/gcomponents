@@ -1,0 +1,203 @@
+<label
+  [attr.for]="disabled ? null : uniqueId"
+  class="form-label"
+  *ngIf="label"
+  >{{ label }}</label
+>
+<div
+  [class.focused]="focused"
+  [autoClose]="type.autoClose"
+  (openChange)="onOpenChange($event)"
+  ngbDropdown
+  #dropdown
+>
+  <div class="">
+    <ng-container
+      *ngIf="type.autoClose === true || type.autoClose === 'outside'"
+    >
+      <button
+        type="button"
+        class="btn text-start w-100"
+        [id]="uniqueId"
+        [disabled]="disabled"
+        (blur)="onTouched()"
+        ngbDropdownToggle
+      >
+        <span>
+          {{ getToggleText() }}
+        </span>
+      </button>
+      <div class="ps-1 smaller" *ngIf="feedback">{{ feedback }}</div>
+    </ng-container>
+    <ng-container *ngIf="type.autoClose === false">
+      <button
+        ngbDropdownAnchor
+        type="button"
+        class="btn text-start w-100"
+        [id]="uniqueId"
+        [disabled]="disabled"
+        (blur)="onTouched()"
+      >
+        <span>
+          {{ getToggleText() }}
+        </span>
+      </button>
+    </ng-container>
+  </div>
+  <div
+    ngbDropdownMenu
+    [attr.aria-labelledby]="uniqueId"
+    *ngIf="!disabled"
+    [class.dropdown-menu-static]="type.autoClose === false"
+    #dropdownMenu
+  >
+    <!-- Search -->
+    <div
+      *ngIf="showSearch"
+      class="dropdown-search d-flex justify-content-between"
+    >
+      <div class="input-group">
+        <input
+          #search
+          type="text"
+          class="form-control"
+          [placeholder]="localization.getPlaceholderSearch()"
+          (keyup)="onSearchKeyup($event)"
+          aria-label="Search"
+          [attr.aria-describedby]="uniqueId + '-group'"
+        />
+        <div class="input-group-text" [id]="uniqueId + '-group'">
+          <i class="bi bi-search"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items -->
+    <div #dropdownItems class="dropdown-items" *ngIf="filtered.length > 0">
+      <ng-container *ngFor="let item of filtered">
+        <a
+          *ngIf="!type.multiSelect"
+          class="dropdown-item"
+          tabindex="-1"
+          [class.active]="item === selectedItems[0]"
+          [class.disabled]="!item.enabled"
+          (click)="onChangeInternal(item)"
+        >
+          {{ item.name }}
+        </a>
+        <div
+          *ngIf="type.multiSelect"
+          class="dropdown-item dropdown-item-multi-select"
+          [class.active]="item === selectedItems[0]"
+          (click)="onChangeInternal(item)"
+        >
+          <div class="form-check">
+            <input
+              [id]="helpers.getUniqueId(uniqueId + '_check')"
+              class="form-check-input"
+              type="checkbox"
+              tabindex="-1"
+              [checked]="selectedItems.indexOf(item) !== -1"
+              [disabled]="!item.enabled"
+            />
+            <label class="form-check-label">
+              {{ item.name }}
+            </label>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Empty list / Empty search -->
+    <div
+      class="dropdown-no-items"
+      *ngIf="items.length === 0 || filtered.length === 0"
+    >
+      {{
+        items.length === 0
+          ? localization.getLabelNoItemsFound()
+          : localization.getLabelNoResultsFiltered()
+      }}
+    </div>
+
+    <!-- Status -->
+    <div *ngIf="status.show" class="dropdown-status">
+      <div class="row align-items-center">
+        <div class="col-3">
+          <div class="d-block">
+            <span *ngIf="status.showCount" class="dropdown-status-label">{{
+              localization.getStatusLabelCount() + ":"
+            }}</span
+            ><span *ngIf="status.showCount">{{ items.length }}</span>
+          </div>
+          <div class="d-block">
+            <span
+              *ngIf="showSearch && status.showFiltered"
+              class="dropdown-status-label"
+              >{{ localization.getStatusLabelFiltered() + ":" }}</span
+            ><span *ngIf="showSearch && status.showFiltered">{{
+              filtered.length
+            }}</span>
+          </div>
+          <div class="d-block">
+            <span
+              *ngIf="type.multiSelect && status.showSelected"
+              class="dropdown-status-label"
+              >{{ localization.getStatusLabelSelected() + ":" }}</span
+            ><span *ngIf="type.multiSelect && status.showSelected">{{
+              selectedItems.length
+            }}</span>
+          </div>
+        </div>
+        <div class="col-9 d-flex justify-content-end">
+          <div class="d-grid d-lg-inline-block gap-2">
+            <button
+              *ngIf="status.showJumpToFirst"
+              type="button"
+              class="btn btn-secondary btn-sm mx-lg-1"
+              (click)="onJumpToFirst()"
+            >
+              {{ localization.getStatusLabelJumpToFirst() }}
+            </button>
+            <button
+              *ngIf="type.multiSelect && status.showSelectAll"
+              type="button"
+              class="btn btn-secondary btn-sm mx-lg-1"
+              (click)="onSelectAll()"
+            >
+              {{ localization.getStatusLabelSelectAll() }}
+            </button>
+            <button
+              *ngIf="status.showCancel"
+              type="button"
+              class="btn btn-secondary btn-sm mx-lg-1"
+              (click)="onCancel()"
+            >
+              {{
+                type.multiSelect
+                  ? localization.getStatusLabelDeselectAll()
+                  : localization.getStatusLabelCancel()
+              }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="ps-1 smaller"
+    [style.position]="type.autoClose === false ? 'relative' : null"
+    [style.margin-top]="type.autoClose === false ? getFeedbackTop() : null"
+    *ngIf="type.autoClose === false && feedback"
+  >
+    {{ feedback }}
+  </div>
+  <div
+    [style.position]="type.autoClose === false ? 'relative' : null"
+    [style.margin-top]="type.autoClose === false ?  getValidatonMessageTop() : null"
+  >
+    <app-validation-message
+      [formControlValue]="formControl"
+    ></app-validation-message>
+  </div>
+</div>

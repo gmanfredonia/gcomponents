@@ -1,0 +1,44 @@
+<label
+  [attr.for]="disabled ? null : uniqueId"
+  class="form-label"
+  *ngIf="label"
+  >{{ label }}</label
+>
+<div ngbDropdown [open]="showCalendar!" #dropdown>
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      [class.focused]="focused"
+      [id]="uniqueId"
+      [placeholder]="placeholder ?? 'Insert a time'"
+      [disabled]="disabled"
+      [(ngModel)]="formattedTime"
+      (blur)="onTouched()"
+      #input
+    />
+    <button
+      type="button"
+      class="btn btn-outline-secondary bi bi-clock"
+      [disabled]="disabled"
+      (click)="onToggleDropdown()"
+    ></button>
+  </div>
+  <!--The next section is mandatory for correct work of ngbDropdownToggle-->
+  <ng-container *ngIf="!disabled">
+    <div ngbDropdownToggle></div>
+  </ng-container>
+  <div ngbDropdownMenu [class.focused]="focused" [attr.aria-labelledby]="uniqueId" *ngIf="!disabled">
+    <ngb-timepicker
+      [(ngModel)]="selectedTime"
+      [meridian]="showMeridian"
+      [seconds]="showSecond"
+      [spinners]="true"
+      #timepicker="ngbTimepicker"
+    ></ngb-timepicker>
+  </div>
+</div>
+<div class="ps-1 smaller" *ngIf="feedback">{{ feedback }}</div>
+<app-validation-message
+  [formControlValue]="formControl"
+></app-validation-message>

@@ -1,0 +1,69 @@
+{
+  "example": {
+    "input": {
+      "label" : "Valore",
+      "placeholder" : "Inserisci un valore"
+    },
+    "textArea": {
+      "label" : "Testo",
+      "placeholder" : "Inserisci un testo"
+    },
+    "checkBox": {
+      "label" : "Cliccami!"
+    },
+    "radioBox": {
+      "label1": "Maschile",
+      "label2": "Femminile"
+    },
+    "dropdown": {
+      "label": "Nome",
+      "placeholderToggle": "Seleziona un elemento"
+    },
+    "datepicker": {
+      "label": "Data",
+      "placeholder": "Inserisci una data"
+    },
+    "timepicker": {
+      "label": "Orario",
+      "placeholder": "Inserisci un orario hh:mm"
+    }
+  },
+  "hello": "La mia prima applicazione {{value}}, {{value2}}",
+  "weekday": {
+    "1": "Lu",
+    "2": "Ma",
+    "3": "Me",
+    "4": "Gi",
+    "5": "Ve",
+    "6": "Sa",
+    "7": "Do"
+  },
+  "month": {
+    "1": "Gen",
+    "2": "Feb",
+    "3": "Mar",
+    "4": "Apr",
+    "5": "Mag",
+    "6": "Giu",
+    "7": "Lug",
+    "8": "Ago",
+    "9": "Set",
+    "10": "Ott",
+    "11": "Nov",
+    "12": "Dic"
+  },
+  "gdropdown": {
+    "labelNoItemsFound": "Nessun elemento trovato!",
+    "labelNoResultsFiltered": "Nessun elemento filtrato!",
+    "placeholderSearch": "Inserisci un testo da cercare",
+    "status": {
+      "labelCount": "Totale",
+      "labelFiltered": "Filtrati",
+      "labelSelected": "Selezionati",
+      "labelJumpToFirst": "Salta al primo",
+      "labelSelectAll": "Seleziona tutto",
+      "labelDeselectAll": "Deseleziona tutto",
+      "labelCancel": "Annulla selezione"
+    }
+  }
+}

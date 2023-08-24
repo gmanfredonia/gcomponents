@@ -1,0 +1,33 @@
+<label [for]="uniqueId" class="form-label" *ngIf="label">{{ label }}</label>
+<textarea
+  class="form-control"
+  [id]="uniqueId"
+  [attr.placeholder]="placeholder"
+  [disabled]="disabled"
+  [attr.maxLength]="this.textualOptions.maxLength"
+  [value]="text"
+  (input)="onChangeInternal($event)"
+  (blur)="onTouched()"
+  #textArea
+></textarea>
+<div *ngIf="showLengthProgressBar" class="px-1">
+  <ngb-progressbar
+    type="secondary"
+    [value]="(100 * textArea.value.length) / (this.textualOptions.maxLength ?? 1)"
+    height=".2rem"
+  ></ngb-progressbar>
+</div>
+<div
+  class="smaller d-flex"
+  [class.justify-content-end]="!feedback"
+  [class.justify-content-between]="feedback"
+  *ngIf="feedback || showLengthProgressNumeric"
+>
+  <div class="ps-1" *ngIf="feedback">{{ feedback }}</div>
+  <div class="pe-1" *ngIf="showLengthProgressNumeric">
+    {{ textArea.value.length }} / {{ this.textualOptions.maxLength }}
+  </div>
+</div>
+<app-validation-message
+  [formControlValue]="formControl"
+></app-validation-message>

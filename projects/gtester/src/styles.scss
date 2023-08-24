@@ -1,0 +1,557 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+//Colors
+$black-color: black;
+$gray-color: gray;
+$gray-light-color: lighten($gray-color, 30%);
+$gray-lighten-color: lighten($gray-color, 35%);
+$gray-dark-color: darken($gray-color, 8%);
+$gray-darken-color: darken($gray-color, 15%);
+$white-color: white;
+$orange-color: orange;
+$orange-light-color: lighten($orange-color, 44%);
+$orange-lighten-color: lighten($orange-color, 48%);
+$red-color: red;
+$red-light-1-color: lighten($red-color, 20%);
+$red-light-2-color: lighten($red-color, 24%);
+$red-lighten-1-color: lighten($red-color, 44%);
+$red-lighten-2-color: lighten($red-color, 48%);
+
+//Opacity
+$disabled-opacity: 0.65;
+
+//Input, Textarea, CheckBox, SwitchBox, RadioBox, Dropdown, DatePicker
+$input-color: $black-color;
+$input-background-color: $orange-lighten-color;
+$input-border-color: $gray-color;
+
+$input-background-focus-color: $orange-light-color;
+$input-border-focus-color: $orange-color;
+
+$input-background-error-color: $red-lighten-2-color;
+$input-border-error-color: $red-light-2-color;
+
+$input-background-error-focus-color: $red-lighten-1-color;
+$input-border-error-focus-color: $red-light-1-color;
+
+$input-background-disabled-color: $gray-lighten-color;
+
+//CheckBox, SwitchBox, RadioBox
+$check-background-checked-color: $orange-color;
+$check-border-checked-color: $orange-color;
+
+$check-background-checked-focus-color: darken($orange-color, 5%);
+$check-border-checked-focus-color: darken($orange-color, 5%);
+
+//Dropdown
+$dropdown-button-color: $black-color;
+$dropdown-button-color-disabled: $gray-darken-color;
+$dropdown-input-background-color: $white-color;
+$dropdown-input-border-color: $gray-color;
+$dropdown-item-background-color: $gray-color;
+
+//DatePicker, TimePicker
+$date-picker-calendar-button-color: $white-color;
+$date-picker-calendar-button-background-color: $gray-dark-color;
+$date-picker-calendar-button-background-hover-color: $gray-darken-color;
+$date-picker-calendar-button-background-active-color: $gray-darken-color;
+$date-picker-calendar-color: $black-color;
+$date-picker-calendar-year-month-color: $white-color;
+$date-picker-calendar-year-month-background-color: $dropdown-item-background-color;
+$date-picker-calendar-year-month-background-focus-error-color: $white-color;
+$date-picker-calendar-weekdays-color: $orange-color;
+$date-picker-calendar-weekdays-error-focus-color: $black-color;
+$date-picker-calendar-item-color: $white-color;
+$date-picker-calendar-item-background-color: $dropdown-item-background-color;
+$date-picker-calendar-item-focused-background-color: $orange-color;
+$date-picker-calendar-item-focused-border-color: $orange-color;
+$date-picker-calendar-item-focused-muted-color: $gray-light-color;
+$date-picker-calendar-item-today-color: $input-border-focus-color;
+$date-picker-calendar-item-today-background-color: $input-background-focus-color;
+$date-picker-calendar-item-today-border-color: $input-border-focus-color;
+$date-picker-calendar-item-today-outline-color: $input-border-focus-color;
+$date-picker-calendar-item-today-outline-focus-color: $gray-color;
+
+//Validation message
+$validation-message-error-color: lighten($red-color, 20%);
+
+html,
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
+}
+
+.form-control:disabled {
+  background-color: $input-background-disabled-color;
+  opacity: $disabled-opacity;
+  cursor: not-allowed;
+}
+
+//Input, Textarea
+input.form-control,
+textarea.form-control {
+  color: $input-color;
+  background-color: $input-background-color;
+  border-color: $input-border-color;
+}
+
+input.form-control:focus,
+textarea.form-control:focus {
+  background-color: $input-background-focus-color;
+  border-color: $input-border-focus-color;
+  box-shadow: none;
+}
+
+app-input.ng-invalid.ng-touched input.form-control,
+app-text-area.ng-invalid.ng-touched textarea.form-control {
+  background-color: $input-background-error-color;
+  border-color: $input-border-error-color;
+}
+
+app-input.ng-invalid.ng-touched input.form-control:focus,
+app-text-area.ng-invalid.ng-touched textarea.form-control:focus {
+  background-color: $input-background-error-focus-color;
+  border-color: $input-border-error-focus-color;
+  box-shadow: none;
+}
+
+app-input > label.form-label,
+app-text-area > label.form-label {
+  margin-bottom: 0;
+}
+
+//CheckBox, SwitchBox, RadioBox
+.form-check-input {
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-top: 0.08rem;
+  background-color: $input-background-color;
+  border-color: $input-border-color;
+}
+
+.form-check-input:focus {
+  background-color: $input-background-focus-color;
+  border-color: $input-border-focus-color;
+  box-shadow: none;
+}
+
+.form-check-input:checked {
+  background-color: $check-background-checked-color;
+  border-color: $check-border-checked-color;
+}
+
+.form-check-input:checked:focus {
+  background-color: $check-background-checked-focus-color;
+  border-color: $check-border-checked-focus-color;
+}
+
+.form-check-label {
+  margin-left: 0.5rem;
+}
+
+.form-check-input[type="radio"] {
+  border-radius: 25%;
+}
+
+.form-check-input:disabled {
+  opacity: $disabled-opacity;
+  pointer-events: unset;
+  cursor: not-allowed;
+}
+.form-check-label:disabled {
+  opacity: $disabled-opacity;
+}
+
+.form-check-input:checked[type="radio"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 6 8 8 m0 -8 -8 8'/%3E%3C/svg%3E");
+}
+
+/* .form-switch .form-check-input:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ffa500'/%3e%3c/svg%3e");
+} */
+
+//Dropdown
+app-dropdown {
+  > label.form-label {
+    margin-bottom: 0 !important;
+  }
+
+  button.btn.dropdown-toggle {
+    background-color: $input-background-color;
+    border-color: $input-border-color !important;
+    color: $dropdown-button-color;
+    padding: 0.3rem 0.75rem;
+  }
+
+  //Buttons
+  button.btn.dropdown-toggle:disabled {
+    color: $dropdown-button-color-disabled;
+    background-color: $input-background-disabled-color !important;
+  }
+
+  .dropdown.focused button.btn.dropdown-toggle {
+    background-color: $input-background-focus-color;
+    border-color: $input-border-focus-color !important;
+  }
+
+  &.ng-invalid.ng-touched button.btn.dropdown-toggle {
+    background-color: $input-background-error-color;
+    border-color: $input-border-error-color !important;
+  }
+
+  &.ng-invalid.ng-touched .dropdown.focused button.btn.dropdown-toggle {
+    background-color: $input-background-error-focus-color;
+    border-color: $input-border-error-focus-color !important;
+  }
+
+  .dropdown-menu {
+    &.show {
+      background-color: $input-background-color;
+      border-color: $input-border-color !important;
+    }
+
+    input[type="text"].form-control {
+      background-color: $dropdown-input-background-color;
+      border-color: $dropdown-input-border-color;
+    }
+
+    .dropdown-status {
+      border-color: $input-border-color !important;
+    }
+  }
+
+  .dropdown.focused .dropdown-menu {
+    background-color: $input-background-focus-color;
+    border-color: $input-border-focus-color !important;
+
+    .dropdown-status {
+      border-color: $input-border-focus-color !important;
+    }
+  }
+
+  &.ng-invalid.ng-touched .dropdown-menu {
+    background-color: $input-background-error-color;
+    border-color: $input-border-error-color !important;
+
+    .dropdown-status {
+      border-color: $input-border-error-color !important;
+    }
+  }
+
+  &.ng-invalid.ng-touched .dropdown.focused .dropdown-menu {
+    background-color: $input-background-error-focus-color;
+    border-color: $input-border-error-focus-color !important;
+
+    .dropdown-status {
+      border-color: $input-border-error-focus-color !important;
+    }
+  }
+}
+
+//Date picker
+app-date-picker {
+  > label.form-label {
+    margin-bottom: 0 !important;
+  }
+
+  input.focused {
+    background-color: $input-background-focus-color;
+    border-color: $input-border-focus-color !important;
+  }
+
+  &.ng-invalid.ng-touched input.form-control {
+    background-color: $input-background-error-color;
+    border-color: $input-border-error-color;
+  }
+
+  &.ng-invalid.ng-touched input.form-control.focused {
+    background-color: $input-background-error-focus-color;
+    border-color: $input-border-error-focus-color !important;
+    box-shadow: none;
+  }
+
+  .btn-outline-secondary {
+    color: $date-picker-calendar-button-color;
+    background-color: $date-picker-calendar-button-background-color;
+
+    &:hover {
+      background-color: $date-picker-calendar-button-background-hover-color;
+    }
+
+    &:active {
+      background-color: $date-picker-calendar-button-background-active-color !important;
+    }
+
+    &:disabled {
+      color: $date-picker-calendar-button-color;
+      background-color: $date-picker-calendar-button-background-hover-color;
+    }
+  }
+
+  .dropdown-menu {
+    color: $date-picker-calendar-color;
+
+    &.show {
+      background-color: $input-background-focus-color;
+      border-color: $input-border-focus-color !important;
+    }
+
+    select.form-select {
+      color: $date-picker-calendar-color;
+      background-color: $input-background-color;
+      border-color: $input-border-color !important;
+      outline: none;
+      box-shadow: none;
+
+      option:checked {
+        color: $date-picker-calendar-year-month-color;
+        background-color: $date-picker-calendar-year-month-background-color !important;
+      }
+    }
+
+    select.form-select + select.form-select {
+      margin-left: 0.4rem;
+    }
+
+    button.btn {
+      color: $gray-color !important;
+
+      &:hover {
+        color: $gray-dark-color !important;
+      }
+
+      &:focus {
+        color: $gray-darken-color !important;
+      }
+    }
+
+    .ngb-dp-header {
+      background-color: $input-background-focus-color;
+      padding-top: 0.4rem;
+    }
+
+    .ngb-dp-weekdays {
+      border-bottom: 1px solid $input-border-focus-color;
+      border-radius: 0;
+      background-color: $input-background-focus-color;
+      margin-bottom: 0.3rem;
+    }
+
+    .ngb-dp-weekday {
+      color: $date-picker-calendar-weekdays-color;
+      font-style: normal;
+    }
+
+    .text-white {
+      color: $date-picker-calendar-item-color !important;
+    }
+
+    .bg-primary {
+      background-color: $date-picker-calendar-item-background-color !important;
+    }
+
+    [ngbDatepickerDayView].active {
+      color: $date-picker-calendar-item-color;
+      background-color: $date-picker-calendar-item-background-color;
+      border-color: $date-picker-calendar-item-background-color;
+      outline: none;
+    }
+
+    .ngb-dp-today [ngbDatepickerDayView] {
+      color: $date-picker-calendar-item-today-color;
+      background-color: $date-picker-calendar-item-today-background-color;
+      //border: 1px solid $date-picker-calendar-item-today-border-color;
+      outline: $date-picker-calendar-item-today-outline-color solid 1px;
+    }
+
+    [ngbDatepickerDayView]:hover,
+    [ngbDatepickerDayView]:focus,
+    [ngbDatepickerDayView]:active {
+      color: $date-picker-calendar-item-color !important;
+      background-color: $date-picker-calendar-item-focused-background-color !important;
+      border-color: $date-picker-calendar-item-focused-border-color !important;
+      outline: none;
+    }
+
+    .ngb-dp-today [ngbDatepickerDayView]:hover,
+    .ngb-dp-today [ngbDatepickerDayView]:focus,
+    .ngb-dp-today [ngbDatepickerDayView]:active {
+      outline: $date-picker-calendar-item-today-outline-focus-color solid 1px;
+    }
+
+    [ngbDatepickerDayView].text-muted:hover:not(.bg-primary) {
+      color: $date-picker-calendar-item-focused-muted-color !important;
+    }
+  }
+
+  &.ng-invalid.ng-touched input.focused + .dropdown-menu.show {
+    select.form-select {
+      background-color: $date-picker-calendar-year-month-background-focus-error-color;
+    }
+
+    .ngb-dp-header {
+      background-color: $input-background-error-focus-color;
+    }
+
+    .ngb-dp-weekdays {
+      background-color: $input-background-error-focus-color;
+      border-bottom: 1px solid $input-border-error-focus-color;
+    }
+
+    .ngb-dp-weekday {
+      color: $date-picker-calendar-weekdays-error-focus-color;
+    }
+
+    background-color: $input-background-error-focus-color;
+    border-color: $input-border-error-focus-color !important;
+  }
+}
+
+//Time picker
+app-time-picker {
+  > label.form-label {
+    margin-bottom: 0 !important;
+  }
+
+  input.focused {
+    background-color: $input-background-focus-color;
+    border-color: $input-border-focus-color !important;
+  }
+
+  &.ng-invalid.ng-touched > .dropdown > .input-group > input.form-control {
+    background-color: $input-background-error-color;
+    border-color: $input-border-error-color;
+  }
+
+  &.ng-invalid.ng-touched
+    > .dropdown
+    > .input-group
+    > input.form-control.focused {
+    background-color: $input-background-error-focus-color;
+    border-color: $input-border-error-focus-color !important;
+    box-shadow: none;
+  }
+
+  .btn-outline-secondary {
+    color: $date-picker-calendar-button-color;
+    background-color: $date-picker-calendar-button-background-color;
+
+    &:hover {
+      background-color: $date-picker-calendar-button-background-hover-color;
+    }
+
+    &:active {
+      background-color: $date-picker-calendar-button-background-active-color !important;
+    }
+
+    &:disabled {
+      color: $date-picker-calendar-button-color;
+      background-color: $date-picker-calendar-button-background-hover-color;
+    }
+  }
+
+  .dropdown-menu {
+    color: $date-picker-calendar-color;
+
+    &.show {
+      background-color: $input-background-focus-color;
+      border-color: $input-border-focus-color !important;
+    }
+
+    button.btn.btn-link {
+      color: $gray-color !important;
+
+      &:hover {
+        color: $gray-dark-color !important;
+      }
+
+      &:focus {
+        color: $gray-darken-color !important;
+      }
+    }
+
+    .btn-outline-primary {
+      color: $gray-dark-color;
+      background-color: $input-background-color;
+      border-color: $gray-dark-color !important;
+
+      &:hover {
+        color: $white-color;
+        background-color: $gray-dark-color;
+        border-color: $gray-dark-color !important;
+      }
+
+      &:focus {
+        color: $white-color;
+        background-color: $gray-darken-color;
+        border-color: $gray-darken-color !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  &.ng-invalid.ng-touched .dropdown-menu.show.focused {
+    background-color: $input-background-error-focus-color;
+    border-color: $input-border-error-focus-color;
+  }
+}
+
+//Validation message
+app-validation-message {
+  color: $validation-message-error-color;
+}
+
+//Buttons
+.btn:disabled {
+  opacity: $disabled-opacity;
+  pointer-events: unset;
+  cursor: not-allowed !important;
+}
+
+/* .btn-primary {
+  color: $black-color;
+  background-color: $orange-color;
+  border-color: $orange-color;
+}*/
+.btn-secondary {
+  color: $white-color;
+  background-color: $gray-color;
+  border-color: $gray-color !important;
+
+  &:hover {
+    background-color: $gray-dark-color;
+    border-color: $gray-dark-color !important;
+  }
+
+  &:focus {
+    background-color: $gray-darken-color;
+    border-color: $gray-darken-color !important;
+    box-shadow: none !important;
+  }
+}
+
+.btn-outline-secondary {
+  color: $gray-dark-color;
+  border-color: $gray-dark-color !important;
+
+  &:hover {
+    color: $white-color;
+    background-color: $gray-dark-color;
+    border-color: $gray-dark-color !important;
+  }
+
+  &:focus {
+    color: $white-color;
+    background-color: $gray-darken-color;
+    border-color: $gray-darken-color !important;
+    box-shadow: none !important;
+  }
+}
+
+.smaller {
+  font-size: 0.7rem;
+}

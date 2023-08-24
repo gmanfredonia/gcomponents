@@ -1,0 +1,639 @@
+<div class="container">
+  <div class="row mb-4">
+    <div class="col">
+      <!-- <div>{{ "hello" | translate : param }}</div>
+      <div>{{ titleTranslated }}</div> -->
+      <select
+        [(ngModel)]="language"
+        (change)="onChangeLanguage($any($event.target).value)"
+      >
+        <option value="en" selected>Inglese</option>
+        <option value="it">Italiano</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        class="nav-tabs"
+        [(activeId)]="selectedTab"
+        [destroyOnHide]="false"
+      >
+        <li [ngbNavItem]="'tabInput'">
+          <button ngbNavLink>Input</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5">
+              <form [formGroup]="formInput" novalidate>
+                <div class="row">
+                  <div class="col-4">
+                    <h3>Component Input</h3>
+                    <app-input
+                      label="{{ txtLabel.text | translate }}"
+                      placeholder="{{ txtPlaceholder.text | translate }}"
+                      [type]="
+                        $any(
+                          ddType.selectedItems.length > 0
+                            ? ddType.selectedItems[0].id
+                            : 'text'
+                        )
+                      "
+                      [text]="txtText.text"
+                      [textualOptions]="{
+                        maxLength: $any(txtMaxLength.text),
+                        toUpperCase: chkToUpperCase.checked,
+                        showLengthProgressBar: chkShowLengthProgressBar.checked,
+                        showLengthProgressNumeric:
+                          chkShowLengthProgressNumeric.checked
+                      }"
+                      [decimalOptions]="decimalOptions"
+                      [feedback]="txtFeedback.text"
+                      [disabled]="chkDisabled.checked"
+                      formControlName="input"
+                      #input
+                    ></app-input>
+                    <div class="mt-4">
+                      <app-info [form]="formInput"></app-info>
+                    </div>
+                  </div>
+                  <div class="offset-2 col-6">
+                    <h3>Options</h3>
+                    <div class="mb-3">
+                      <app-input
+                        label="Label key"
+                        formControlName="label"
+                        #txtLabel
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Placeholder key"
+                        formControlName="placeholder"
+                        #txtPlaceholder
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-dropdown
+                        label="Type"
+                        formControlName="type"
+                        [items]="inputTypes"
+                        #ddType
+                      ></app-dropdown>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="MaxLength"
+                        type="numeric"
+                        formControlName="maxLength"
+                        #txtMaxLength
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Text"
+                        formControlName="text"
+                        #txtText
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Feedback"
+                        formControlName="feedback"
+                        #txtFeedback
+                      ></app-input>
+                    </div>
+                    <app-check-box
+                      label="Disabled"
+                      formControlName="disabled"
+                      #chkDisabled
+                    ></app-check-box>
+                    <app-check-box
+                      label="ToUpperCase"
+                      formControlName="toUpperCase"
+                      #chkToUpperCase
+                    ></app-check-box>
+                    <app-check-box
+                      label="ShowLengthProgressBar (works together maxLength property)"
+                      formControlName="showLengthProgressBar"
+                      #chkShowLengthProgressBar
+                    ></app-check-box>
+                    <app-check-box
+                      label="ShowLengthProgressNumeric (works together maxLength property)"
+                      formControlName="showLengthProgressNumeric"
+                      #chkShowLengthProgressNumeric
+                    ></app-check-box>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabTextArea'">
+          <button ngbNavLink>TextArea</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5">
+              <form [formGroup]="formTextArea">
+                <div class="row">
+                  <div class="col-4">
+                    <h3>Component TextArea</h3>
+                    <app-text-area
+                      label="{{ txtLabel.text | translate }}"
+                      placeholder="{{ txtPlaceholder.text | translate }}"
+                      [text]="txtText.text"
+                      [textualOptions]="{
+                        maxLength: $any(txtMaxLength.text),
+                        toUpperCase: chkToUpperCase.checked,
+                        showLengthProgressBar: chkShowLengthProgressBar.checked,
+                        showLengthProgressNumeric:
+                          chkShowLengthProgressNumeric.checked
+                      }"
+                      [disabled]="chkDisabled.checked"
+                      [feedback]="txtFeedback.text"
+                      formControlName="textArea"
+                      #textArea
+                    ></app-text-area>
+                    <div class="mt-4">
+                      <app-info [form]="formTextArea"></app-info>
+                    </div>
+                  </div>
+                  <div class="offset-2 col-6">
+                    <h3>Options</h3>
+                    <div class="mb-3">
+                      <app-input
+                        label="Label key"
+                        formControlName="label"
+                        #txtLabel
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Placeholder key"
+                        formControlName="placeholder"
+                        #txtPlaceholder
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Text"
+                        formControlName="text"
+                        #txtText
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="MaxLength"
+                        type="numeric"
+                        formControlName="maxLength"
+                        #txtMaxLength
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Feedback"
+                        formControlName="feedback"
+                        #txtFeedback
+                      ></app-input>
+                    </div>
+                    <app-check-box
+                      label="Disabled"
+                      formControlName="disabled"
+                      #chkDisabled
+                    ></app-check-box>
+                    <app-check-box
+                      label="ToUpperCase"
+                      formControlName="toUpperCase"
+                      #chkToUpperCase
+                    ></app-check-box>
+                    <app-check-box
+                      label="ShowLengthProgressBar (works together maxLength property)"
+                      formControlName="showLengthProgressBar"
+                      #chkShowLengthProgressBar
+                    ></app-check-box>
+                    <app-check-box
+                      label="ShowLengthProgressNumeric (works together maxLength property)"
+                      formControlName="showLengthProgressNumeric"
+                      #chkShowLengthProgressNumeric
+                    ></app-check-box>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabCheckBox'">
+          <button ngbNavLink>CheckBox</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5">
+              <form [formGroup]="formCheckBox" novalidate>
+                <div class="row">
+                  <div class="col-4">
+                    <h3>Component CheckBox</h3>
+                    <app-check-box
+                      label="{{ txtCheckBoxLabel.text | translate }}"
+                      [type]="
+                        $any(
+                          ddType.selectedItems.length > 0
+                            ? ddType.selectedItems[0].id
+                            : 'default'
+                        )
+                      "
+                      [checked]="chkChecked.checked"
+                      [disabled]="chkDisabled.checked"
+                      formControlName="checkBox"
+                      #checkBox
+                    ></app-check-box>
+                    <div class="mt-4">
+                      <app-info [form]="formCheckBox"></app-info>
+                    </div>
+                  </div>
+                  <div class="offset-2 col-6">
+                    <h3>Options</h3>
+                    <div class="mb-3">
+                      <app-input
+                        label="Label key"
+                        formControlName="label"
+                        #txtCheckBoxLabel
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-dropdown
+                        label="Type"
+                        formControlName="type"
+                        [items]="checkBoxTypes"
+                        #ddType
+                      ></app-dropdown>
+                    </div>
+                    <app-check-box
+                      label="Checked"
+                      formControlName="checked"
+                      #chkChecked
+                    ></app-check-box>
+                    <app-check-box
+                      label="Disabled"
+                      formControlName="disabled"
+                      #chkDisabled
+                    ></app-check-box>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabRadioBox'">
+          <button ngbNavLink>RadioBox</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5">
+              <form [formGroup]="formRadioBox" novalidate>
+                <div class="row">
+                  <div class="col-4">
+                    <h3>Component RadioBox</h3>
+                    <app-radio-box
+                      label="{{ txtLabel1.text | translate }}"
+                      [value]="txtValue1.text"
+                      [disabled]="chkDisabled1.checked"
+                      [checked]="chkChecked1.checked"
+                      formControlName="radioBox"
+                      #radioBox1
+                    ></app-radio-box>
+                    <app-radio-box
+                      label="{{ txtLabel2.text | translate }}"
+                      [value]="txtValue2.text"
+                      [disabled]="chkDisabled2.checked"
+                      [checked]="chkChecked2.checked"
+                      formControlName="radioBox"
+                      #radioBox2
+                    ></app-radio-box>
+                    <div class="mt-4">
+                      <app-info [form]="formRadioBox"></app-info>
+                    </div>
+                  </div>
+                  <div class="offset-2 col-6">
+                    <h3>Options</h3>
+                    <div class="mb-3">
+                      <app-input
+                        label="Label key 1"
+                        formControlName="label1"
+                        #txtLabel1
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Label key 2"
+                        formControlName="label2"
+                        #txtLabel2
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Value 1"
+                        formControlName="value1"
+                        #txtValue1
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Value 2"
+                        formControlName="value2"
+                        #txtValue2
+                      ></app-input>
+                    </div>
+                    <app-check-box
+                      label="Disabled 1"
+                      formControlName="disabled1"
+                      #chkDisabled1
+                    ></app-check-box>
+                    <app-check-box
+                      label="Disabled 2"
+                      formControlName="disabled2"
+                      #chkDisabled2
+                    ></app-check-box>
+                    <app-check-box
+                      label="Checked 1"
+                      formControlName="checked1"
+                      #chkChecked1
+                    ></app-check-box>
+                    <app-check-box
+                      label="Checked 2"
+                      formControlName="checked2"
+                      #chkChecked2
+                    ></app-check-box>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabDropdown'">
+          <button ngbNavLink>Dropdown</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5">
+              <form [formGroup]="formDropdown" novalidate>
+                <div class="row">
+                  <div class="col-6">
+                    <h3>Component Dropdown</h3>
+                    <div style="height: 550px;">
+                      <app-dropdown
+                        label="{{ txtDropdownLabel.text | translate }}"
+                        placeholderToggle="{{
+                          txtDropdownPlaceholderToggle.text | translate
+                        }}"
+                        formControlName="dropdown"
+                        [disabled]="chkDisabled.checked"
+                        [feedback]="txtFeedback.text"
+                        [showSearch]="chkShowSearch.checked"
+                        [status]="{
+                          show: chkStatusShow.checked,
+                          showCount: chkStatusCount.checked,
+                          showFiltered: chkStatusFiltered.checked,
+                          showSelected: chkStatusSelected.checked,
+                          showJumpToFirst: chkStatusJumpToFirst.checked,
+                          showSelectAll: chkStatusSelectAll.checked,
+                          showCancel: chkStatusCancel.checked
+                        }"
+                        [items]="dropdownNames"
+                        #dropdown
+                      ></app-dropdown>
+                    </div>
+                    <div class="mt-4">
+                      <app-info [form]="formDropdown"></app-info>
+                    </div>
+                  </div>
+                  <div class="offset-0 col-6">
+                    <h3>Options</h3>
+                    <div class="mb-3">
+                      <app-input
+                        label="Label key"
+                        formControlName="label"
+                        #txtDropdownLabel
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Placeholder toggle key"
+                        formControlName="placeholderToggle"
+                        #txtDropdownPlaceholderToggle
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-dropdown
+                        label="{{ 'Type' | translate }}"
+                        formControlName="type"
+                        [items]="dropdownTypes"
+                        (ngModelChange)="
+                          dropdown.type = changeDropdownType(
+                            dropdownType.selectedItems[0].id
+                          )
+                        "
+                        #dropdownType
+                      ></app-dropdown>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Feedback"
+                        formControlName="feedback"
+                        #txtFeedback
+                      ></app-input>
+                    </div>
+                    <app-check-box
+                      label="Disabled"
+                      formControlName="disabled"
+                      #chkDisabled
+                    ></app-check-box>
+                    <app-check-box
+                      label="Show Search"
+                      formControlName="showSearch"
+                      #chkShowSearch
+                    ></app-check-box>
+                    <hr />
+                    <br />
+                    <h5>Status Bar</h5>
+                    <app-check-box
+                      label="Show"
+                      formControlName="statusShow"
+                      #chkStatusShow
+                    ></app-check-box>
+                    <app-check-box
+                      label="Count"
+                      formControlName="statusCount"
+                      #chkStatusCount
+                    ></app-check-box>
+                    <app-check-box
+                      label="Filtered (works together statusShow and statusSearch properties)"
+                      formControlName="statusFiltered"
+                      #chkStatusFiltered
+                    ></app-check-box>
+                    <app-check-box
+                      label="Selected (works together statusShow and type=Multi select properties)"
+                      formControlName="statusSelected"
+                      #chkStatusSelected
+                    ></app-check-box>
+                    <app-check-box
+                      label="Jump To First"
+                      formControlName="statusJumpToFirst"
+                      #chkStatusJumpToFirst
+                    ></app-check-box>
+                    <app-check-box
+                      label="Select All (works together statusShow and type=Multi select properties)"
+                      formControlName="statusSelectAll"
+                      #chkStatusSelectAll
+                    ></app-check-box>
+                    <app-check-box
+                      label="Cancel"
+                      formControlName="statusCancel"
+                      #chkStatusCancel
+                    ></app-check-box>
+                    <hr />
+                    <br />
+                    <h5>Localization</h5>
+                    Use gDropdown-i18n.service
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabDatePicker'">
+          <button ngbNavLink>DatePicker</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5">
+              <form [formGroup]="formDatePicker" novalidate>
+                <div class="row">
+                  <div class="col-4">
+                    <h3>Component DatePicker</h3>
+                    <app-date-picker
+                      label="{{ txtDatePickerLabel.text | translate }}"
+                      placeholder="{{
+                        txtDatePickerPlaceholder.text | translate
+                      }}"
+                      formControlName="datePicker"
+                      #datePicker
+                    ></app-date-picker>
+                    <div class="mt-4">
+                      <app-info [form]="formDatePicker"></app-info>
+                    </div>
+                  </div>
+                  <div class="offset-2 col-6">
+                    <h3>Options</h3>
+                    <div class="mb-3">
+                      <app-input
+                        label="Label key"
+                        formControlName="label"
+                        #txtDatePickerLabel
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Placeholder key"
+                        formControlName="placeholder"
+                        #txtDatePickerPlaceholder
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Feedback"
+                        formControlName="feedback"
+                      ></app-input>
+                    </div>
+                    <app-check-box
+                      label="Disabled"
+                      formControlName="disabled"
+                    ></app-check-box>
+                    <app-check-box
+                      label="Show calendar"
+                      formControlName="showCalendar"
+                    ></app-check-box>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabTimePicker'">
+          <button ngbNavLink>TimePicker</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5">
+              <form [formGroup]="formTimePicker" novalidate>
+                <div class="row">
+                  <div class="col-4">
+                    <h3>Component TimePicker</h3>
+                    <app-time-picker
+                      label="{{ txtTimePickerLabel.text | translate }}"
+                      placeholder="{{
+                        txtTimePickerPlaceholder.text | translate
+                      }}"
+                      formControlName="timePicker"
+                      #timePicker
+                    ></app-time-picker>
+                    <div class="mt-4">
+                      <app-info [form]="formTimePicker"></app-info>
+                    </div>
+                  </div>
+                  <div class="offset-2 col-6">
+                    <h3>Options</h3>
+                    <div class="mb-3">
+                      <app-input
+                        label="Label key"
+                        formControlName="label"
+                        #txtTimePickerLabel
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Placeholder key"
+                        formControlName="placeholder"
+                        #txtTimePickerPlaceholder
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Feedback"
+                        formControlName="feedback"
+                      ></app-input>
+                    </div>
+                    <app-check-box
+                      label="Disabled"
+                      formControlName="disabled"
+                    ></app-check-box>
+                    <app-check-box
+                      label="Show calendar"
+                      formControlName="showCalendar"
+                    ></app-check-box>
+                    <app-check-box
+                      label="Show second"
+                      formControlName="showSecond"
+                    ></app-check-box>
+                    <app-check-box
+                      label="Show meridian"
+                      formControlName="showMeridian"
+                      #chkShowMeridian
+                    ></app-check-box>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabTypeahead'">
+          <button ngbNavLink>Typeahead</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5"></div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabUpload'">
+          <button ngbNavLink>Upload</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5"></div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'tabGrid'">
+          <button ngbNavLink>Grid</button>
+          <ng-template ngbNavContent>
+            <div class="container pt-5"></div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+    </div>
+  </div>
+</div>

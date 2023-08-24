@@ -1,0 +1,30 @@
+<label
+  [attr.for]="disabled ? null : uniqueId"
+  class="form-label"
+  *ngIf="label"
+  >{{ label }}</label
+>
+<div class="input-group">
+  <input
+    type="text"
+    class="form-control"
+    [class.focused]="focused"
+    [id]="uniqueId"
+    [placeholder]="placeholder ?? 'Insert a date'"
+    [disabled]="disabled"
+    [(ngModel)]="selectedDate"
+    (blur)="onTouched()"
+    ngbDatepicker
+    #datepicker="ngbDatepicker"
+  />
+  <button
+    type="button"
+    class="btn btn-outline-secondary bi bi-calendar3"
+    [disabled]="disabled"
+    (click)="datepicker.toggle()"
+  ></button>
+</div>
+<div class="ps-1 smaller" *ngIf="feedback">{{ feedback }}</div>
+<app-validation-message
+  [formControlValue]="formControl"
+></app-validation-message>
