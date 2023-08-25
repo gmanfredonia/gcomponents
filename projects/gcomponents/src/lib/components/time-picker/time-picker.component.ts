@@ -112,6 +112,7 @@ export class TimePickerComponent
       this.changeDetectorRef.markForCheck();
     }
   }
+  @Input()
   public get formattedTime(): string | undefined {
     return this._formattedTime;
   }
@@ -124,8 +125,10 @@ export class TimePickerComponent
         this.showMeridian
       );
       this.onChange(this._selectedTime);
+      this.changeDetectorRef.markForCheck();
     }
   }
+  @Input()
   public get selectedTime(): NgbTimeStruct | null {
     return this._selectedTime;
   }
@@ -138,6 +141,7 @@ export class TimePickerComponent
         this.showMeridian
       );
       this.onChange(value);
+      this.changeDetectorRef.markForCheck();
     }
   }
 

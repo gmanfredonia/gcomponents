@@ -506,7 +506,8 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    public dateFormatter: DateParserFormatterService
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
     //translate.setDefaultLang('en');
@@ -635,33 +636,29 @@ export class AppComponent implements AfterViewInit {
       //datePicker: [{ value: { year: 2023, month:7, day:6 }, disabled: false }, [Validators.required]],
       label: ['example.datepicker.label'],
       placeholder: ['example.datepicker.placeholder'],
-      disabled: [false],
-      showCalendar: [false],
+      text: [''],
       feedback: [''],
-    });
-    this.formDatePicker.controls['disabled'].valueChanges.subscribe((value) => {
-      this.datePicker.disabled = value;
-    });
-    this.formDatePicker.controls['showCalendar'].valueChanges.subscribe(
-      (value) => {
-        this.datePicker.showCalendar = value;
-      }
-    );
-    this.formDatePicker.controls['feedback'].valueChanges.subscribe((value) => {
-      this.datePicker.feedback = value;
-    });
-
+      disabled: [false],
+      open: [false],      
+    });   
+    this.formDatePicker.controls['text'].valueChanges.subscribe((value) => {      
+      this.datePicker.baseDate = this.dateFormatter.parse(value);  
+    });    
+    
     //Tab TimePicker
     this.formTimePicker = this.fb.group({
       timePicker: [{ disabled: false }, [Validators.required]],
       label: ['example.timepicker.label'],
       placeholder: ['example.timepicker.placeholder'],
+      text:[''],
+      feedback: [''],
       disabled: [false],
       open: [false],
       showSecond: [false],
-      showMeridian: [false],
-      feedback: [''],
+      showMeridian: [false]      
     });
+
+
    /*  this.formTimePicker.controls['disabled'].valueChanges.subscribe((value) => {
       this.timePicker.disabled = value;
     });

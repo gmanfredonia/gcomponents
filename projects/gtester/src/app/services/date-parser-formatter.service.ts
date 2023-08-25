@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DateParserFormatterService extends NgbDateParserFormatter {
   constructor(private translateService: TranslateService) {
     super();

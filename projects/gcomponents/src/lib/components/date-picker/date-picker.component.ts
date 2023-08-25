@@ -14,6 +14,7 @@ import {
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import {
   NgbDateParserFormatter,
+  NgbDateStruct,
   NgbInputDatepicker,
 } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker.module';
 import { GHelpersService } from 'ghelpers';
@@ -59,15 +60,34 @@ export class DatePickerComponent
     }
   }
   @Input()
-  public get showCalendar(): boolean | undefined {
-    return this._showCalendar;
+  public get open(): boolean | undefined {
+    return this._open;
   }
-  public set showCalendar(value: boolean | undefined) {
-    if (this._showCalendar !== value) {
-      this._showCalendar = value;
+  public set open(value: boolean | undefined) {
+    if (this._open !== value) {
+      this._open = value;
       this.openCalendar();
       this.changeDetectorRef.markForCheck();
     }
+  }
+  @Input()
+  public get baseDate(): NgbDateStruct | null {
+    if (this.selectedDate)
+      return {
+        year: this.selectedDate.getFullYear(),
+        month: this.selectedDate.getMonth() + 1,
+        day: this.selectedDate.getDate(),
+      } as NgbDateStruct;
+    else return null;
+  }
+  public set baseDate(value: NgbDateStruct | null) {
+    var date: Date | null;
+
+    date = null;
+    if (value) date = new Date(value.year, value.month - 1, value.day);
+    if (!date || isNaN(date.getDate()) || isNaN(date.getFullYear()))
+      this.selectedDate = null;
+    else this.selectedDate = date;
   }
   @Input()
   public get selectedDate(): Date | null {
@@ -96,7 +116,7 @@ export class DatePickerComponent
   private _placeholder?: string;
   private _disabled?: any;
   private _selectedDate: Date | null;
-  private _showCalendar?: boolean;
+  private _open?: boolean;
   private _feedback?: string;
 
   //ViewChild
@@ -138,10 +158,10 @@ export class DatePickerComponent
   //Methods
   openCalendar = () => {
     if (this.datePicker)
-      if (this.showCalendar) this.datePicker.open();
+      if (this.open) this.datePicker.open();
       else this.datePicker.close();
   };
-  updateFormat = (formatter: NgbDateParserFormatter) => {
+  updateFormat = (formatter: NgbDateParserFormatter) => {    
     const element = this.elementRef.nativeElement.querySelector('input');
     if (this.selectedDate)
       this.renderer.setProperty(
@@ -149,7 +169,7 @@ export class DatePickerComponent
         'value',
         formatter.format({
           day: this.selectedDate.getDate(),
-          month: this.selectedDate.getMonth(),
+          month: this.selectedDate.getMonth() + 1,
           year: this.selectedDate.getFullYear(),
         })
       );

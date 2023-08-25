@@ -515,7 +515,10 @@
                       label="{{ txtDatePickerLabel.text | translate }}"
                       placeholder="{{
                         txtDatePickerPlaceholder.text | translate
-                      }}"
+                      }}"                                            
+                      [feedback]="txtFeedback.text"
+                      [disabled]="chkDisabled.checked"                     
+                      [open]="chkOpen.checked"
                       formControlName="datePicker"
                       #datePicker
                     ></app-date-picker>
@@ -541,17 +544,27 @@
                     </div>
                     <div class="mb-3">
                       <app-input
+                        label="Formatted date"
+                        formControlName="text"
+                        #txtText
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
                         label="Feedback"
                         formControlName="feedback"
+                        #txtFeedback
                       ></app-input>
                     </div>
                     <app-check-box
                       label="Disabled"
                       formControlName="disabled"
+                      #chkDisabled
                     ></app-check-box>
                     <app-check-box
-                      label="Show calendar"
-                      formControlName="showCalendar"
+                      label="Open"
+                      formControlName="open"
+                      #chkOpen
                     ></app-check-box>
                   </div>
                 </div>
@@ -572,6 +585,7 @@
                       placeholder="{{
                         txtTimePickerPlaceholder.text | translate
                       }}"
+                      [formattedTime]="txtText.text"
                       [disabled]="chkDisabled.checked"
                       [feedback]="txtFeedback.text"
                       [open]="chkOpen.checked"
@@ -598,6 +612,13 @@
                         label="Placeholder key"
                         formControlName="placeholder"
                         #txtTimePickerPlaceholder
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Formatted time"
+                        formControlName="text"
+                        #txtText
                       ></app-input>
                     </div>
                     <div class="mb-3">
