@@ -6,7 +6,7 @@ import { GHelpersService } from "ghelpers";
 //import { GHelpersService } from 'ghelpers';
 
 export function NGB_TIMEPICKER_PARSER_FORMATTER_FACTORY() {
-  return new NgbTimeISOParserFormatter(new GHelpersService());
+  return new TimeISOParserFormatter(new GHelpersService());
 }
 
 /**
@@ -22,7 +22,7 @@ export function NGB_TIMEPICKER_PARSER_FORMATTER_FACTORY() {
  * to use an alternative string format or a custom parsing logic.
  */
 @Injectable({ providedIn: 'root', useFactory: NGB_TIMEPICKER_PARSER_FORMATTER_FACTORY })
-export abstract class NgbTimeParserFormatter {
+export abstract class TimeParserFormatter {
   /**
    * Parses the given `string` to an `NgbTimeStruct`.
    *
@@ -40,7 +40,7 @@ export abstract class NgbTimeParserFormatter {
 
 }
 @Injectable()
-export class NgbTimeISOParserFormatter extends NgbTimeParserFormatter {
+export class TimeISOParserFormatter extends TimeParserFormatter {
   constructor(private ghelpers: GHelpersService) {
     super();
   }

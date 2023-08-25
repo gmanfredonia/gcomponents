@@ -18,7 +18,7 @@ import {
   NgbTimepicker,
 } from '@ng-bootstrap/ng-bootstrap';
 import { GHelpersService } from 'ghelpers';
-import { NgbTimeParserFormatter } from '../../services/ngb-time-parser-formatter';
+import { TimeParserFormatter } from '../../services/time-parser-formatter';
 
 @Component({
   selector: 'app-time-picker',
@@ -175,7 +175,7 @@ export class TimePickerComponent
     public ngControl: NgControl,
     private ngZone: NgZone,
     private changeDetectorRef: ChangeDetectorRef,
-    private formatter: NgbTimeParserFormatter,
+    private formatter: TimeParserFormatter,
     private helpers: GHelpersService
   ) {
     this._open = false;
