@@ -61,7 +61,7 @@
           #search
           type="text"
           class="form-control"
-          [placeholder]="localization.getPlaceholderSearch()"
+          [placeholder]="placeholderSearch ?? 'Select a text'"
           (keyup)="onSearchKeyup($event)"
           aria-label="Search"
           [attr.aria-describedby]="uniqueId + '-group'"

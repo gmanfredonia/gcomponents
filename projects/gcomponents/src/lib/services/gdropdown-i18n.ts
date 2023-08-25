@@ -7,8 +7,7 @@ export function G_DROPDOWN_I18N_FACTORY() {
 @Injectable({ providedIn: 'root', useFactory: G_DROPDOWN_I18N_FACTORY })
 export abstract class GDropdownI18n {
   abstract getLabelNoItemsFound(): string;
-  abstract getLabelNoResultsFiltered(): string;
-  abstract getPlaceholderSearch(): string;
+  abstract getLabelNoResultsFiltered(): string;  
   abstract getStatusLabelCount(): string;
   abstract getStatusLabelFiltered(): string;
   abstract getStatusLabelSelected(): string;
@@ -25,10 +24,7 @@ export class GDropdownI18nDefault extends GDropdownI18n {
   }
   getLabelNoResultsFiltered(): string {
     return 'No results filtered';
-  }
-  getPlaceholderSearch(): string {
-    return 'Search text';
-  }
+  }  
   getStatusLabelCount(): string {
     return 'Count';
   }

@@ -53,7 +53,7 @@ export class DropdownComponent
       this.changeDetectorRef.markForCheck();
     }
   }
-  /* @Input()
+  @Input()
   get placeholderSearch(): string | undefined {
     return this._placeholderSearch;
   }
@@ -62,7 +62,7 @@ export class DropdownComponent
       this._placeholderSearch = value;
       this.changeDetectorRef.markForCheck();
     }
-  } */
+  }
   @Input()
   get disabled(): boolean {
     return this._disabled;
@@ -150,7 +150,7 @@ export class DropdownComponent
   //Private properties
   private _label?: string;
   private _placeholderToggle?: string;
-  //private _placeholderSearch?: string;
+  private _placeholderSearch?: string;
   private _disabled?: any;
   private _showSearch?: boolean;
   private _status: IDropdownStatus;

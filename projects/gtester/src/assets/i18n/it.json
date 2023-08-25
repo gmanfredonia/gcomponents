@@ -17,7 +17,8 @@
     },
     "dropdown": {
       "label": "Nome",
-      "placeholderToggle": "Seleziona un elemento"
+      "placeholderToggle": "Seleziona un elemento",
+      "placeholderSearch": "Inserisci un testo da cercare"
     },
     "datepicker": {
       "label": "Data",
@@ -54,8 +55,7 @@
   },
   "gdropdown": {
     "labelNoItemsFound": "Nessun elemento trovato!",
-    "labelNoResultsFiltered": "Nessun elemento filtrato!",
-    "placeholderSearch": "Inserisci un testo da cercare",
+    "labelNoResultsFiltered": "Nessun elemento filtrato!",    
     "status": {
       "labelCount": "Totale",
       "labelFiltered": "Filtrati",

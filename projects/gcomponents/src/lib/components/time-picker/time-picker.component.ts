@@ -1,6 +1,22 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  NgZone,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
-import { NgbDropdown, NgbTimeStruct, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdown,
+  NgbTimeStruct,
+  NgbTimepicker,
+} from '@ng-bootstrap/ng-bootstrap';
 import { GHelpersService } from 'ghelpers';
 import { NgbTimeParserFormatter } from '../../services/ngb-time-parser-formatter';
 
@@ -8,9 +24,11 @@ import { NgbTimeParserFormatter } from '../../services/ngb-time-parser-formatter
   selector: 'app-time-picker',
   templateUrl: './time-picker.component.html',
   styleUrls: ['./time-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueAccessor {
+export class TimePickerComponent
+  implements OnInit, AfterViewInit, ControlValueAccessor
+{
   //Input
   @Input()
   public get label(): string | undefined {
@@ -41,18 +59,17 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
       this._disabled = value;
       if (this._disabled)
         document.removeEventListener('focusin', this.onFocusIn);
-      else
-        document.addEventListener('focusin', this.onFocusIn);
+      else document.addEventListener('focusin', this.onFocusIn);
       this.changeDetectorRef.markForCheck();
     }
   }
   @Input()
-  public get showCalendar(): boolean | undefined {
-    return this._showCalendar;
+  public get open(): boolean {
+    return this._open;
   }
-  public set showCalendar(value: boolean | undefined) {
-    if (this._showCalendar !== value) {
-      this._showCalendar = value;
+  public set open(value: boolean) {
+    if (this._open !== value) {
+      this._open = value;
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -64,7 +81,11 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
     if (this._showSecond !== value) {
       this._showSecond = value;
       this.changeDetectorRef.markForCheck();
-      this.formattedTime = this.formatter.format(this.selectedTime, this.showSecond, this.showMeridian);
+      this.formattedTime = this.formatter.format(
+        this.selectedTime,
+        this.showSecond,
+        this.showMeridian
+      );
     }
   }
   @Input()
@@ -74,8 +95,11 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
   public set showMeridian(value: boolean) {
     if (this._showMeridian !== value) {
       this._showMeridian = value;
-      this.formattedTime = this.formatter.format(this.selectedTime, this.showSecond, this.showMeridian);
-      this.changeDetectorRef.markForCheck();
+      this.formattedTime = this.formatter.format(
+        this.selectedTime,
+        this.showSecond,
+        this.showMeridian
+      );      
     }
   }
   @Input()
@@ -94,7 +118,11 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
   public set formattedTime(value: string | undefined) {
     if (this._formattedTime !== value) {
       this._formattedTime = value;
-      this._selectedTime = this.formatter.parse(value!, this.showSecond, this.showMeridian);
+      this._selectedTime = this.formatter.parse(
+        value!,
+        this.showSecond,
+        this.showMeridian
+      );
       this.onChange(this._selectedTime);
     }
   }
@@ -104,7 +132,11 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
   public set selectedTime(value: NgbTimeStruct | null) {
     if (this._selectedTime !== value) {
       this._selectedTime = value;
-      this._formattedTime = this.formatter.format(value, this.showSecond, this.showMeridian);
+      this._formattedTime = this.formatter.format(
+        value,
+        this.showSecond,
+        this.showMeridian
+      );
       this.onChange(value);
     }
   }
@@ -113,7 +145,7 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
   private _label?: string;
   private _placeholder?: string;
   private _disabled?: any;
-  private _showCalendar?: boolean;
+  private _open: boolean;
   private _showSecond: boolean;
   private _showMeridian: boolean;
   private _formattedTime?: string;
@@ -121,9 +153,11 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
   private _feedback?: string;
 
   //ViewChild
-  @ViewChild('dropdown', { static: true, read: NgbDropdown }) dropdown!: NgbDropdown;
+  @ViewChild('dropdown', { static: true, read: NgbDropdown })
+  dropdown!: NgbDropdown;
   //@ViewChild('input', { static: true }) input!: ElementRef;
-  @ViewChild('timepicker', { static: true, read: NgbTimepicker }) timePicker!: NgbTimepicker;
+  @ViewChild('timepicker', { static: true, read: NgbTimepicker })
+  timePicker!: NgbTimepicker;
 
   //Lifecycle events
   ngOnInit(): void {
@@ -135,7 +169,16 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
   }
 
   //Constructor
-  constructor(private renderer: Renderer2, private elementRef: ElementRef, public ngControl: NgControl, private ngZone: NgZone, private changeDetectorRef: ChangeDetectorRef, private formatter: NgbTimeParserFormatter, private helpers: GHelpersService) {
+  constructor(
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    public ngControl: NgControl,
+    private ngZone: NgZone,
+    private changeDetectorRef: ChangeDetectorRef,
+    private formatter: NgbTimeParserFormatter,
+    private helpers: GHelpersService
+  ) {
+    this._open = false;
     this._selectedTime = null;
     this.focused = false;
     document.addEventListener('focusin', this.onFocusIn);
@@ -161,17 +204,17 @@ export class TimePickerComponent implements OnInit, AfterViewInit, ControlValueA
   onFocusIn = (event: FocusEvent) => {
     this.focused = this.elementRef.nativeElement.contains(event.target);
     this.changeDetectorRef.markForCheck();
-  }
+  };
   @HostListener('focusout')
   onFocusOut = () => {
     this.onTouched();
-  }
+  };
 
   //Interfaces
 
   //Interface ControlValueAccessor
-  onChange = (value: any) => { }
-  onTouched = () => { }
+  onChange = (value: any) => {};
+  onTouched = () => {};
 
   writeValue(value: any): void {
     this.selectedTime = value;

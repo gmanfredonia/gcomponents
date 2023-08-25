@@ -17,7 +17,8 @@
     },
     "dropdown": {
       "label": "Name",
-      "placeholderToggle": "Select an item"
+      "placeholderToggle": "Select an item",
+      "placeholderSearch": "Insert a text to search"
     },
     "datepicker": {
       "label": "Date",
@@ -54,8 +55,7 @@
   },
   "gdropdown": {
     "labelNoItemsFound": "No items found!",
-    "labelNoResultsFiltered": "No results filtered!",
-    "placeholderSearch": "Insert a text to search",
+    "labelNoResultsFiltered": "No results filtered!",    
     "status": {
       "labelCount": "Count",
       "labelFiltered": "Filtered",

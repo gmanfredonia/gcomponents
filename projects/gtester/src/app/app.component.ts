@@ -611,6 +611,7 @@ export class AppComponent implements AfterViewInit {
       ],
       label: ['example.dropdown.label'],
       placeholderToggle: ['example.dropdown.placeholderToggle'],
+      placeholderSearch: ['example.dropdown.placeholderSearch'],
       feedback: [''],
       disabled: [false],
       showSearch: [false],
@@ -656,17 +657,17 @@ export class AppComponent implements AfterViewInit {
       label: ['example.timepicker.label'],
       placeholder: ['example.timepicker.placeholder'],
       disabled: [false],
-      showCalendar: [false],
+      open: [false],
       showSecond: [false],
       showMeridian: [false],
       feedback: [''],
     });
-    this.formTimePicker.controls['disabled'].valueChanges.subscribe((value) => {
+   /*  this.formTimePicker.controls['disabled'].valueChanges.subscribe((value) => {
       this.timePicker.disabled = value;
     });
     this.formTimePicker.controls['showCalendar'].valueChanges.subscribe(
       (value) => {
-        this.timePicker.showCalendar = value;
+        this.timePicker.open = value;
       }
     );
     this.formTimePicker.controls['showSecond'].valueChanges.subscribe(
@@ -681,7 +682,7 @@ export class AppComponent implements AfterViewInit {
     );
     this.formTimePicker.controls['feedback'].valueChanges.subscribe((value) => {
       this.timePicker.feedback = value;
-    });
+    }); */
   }
 
   ngAfterViewInit(): void {

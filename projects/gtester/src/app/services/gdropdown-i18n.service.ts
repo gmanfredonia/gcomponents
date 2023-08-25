@@ -13,10 +13,7 @@ export class GDropdownI18nService extends GDropdownI18n {
   }
   override getLabelNoResultsFiltered(): string {
     return this.translateService.instant('gdropdown.labelNoResultsFiltered');
-  }
-  override getPlaceholderSearch(): string {
-    return this.translateService.instant('gdropdown.placeholderSearch');
-  }
+  }  
   override getStatusLabelCount(): string {
     return this.translateService.instant('gdropdown.status.labelCount');
   }

@@ -372,11 +372,14 @@
                 <div class="row">
                   <div class="col-6">
                     <h3>Component Dropdown</h3>
-                    <div style="height: 550px;">
+                    <div style="height: 550px">
                       <app-dropdown
                         label="{{ txtDropdownLabel.text | translate }}"
                         placeholderToggle="{{
                           txtDropdownPlaceholderToggle.text | translate
+                        }}"
+                        placeholderSearch="{{
+                          txtDropdownPlaceholderSearch.text | translate
                         }}"
                         formControlName="dropdown"
                         [disabled]="chkDisabled.checked"
@@ -413,6 +416,13 @@
                         label="Placeholder toggle key"
                         formControlName="placeholderToggle"
                         #txtDropdownPlaceholderToggle
+                      ></app-input>
+                    </div>
+                    <div class="mb-3">
+                      <app-input
+                        label="Placeholder search key"
+                        formControlName="placeholderSearch"
+                        #txtDropdownPlaceholderSearch
                       ></app-input>
                     </div>
                     <div class="mb-3">
@@ -562,6 +572,11 @@
                       placeholder="{{
                         txtTimePickerPlaceholder.text | translate
                       }}"
+                      [disabled]="chkDisabled.checked"
+                      [feedback]="txtFeedback.text"
+                      [open]="chkOpen.checked"
+                      [showSecond]="chkShowSecond.checked"
+                      [showMeridian]="chkShowMeridian.checked"
                       formControlName="timePicker"
                       #timePicker
                     ></app-time-picker>
@@ -589,19 +604,23 @@
                       <app-input
                         label="Feedback"
                         formControlName="feedback"
+                        #txtFeedback
                       ></app-input>
                     </div>
                     <app-check-box
                       label="Disabled"
                       formControlName="disabled"
+                      #chkDisabled
                     ></app-check-box>
                     <app-check-box
-                      label="Show calendar"
-                      formControlName="showCalendar"
+                      label="Open"
+                      formControlName="open"
+                      #chkOpen
                     ></app-check-box>
                     <app-check-box
                       label="Show second"
                       formControlName="showSecond"
+                      #chkShowSecond
                     ></app-check-box>
                     <app-check-box
                       label="Show meridian"
@@ -637,3 +656,4 @@
     </div>
   </div>
 </div>
+
