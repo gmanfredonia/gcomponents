@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { GHelpersService } from 'ghelpers';
 
 @Component({
@@ -62,8 +62,7 @@ export class CheckBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
   //Lifecycle events
   ngOnInit(): void {
   }
-  ngAfterViewInit(): void {
-    this.formControl = this.ngControl?.control as FormControl;
+  ngAfterViewInit(): void {    
     this.changeDetectorRef.detectChanges();
   }
 
@@ -77,8 +76,7 @@ export class CheckBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
   }
 
   //Public properties
-  uniqueId: string;
-  formControl?: FormControl;
+  uniqueId: string;  
 
   //Output
   //@Output() checkboxClick = new EventEmitter<boolean>();

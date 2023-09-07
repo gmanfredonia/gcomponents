@@ -13,7 +13,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { IDropdownItem } from '../../models/idropdown-item.model';
 import { IDropdownStatus } from '../../models/idropdown-status.model';
@@ -175,11 +175,13 @@ export class DropdownComponent
     });
     this.filtered = this.items;
   }
-  ngAfterViewInit() {
-    this.formControl = this.ngControl?.control as FormControl;
-  }
+  ngAfterViewInit() {}
   ngAfterContentChecked(): void {
-    if (this.type.autoClose === false && !this.disabled && (this.feedback || !this.formControl?.valid))
+    if (
+      this.type.autoClose === false &&
+      !this.disabled &&
+      (this.feedback || !this.ngControl?.valid)
+    )
       this.changeDetectorRef.markForCheck();
   }
 
@@ -210,7 +212,6 @@ export class DropdownComponent
   uniqueId: string;
   selectedItems: IDropdownItem[];
   filtered: IDropdownItem[];
-  formControl?: FormControl;
   focused: boolean;
 
   //Output
@@ -231,7 +232,7 @@ export class DropdownComponent
     return result ?? this.placeholderToggle ?? 'Select an item';
   };
   getFeedbackTop = (): string => {
-    return ((this.dropdownMenu.nativeElement.clientHeight ) + 5) + 'px';
+    return this.dropdownMenu.nativeElement.clientHeight + 5 + 'px';
   };
   getValidatonMessageTop = (): string => {
     return this.feedback ? '0px' : this.getFeedbackTop();

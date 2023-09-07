@@ -1,14 +1,29 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, Optional } from '@angular/core';
-import { ControlContainer, ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  Optional,
+} from '@angular/core';
+import {
+  ControlContainer,
+  ControlValueAccessor,
+  NgControl,
+} from '@angular/forms';
 import { GHelpersService } from 'ghelpers';
 
 @Component({
   selector: 'app-radio-box',
   templateUrl: './radio-box.component.html',
   styleUrls: ['./radio-box.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RadioBoxComponent implements OnInit, AfterViewInit, ControlValueAccessor {
+export class RadioBoxComponent
+  implements OnInit, AfterViewInit, ControlValueAccessor
+{
   //Input
   @Input()
   public get label(): string | undefined {
@@ -60,23 +75,35 @@ export class RadioBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
   //[...]
 
   //Lifecycle events
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   ngAfterViewInit(): void {
-    const form = this.helpers.findAncestor(this.elementRef.nativeElement, 'form');
-    const elements = form?.querySelectorAll<HTMLElement>(`input[type=radio][name=${this.ngControl.name}]`);
+    const form = this.helpers.findAncestor(
+      this.elementRef.nativeElement,
+      'form'
+    );
+    const elements = form?.querySelectorAll<HTMLElement>(
+      `input[type=radio][name=${this.ngControl.name}]`
+    );
     //const elementsComponents = Array.prototype.slice.call(elements);
-    const elementComponent = this.helpers.findAncestor(elements![elements!.length - 1] as HTMLElement, 'app-radio-box');
+    const elementComponent = this.helpers.findAncestor(
+      elements![0] as HTMLElement,
+      'app-radio-box'
+    );
 
-    this.showValidationMessage = this.elementRef.nativeElement === elementComponent
-
-    this.formControl = this.ngControl?.control as FormControl;
+    this.showValidationMessage =
+      this.elementRef.nativeElement === elementComponent;
 
     this.changeDetectorRef.detectChanges();
   }
 
   //Constructor
-  constructor(private changeDetectorRef: ChangeDetectorRef, public ngControl: NgControl, @Optional() private controlContainer: ControlContainer, private elementRef: ElementRef, private helpers: GHelpersService) {
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    public ngControl: NgControl,
+    @Optional() private controlContainer: ControlContainer,
+    private elementRef: ElementRef,
+    private helpers: GHelpersService
+  ) {
     this._value = '';
     this._checked = false;
 
@@ -85,8 +112,7 @@ export class RadioBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
   }
 
   //Public properties
-  uniqueId: string;
-  formControl?: FormControl;
+  uniqueId: string;  
 
   //Output
   //[...]
@@ -95,14 +121,13 @@ export class RadioBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
   //[...]
 
   //Interface ControlValueAccessor
-  onChange = (value: string) => { }
-  onTouched = () => { }
+  onChange = (value: string) => {};
+  onTouched = () => {};
 
   writeValue(value: any) {
     if (typeof value === 'object')
       this.checked = value?.value ?? '' === this.value;
-    else
-      this.checked = (value === this.value);
+    else this.checked = value === this.value;
   }
   setDisabledState?(disabled: boolean): void {
     this.disabled = disabled;

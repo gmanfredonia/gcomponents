@@ -194,10 +194,10 @@
   </div>
   <div
     [style.position]="type.autoClose === false ? 'relative' : null"
-    [style.margin-top]="type.autoClose === false ?  getValidatonMessageTop() : null"
+    [style.margin-top]="
+      type.autoClose === false ? getValidatonMessageTop() : null
+    "
   >
-    <app-validation-message
-      [formControlValue]="formControl"
-    ></app-validation-message>
+    <app-validation-message [control]="ngControl"></app-validation-message>
   </div>
 </div>

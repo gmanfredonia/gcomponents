@@ -1,5 +1,14 @@
-import { AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, NgZone } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  NgZone,
+} from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import AutoNumeric from 'autonumeric';
 import { GHelpersService } from 'ghelpers';
 import { ITextualOptions } from '../../models/itextual-options.model';
@@ -10,9 +19,11 @@ import { first } from 'rxjs';
   selector: 'app-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputComponent implements AfterViewInit, OnInit, ControlValueAccessor {
+export class InputComponent
+  implements AfterViewInit, OnInit, ControlValueAccessor
+{
   //Input
   @Input()
   public get label(): string | undefined {
@@ -35,10 +46,24 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
     }
   }
   @Input()
-  public get type(): 'text' | 'password' | 'alphabetic' | 'alphanumeric' | 'numeric' | 'decimal' {
+  public get type():
+    | 'text'
+    | 'password'
+    | 'alphabetic'
+    | 'alphanumeric'
+    | 'numeric'
+    | 'decimal' {
     return this._type;
   }
-  public set type(value: 'text' | 'password' | 'alphabetic' | 'alphanumeric' | 'numeric' | 'decimal') {
+  public set type(
+    value:
+      | 'text'
+      | 'password'
+      | 'alphabetic'
+      | 'alphanumeric'
+      | 'numeric'
+      | 'decimal'
+  ) {
     if (this._type !== value) {
       this._type = value;
       if (this.initialized) {
@@ -128,10 +153,15 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
     return this.isTextual && (this.textualOptions.maxLength ?? 0) > 0;
   }
   public get showLengthProgressBar(): boolean {
-    return this.isMaxLengthSet && this.textualOptions.showLengthProgressBar === true;
+    return (
+      this.isMaxLengthSet && this.textualOptions.showLengthProgressBar === true
+    );
   }
   public get showLengthProgressNumeric(): boolean {
-    return this.isMaxLengthSet && this.textualOptions.showLengthProgressNumeric === true;
+    return (
+      this.isMaxLengthSet &&
+      this.textualOptions.showLengthProgressNumeric === true
+    );
   }
 
   //Private properties
@@ -151,16 +181,20 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
   //[...]
 
   //Lifecycle events
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   ngAfterViewInit(): void {
     this.initialized = true;
     this.setType();
-    this.formControl = this.ngControl?.control as FormControl;
   }
 
   //Constructor
-  constructor(private changeDetectorRef: ChangeDetectorRef, public ngControl: NgControl, private ngZone: NgZone, public elementRef: ElementRef, private helpers: GHelpersService) {
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    public ngControl: NgControl,
+    private ngZone: NgZone,
+    public elementRef: ElementRef,
+    private helpers: GHelpersService
+  ) {
     this.initialized = false;
     this._type = 'text';
     this._textualOptions = {};
@@ -179,7 +213,6 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
 
   //Public properties
   uniqueId: string;
-  formControl?: FormControl;
 
   //Output
   //[...]
@@ -195,8 +228,7 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
     this.filterText(element);
     if (this.isDecimal)
       this.onChange(this.autonumeric!.getNumericString() ?? '');
-    else
-      this.onChange(this._text);
+    else this.onChange(this._text);
   }
   onChangeText() {
     this.filterText();
@@ -205,23 +237,24 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
         this.createAutonumeric(this._text);
         this.onChange(this.autonumeric!.getNumericString() ?? '');
       });
-    }
-    else
-      this.onChange(this._text);
+    } else this.onChange(this._text);
   }
   createAutonumeric = (text?: string) => {
     if (this.autonumeric) {
       const value = text ?? this.autonumeric.getNumericString();
       this.autonumeric.update(this._decimalOptions!);
       this.autonumeric.set(value);
-    }
-    else
-      this.autonumeric = new AutoNumeric(this.elementRef.nativeElement.querySelector('input'), this._text, this._decimalOptions);
-  }
+    } else
+      this.autonumeric = new AutoNumeric(
+        this.elementRef.nativeElement.querySelector('input'),
+        this._text,
+        this._decimalOptions
+      );
+  };
   destroyAutonumeric = () => {
     this.autonumeric?.remove();
     this.autonumeric = undefined;
-  }
+  };
   setType = () => {
     switch (this.type) {
       case 'alphabetic':
@@ -247,7 +280,7 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
         this.destroyAutonumeric();
         break;
     }
-  }
+  };
   filterText = (element?: HTMLInputElement) => {
     if (element) {
       if (this.isUpperCase) {
@@ -257,8 +290,7 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
         element.setSelectionRange(start, start);
         this._text = element.value;
       }
-    }
-    else {
+    } else {
       switch (this.type) {
         case 'alphabetic':
           this._text = this._text.replace(/[^a-zA-Z]/g, '');
@@ -270,25 +302,25 @@ export class InputComponent implements AfterViewInit, OnInit, ControlValueAccess
           this._text = this._text.replace(/[^0-9]/g, '');
           break;
         case 'decimal':
-          this._text = this._text.replace(new RegExp(`[^0-9${this.decimalOptions.decimalCharacter}]`, 'g'), '');
+          this._text = this._text.replace(
+            new RegExp(`[^0-9${this.decimalOptions.decimalCharacter}]`, 'g'),
+            ''
+          );
           break;
       }
-      if (this.isUpperCase)
-        this._text = this._text.toUpperCase();
+      if (this.isUpperCase) this._text = this._text.toUpperCase();
     }
-  }
+  };
 
   //Interfaces
 
   //Interface ControlValueAccessor
-  onChange = (value: string) => { }
-  onTouched = () => { }
+  onChange = (value: string) => {};
+  onTouched = () => {};
 
   writeValue(value: any) {
-    if (typeof value === 'object')
-      this.text = value?.value ?? '';
-    else
-      this.text = value.toString();
+    if (typeof value === 'object') this.text = value?.value ?? '';
+    else this.text = value.toString();
   }
   setDisabledState?(disabled: boolean): void {
     this.disabled = disabled;

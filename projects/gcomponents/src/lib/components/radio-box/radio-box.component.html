@@ -14,6 +14,7 @@
     {{ label }}
   </label>
 </div>
-<app-validation-message *ngIf="showValidationMessage"
-  [formControlValue]="formControl"
+<app-validation-message
+  *ngIf="showValidationMessage"
+  [control]="ngControl"
 ></app-validation-message>

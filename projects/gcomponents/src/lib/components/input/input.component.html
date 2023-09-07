@@ -31,6 +31,4 @@
     {{ input.value.length }} / {{ this.textualOptions.maxLength }}
   </div>
 </div>
-<app-validation-message
-  [formControlValue]="formControl"
-></app-validation-message>
+<app-validation-message [control]="ngControl"></app-validation-message>

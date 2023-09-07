@@ -11,7 +11,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import {
   NgbDateParserFormatter,
   NgbDateStruct,
@@ -125,7 +125,6 @@ export class DatePickerComponent
   //Lifecycle events
   ngOnInit(): void {}
   ngAfterViewInit(): void {
-    this.formControl = this.ngControl?.control as FormControl;
     this.openCalendar();
     this.changeDetectorRef.detectChanges();
   }
@@ -149,7 +148,6 @@ export class DatePickerComponent
 
   //Public properties
   uniqueId: string;
-  formControl?: FormControl;
   focused: boolean;
 
   //Output
@@ -161,7 +159,7 @@ export class DatePickerComponent
       if (this.open) this.datePicker.open();
       else this.datePicker.close();
   };
-  updateFormat = (formatter: NgbDateParserFormatter) => {    
+  updateFormat = (formatter: NgbDateParserFormatter) => {
     const element = this.elementRef.nativeElement.querySelector('input');
     if (this.selectedDate)
       this.renderer.setProperty(
