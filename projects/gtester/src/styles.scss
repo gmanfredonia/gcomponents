@@ -24,7 +24,7 @@ $red-lighten-2-color: lighten($red-color, 48%);
 //Opacity
 $disabled-opacity: 0.65;
 
-//Input, Textarea, CheckBox, SwitchBox, RadioBox, Dropdown, DatePicker
+//Input, Textarea, CheckBox, SwitchBox, RadioBox, Dropdown, DatePicker, TimePicker
 $input-color: $black-color;
 $input-background-color: $orange-lighten-color;
 $input-border-color: $gray-color;
@@ -106,21 +106,25 @@ textarea.form-control:focus {
   box-shadow: none;
 }
 
-app-input.ng-invalid.ng-touched input.form-control,
-app-text-area.ng-invalid.ng-touched textarea.form-control {
+app-input.ng-invalid.ng-dirty input.form-control,
+app-text-area.ng-invalid.ng-dirty textarea.form-control {
   background-color: $input-background-error-color;
   border-color: $input-border-error-color;
 }
+app-input.ng-invalid.ng-dirty label.form-label,
+app-text-area.ng-invalid.ng-dirty label.form-label {  
+  color: $input-border-error-color;
+}
 
-app-input.ng-invalid.ng-touched input.form-control:focus,
-app-text-area.ng-invalid.ng-touched textarea.form-control:focus {
+app-input.ng-invalid.ng-dirty input.form-control:focus,
+app-text-area.ng-invalid.ng-dirty textarea.form-control:focus {
   background-color: $input-background-error-focus-color;
   border-color: $input-border-error-focus-color;
   box-shadow: none;
 }
 
-app-input > label.form-label,
-app-text-area > label.form-label {
+app-input>label.form-label,
+app-text-area>label.form-label {
   margin-bottom: 0;
 }
 
@@ -162,6 +166,7 @@ app-text-area > label.form-label {
   pointer-events: unset;
   cursor: not-allowed;
 }
+
 .form-check-label:disabled {
   opacity: $disabled-opacity;
 }
@@ -176,7 +181,7 @@ app-text-area > label.form-label {
 
 //Dropdown
 app-dropdown {
-  > label.form-label {
+  >label.form-label {
     margin-bottom: 0 !important;
   }
 
@@ -198,12 +203,12 @@ app-dropdown {
     border-color: $input-border-focus-color !important;
   }
 
-  &.ng-invalid.ng-touched button.btn.dropdown-toggle {
+  &.ng-invalid.ng-dirty button.btn.dropdown-toggle {
     background-color: $input-background-error-color;
     border-color: $input-border-error-color !important;
   }
 
-  &.ng-invalid.ng-touched .dropdown.focused button.btn.dropdown-toggle {
+  &.ng-invalid.ng-dirty .dropdown.focused button.btn.dropdown-toggle {
     background-color: $input-background-error-focus-color;
     border-color: $input-border-error-focus-color !important;
   }
@@ -233,7 +238,7 @@ app-dropdown {
     }
   }
 
-  &.ng-invalid.ng-touched .dropdown-menu {
+  &.ng-invalid.ng-dirty .dropdown-menu {
     background-color: $input-background-error-color;
     border-color: $input-border-error-color !important;
 
@@ -242,7 +247,7 @@ app-dropdown {
     }
   }
 
-  &.ng-invalid.ng-touched .dropdown.focused .dropdown-menu {
+  &.ng-invalid.ng-dirty .dropdown.focused .dropdown-menu {
     background-color: $input-background-error-focus-color;
     border-color: $input-border-error-focus-color !important;
 
@@ -254,7 +259,7 @@ app-dropdown {
 
 //Date picker
 app-date-picker {
-  > label.form-label {
+  >label.form-label {
     margin-bottom: 0 !important;
   }
 
@@ -263,12 +268,12 @@ app-date-picker {
     border-color: $input-border-focus-color !important;
   }
 
-  &.ng-invalid.ng-touched input.form-control {
+  &.ng-invalid.ng-dirty input.form-control {
     background-color: $input-background-error-color;
     border-color: $input-border-error-color;
   }
 
-  &.ng-invalid.ng-touched input.form-control.focused {
+  &.ng-invalid.ng-dirty input.form-control.focused {
     background-color: $input-background-error-focus-color;
     border-color: $input-border-error-focus-color !important;
     box-shadow: none;
@@ -313,7 +318,7 @@ app-date-picker {
       }
     }
 
-    select.form-select + select.form-select {
+    select.form-select+select.form-select {
       margin-left: 0.4rem;
     }
 
@@ -388,7 +393,7 @@ app-date-picker {
     }
   }
 
-  &.ng-invalid.ng-touched input.focused + .dropdown-menu.show {
+  &.ng-invalid.ng-dirty input.focused+.dropdown-menu.show {
     select.form-select {
       background-color: $date-picker-calendar-year-month-background-focus-error-color;
     }
@@ -413,7 +418,7 @@ app-date-picker {
 
 //Time picker
 app-time-picker {
-  > label.form-label {
+  >label.form-label {
     margin-bottom: 0 !important;
   }
 
@@ -422,15 +427,12 @@ app-time-picker {
     border-color: $input-border-focus-color !important;
   }
 
-  &.ng-invalid.ng-touched > .dropdown > .input-group > input.form-control {
+  &.ng-invalid.ng-dirty>.dropdown>.input-group>input.form-control {
     background-color: $input-background-error-color;
     border-color: $input-border-error-color;
   }
 
-  &.ng-invalid.ng-touched
-    > .dropdown
-    > .input-group
-    > input.form-control.focused {
+  &.ng-invalid.ng-dirty>.dropdown>.input-group>input.form-control.focused {
     background-color: $input-background-error-focus-color;
     border-color: $input-border-error-focus-color !important;
     box-shadow: none;
@@ -494,7 +496,7 @@ app-time-picker {
     }
   }
 
-  &.ng-invalid.ng-touched .dropdown-menu.show.focused {
+  &.ng-invalid.ng-dirty .dropdown-menu.show.focused {
     background-color: $input-background-error-focus-color;
     border-color: $input-border-error-focus-color;
   }

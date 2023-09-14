@@ -4,7 +4,12 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   CheckBoxComponent,
   DatePickerComponent,
@@ -17,6 +22,7 @@ import {
   RadioBoxComponent,
   TextAreaComponent,
   TimePickerComponent,
+  ValidationMessageComponent,
 } from 'gcomponents';
 import { IName } from './models/ilanguage.model';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -437,19 +443,21 @@ export class AppComponent implements AfterViewInit {
       id: 156,
       name: 'Miguel',
     },
-  ].slice(0, 20).sort((a, b) => {
-    let x = a.name.toLowerCase();
-    let y = b.name.toLowerCase();
-    if (x < y) {
-      return -1;
-    }
-    if (x > y) {
-      return 1;
-    }
-    return 0;
-  });
+  ]
+    .slice(0, 20)
+    .sort((a, b) => {
+      let x = a.name.toLowerCase();
+      let y = b.name.toLowerCase();
+      if (x < y) {
+        return -1;
+      }
+      if (x > y) {
+        return 1;
+      }
+      return 0;
+    });
 
-  selectedTab: string = 'tabDropdown';
+  selectedTab: string = 'tabInput';
   formInput: FormGroup;
   inputTypes: IDropdownItem[];
   formTextArea: FormGroup;
@@ -466,8 +474,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('input') input!: InputComponent;
   @ViewChild('textArea') textArea!: TextAreaComponent;
   @ViewChild('checkBox') checkBox!: CheckBoxComponent;
-  @ViewChild('radioBox1') radioBox1!: RadioBoxComponent;
-  @ViewChild('radioBox2') radioBox2!: RadioBoxComponent;
+  @ViewChild('radioBox') radioBox!: RadioBoxComponent;
   @ViewChild('dropdown') dropdown!: DropdownComponent;
   @ViewChild('datePicker') datePicker!: DatePickerComponent;
   @ViewChild('timePicker') timePicker!: TimePickerComponent;
@@ -556,7 +563,16 @@ export class AppComponent implements AfterViewInit {
 
     //Tab Input
     this.formInput = this.fb.group({
-      input: [{ disabled: false }, [Validators.required]],
+      input: [
+        { value: '', disabled: false },
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(10),
+            Validators.email,
+          ],
+        },
+      ],
       label: ['example.input.label'],
       placeholder: ['example.input.placeholder'],
       type: ['text'],
@@ -568,9 +584,13 @@ export class AppComponent implements AfterViewInit {
       showLengthProgressBar: [false],
       showLengthProgressNumeric: [false],
     });
+    this.formInput.get('disabled')?.valueChanges.subscribe((isDisabled) => {
+      if (isDisabled) this.formInput.get('input')?.disable();
+      else this.formInput.get('input')?.enable();
+    });
     //Tab TextArea
     this.formTextArea = this.fb.group({
-      textArea: [{ disabled: false }, [Validators.required]],
+      textArea: [{value: '', disabled: false }, [Validators.required]],
       label: ['example.textArea.label'],
       placeholder: ['example.textArea.placeholder'],
       maxLength: [undefined],
@@ -581,17 +601,25 @@ export class AppComponent implements AfterViewInit {
       showLengthProgressBar: [false],
       showLengthProgressNumeric: [false],
     });
+    this.formTextArea.get('disabled')?.valueChanges.subscribe((isDisabled) => {
+      if (isDisabled) this.formTextArea.get('textArea')?.disable();
+      else this.formTextArea.get('textArea')?.enable();
+    });
     //Tab CheckBox
     this.formCheckBox = this.fb.group({
-      checkBox: [{ value: false, disabled: false }, [Validators.required]],
+      checkBox: [{ value: false, disabled: false }, [Validators.requiredTrue]],
       label: ['example.checkBox.label'],
       type: ['standard'],
       disabled: [false],
       checked: [false],
     });
+    this.formCheckBox.get('disabled')?.valueChanges.subscribe((isDisabled) => {
+      if (isDisabled) this.formCheckBox.get('checkBox')?.disable();
+      else this.formCheckBox.get('checkBox')?.enable();
+    });
     //Tab RadioBox
     this.formRadioBox = this.fb.group({
-      radioBox: [{ value: 'female', disabled: false }, [Validators.required]],
+      radioBox: [{ value: undefined, disabled: false }, [Validators.required]],
       label1: ['example.radioBox.label1'],
       label2: ['example.radioBox.label2'],
       value1: ['male'],
@@ -599,7 +627,7 @@ export class AppComponent implements AfterViewInit {
       disabled1: [false],
       disabled2: [false],
       checked1: [false],
-      checked2: [false]
+      checked2: [false],
     });
     //Tab Dropdown
     this.formDropdown = this.fb.group({
@@ -628,7 +656,6 @@ export class AppComponent implements AfterViewInit {
       statusSelectAll: [false],
       statusCancel: [false],
     });
-
     //Tab DatePicker
     this.formDatePicker = this.fb.group({
       datePicker: [{ disabled: false }, [Validators.required]],
@@ -639,27 +666,26 @@ export class AppComponent implements AfterViewInit {
       text: [''],
       feedback: [''],
       disabled: [false],
-      open: [false],      
-    });   
-    this.formDatePicker.controls['text'].valueChanges.subscribe((value) => {      
-      this.datePicker.baseDate = this.dateFormatter.parse(value);  
-    });    
-    
+      open: [false],
+    });
+    this.formDatePicker.controls['text'].valueChanges.subscribe((value) => {
+      this.datePicker.baseDate = this.dateFormatter.parse(value);
+    });
+
     //Tab TimePicker
     this.formTimePicker = this.fb.group({
       timePicker: [{ disabled: false }, [Validators.required]],
       label: ['example.timepicker.label'],
       placeholder: ['example.timepicker.placeholder'],
-      text:[''],
+      text: [''],
       feedback: [''],
       disabled: [false],
       open: [false],
       showSecond: [false],
-      showMeridian: [false]      
+      showMeridian: [false],
     });
 
-
-   /*  this.formTimePicker.controls['disabled'].valueChanges.subscribe((value) => {
+    /*  this.formTimePicker.controls['disabled'].valueChanges.subscribe((value) => {
       this.timePicker.disabled = value;
     });
     this.formTimePicker.controls['showCalendar'].valueChanges.subscribe(
@@ -695,12 +721,18 @@ export class AppComponent implements AfterViewInit {
   };
 
   subscribeToLangageChange = () => {
-    this.translateService
+    /* this.translateService
       .get('hello', { value: 'gian', value2: 'Enza' })
       .subscribe((res: string) => {
-        //  4
-        this.titleTranslated = res; // 5
-      });
+        
+        this.titleTranslated = res; 
+      }); */
+    this.titleTranslated = this.translateService.instant('hello', {
+      value: 'gian',
+      value2: 'Enza',
+    });
+    this.titleTranslated = this.translateService.instant('messages.required');
+
     if (this.translateService.currentLang === 'it') {
       this.decimalOptions = { digitGroupSeparator: '.', decimalCharacter: ',' };
       if (this.timePicker) this.timePicker.showMeridian = false;
@@ -710,9 +742,57 @@ export class AppComponent implements AfterViewInit {
       if (this.timePicker) this.timePicker.showMeridian = true;
       if (this.chkShowMeridian) this.chkShowMeridian.checked = true;
     }
-    this.datePicker.updateFormat(
+    /* this.datePicker.updateFormat(
       new DateParserFormatterService(this.translateService)
-    );
+    ); */
+  };
+
+  onSubmitInput = () => {
+    if (this.formInput.valid) {
+      alert('ok');
+    } else {
+    }
+
+    Object.keys(this.formInput.controls).forEach((field) => {
+      var control = this.formInput.get(field);
+      control?.updateValueAndValidity({ onlySelf: true });
+    });
+  };
+
+  onSubmitTextArea = () => {
+    if (this.formTextArea.valid) {
+      alert('ok');
+    } else {
+    }
+
+    Object.keys(this.formTextArea.controls).forEach((field) => {
+      var control = this.formTextArea.get(field);
+      control?.updateValueAndValidity({ onlySelf: true });
+    });
+  };
+
+  onSubmitCheckBox = () => {
+    if (this.formCheckBox.valid) {
+      alert('ok');
+    } else {
+    }
+
+    Object.keys(this.formCheckBox.controls).forEach((field) => {
+      var control = this.formCheckBox.get(field);
+      control?.updateValueAndValidity({ onlySelf: true });
+    });
+  };
+
+  onSubmitRadioBox = () => {
+    if (this.formRadioBox.valid) {
+      alert('ok');
+    } else {
+    }
+
+    Object.keys(this.formRadioBox.controls).forEach((field) => {
+      var control = this.formRadioBox.get(field);
+      control?.updateValueAndValidity({ onlySelf: true });
+    });
   };
 
   /* onSubmit = () => {

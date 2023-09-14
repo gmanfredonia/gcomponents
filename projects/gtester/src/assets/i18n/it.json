@@ -65,5 +65,10 @@
       "labelDeselectAll": "Deseleziona tutto",
       "labelCancel": "Annulla selezione"
     }
+  },
+  "messages": {
+    "required": "Il campo è obbligatorio!",
+    "minlength": "La lunghezza minima è {{requiredLength}}!",
+    "email": "Il campo deve essere una eMail!"
   }
 }

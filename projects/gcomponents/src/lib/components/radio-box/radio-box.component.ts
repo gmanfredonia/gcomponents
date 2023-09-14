@@ -3,16 +3,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
   OnInit,
-  Optional,
 } from '@angular/core';
-import {
-  ControlContainer,
-  ControlValueAccessor,
-  NgControl,
-} from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { GHelpersService } from 'ghelpers';
 
 @Component({
@@ -26,50 +20,45 @@ export class RadioBoxComponent
 {
   //Input
   @Input()
-  public get label(): string | undefined {
-    return this._label;
+  public get labels(): string[] {
+    return this._labels;
   }
-  public set label(value: string | undefined) {
-    if (this._label !== value) this._label = value;
+  public set labels(value: string[]) {
+    if (this._labels !== value) this._labels = value;
   }
   @Input()
-  public get disabled(): any {
-    return this._disabled;
+  public get values(): string[] {
+    return this._values;
   }
-  public set disabled(value: any) {
-    if (this._disabled !== value) {
-      this._disabled = value;
-      this.changeDetectorRef.markForCheck();
+  public set values(value: string[]) {
+    if (this._values !== value) this._values = value;
+  }
+  @Input()
+  public get selectedValue(): string | undefined {
+    return this._selectedValue;
+  }
+  public set selectedValue(value: string | undefined) {
+    if (this._selectedValue !== value)  {
+      this._selectedValue = value;
+      this.onChangeInternal(this._selectedValue);
     }
   }
   @Input()
-  public get value(): string {
-    return this._value;
+  public get disabledValues(): string[]  {    
+    return this._disabledValues;
   }
-  public set value(v: string) {
-    if (this._value !== v) {
-      this._value = v;
-      this.changeDetectorRef.markForCheck();
+  public set disabledValues(values: string[] ) {        
+    if (this._disabledValues !== values) {
+      this._disabledValues = values;
+      //this.changeDetectorRef.markForCheck();
     }
   }
-  @Input()
-  get checked(): boolean {
-    return this._checked;
-  }
-  set checked(value: boolean) {
-    if (this._checked !== value) {
-      this._checked = value;
-      this.onChange(this.value);
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  public showValidationMessage?: boolean;
 
   //Private properties
-  private _label?: string;
-  private _disabled?: any;
-  private _value: string;
-  private _checked: boolean;
+  private _labels: string[];
+  private _values: string[];
+  private _selectedValue?: string;
+  private _disabledValues: string[];
 
   //ViewChild
   //[...]
@@ -77,60 +66,46 @@ export class RadioBoxComponent
   //Lifecycle events
   ngOnInit(): void {}
   ngAfterViewInit(): void {
-    const form = this.helpers.findAncestor(
-      this.elementRef.nativeElement,
-      'form'
-    );
-    const elements = form?.querySelectorAll<HTMLElement>(
-      `input[type=radio][name=${this.ngControl.name}]`
-    );
-    //const elementsComponents = Array.prototype.slice.call(elements);
-    const elementComponent = this.helpers.findAncestor(
-      elements![0] as HTMLElement,
-      'app-radio-box'
-    );
-
-    this.showValidationMessage =
-      this.elementRef.nativeElement === elementComponent;
-
-    this.changeDetectorRef.detectChanges();
+    this.uniqueIds = this.helpers.getUniqueIds('radiobox', this.labels.length);
   }
 
   //Constructor
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     public ngControl: NgControl,
-    @Optional() private controlContainer: ControlContainer,
-    private elementRef: ElementRef,
-    private helpers: GHelpersService
+    public helpers: GHelpersService
   ) {
-    this._value = '';
-    this._checked = false;
-
-    this.uniqueId = this.helpers.getUniqueId('radiobox');
+    this.uniqueIds = [];    
+    this._labels = [];
+    this._values = [];
+    this._disabledValues = [];
+    
     this.ngControl.valueAccessor = this;
   }
 
   //Public properties
-  uniqueId: string;  
+  uniqueIds: string[];    
 
   //Output
   //[...]
 
   //Methods
-  //[...]
+  onChangeInternal(value: string | undefined) {
+    this.selectedValue = value;
+    this.onChange(value);
+  }
 
   //Interface ControlValueAccessor
-  onChange = (value: string) => {};
+  onChange = (value: string | undefined) => {};
   onTouched = () => {};
 
   writeValue(value: any) {
-    if (typeof value === 'object')
-      this.checked = value?.value ?? '' === this.value;
-    else this.checked = value === this.value;
+    if (typeof value === 'object') this.selectedValue = value?.value ?? '';
+    else this.selectedValue = value;
   }
   setDisabledState?(disabled: boolean): void {
-    this.disabled = disabled;
+    this.disabledValues = this.values;
+    this.changeDetectorRef.markForCheck();
   }
   registerOnChange(onChange: any) {
     this.onChange = onChange;

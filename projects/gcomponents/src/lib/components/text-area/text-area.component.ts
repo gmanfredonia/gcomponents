@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,  
+  Input,  
+} from '@angular/core';
 import { FormControl, NgControl } from '@angular/forms';
 import { ITextualOptions } from '../../models/itextual-options.model';
 import { GHelpersService } from 'ghelpers';
@@ -7,7 +12,7 @@ import { GHelpersService } from 'ghelpers';
   selector: 'app-text-area',
   templateUrl: './text-area.component.html',
   styleUrls: ['./text-area.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextAreaComponent {
   //Input
@@ -17,7 +22,6 @@ export class TextAreaComponent {
   }
   public set label(value: string | undefined) {
     if (this._label !== value) this._label = value;
-
   }
   @Input()
   public get placeholder(): string | undefined {
@@ -25,17 +29,6 @@ export class TextAreaComponent {
   }
   public set placeholder(value: string | undefined) {
     if (this._placeholder !== value) this._placeholder = value;
-
-  }
-  @Input()
-  public get disabled(): any {
-    return this._disabled;
-  }
-  public set disabled(value: any) {
-    if (this._disabled !== value) {
-      this._disabled = value;
-      this.changeDetectorRef.markForCheck();
-    }
   }
   @Input()
   public get feedback(): string | undefined {
@@ -76,27 +69,31 @@ export class TextAreaComponent {
     return (this.textualOptions.maxLength ?? 0) > 0;
   }
   public get showLengthProgressBar(): boolean {
-    return this.isMaxLengthSet && this.textualOptions.showLengthProgressBar === true;
+    return (
+      this.isMaxLengthSet && this.textualOptions.showLengthProgressBar === true
+    );
   }
   public get showLengthProgressNumeric(): boolean {
-    return this.isMaxLengthSet && this.textualOptions.showLengthProgressNumeric === true;
+    return (
+      this.isMaxLengthSet &&
+      this.textualOptions.showLengthProgressNumeric === true
+    );
   }
+  public disabled: boolean;  
 
   //Private properties
   private _label?: string;
   private _placeholder?: string;
-  private _disabled?: any;
   private _feedback?: string;
   private _textualOptions: ITextualOptions;
   private _text: string;
-  private initialized: boolean;
+  private initialized: boolean;  
 
   //ViewChild
   //[...]
 
   //Lifecycle events
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   ngAfterViewInit(): void {
     this.initialized = true;
     this.formControl = this.ngControl?.control as FormControl;
@@ -104,13 +101,18 @@ export class TextAreaComponent {
   }
 
   //Constructor
-  constructor(private changeDetectorRef: ChangeDetectorRef, public ngControl: NgControl, private helpers: GHelpersService) {
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    public ngControl: NgControl,    
+    private helpers: GHelpersService
+  ) {
     this.initialized = false;
     this._textualOptions = {};
     this._text = '';
 
     this.uniqueId = this.helpers.getUniqueId('textarea');
     this.ngControl.valueAccessor = this;
+    this.disabled = false;    
   }
 
   //Public properties
@@ -140,27 +142,24 @@ export class TextAreaComponent {
         element.setSelectionRange(start, start);
         this._text = element.value;
       }
+    } else {
+      if (this.isUpperCase) this._text = this._text.toUpperCase();
     }
-    else {
-      if (this.isUpperCase)
-        this._text = this._text.toUpperCase();
-    }
-  }
+  };
 
   //Interfaces
 
   //Interface ControlValueAccessor
-  onChange = (value: string) => { }
-  onTouched = () => { }
+  onChange = (value: string) => {};
+  onTouched = () => {};
 
   writeValue(value: any) {
-    if (typeof value === 'object')
-      this.text = value?.value ?? '';
-    else
-      this.text = value.toString();
+    if (typeof value === 'object') this.text = value?.value ?? '';
+    else this.text = value.toString();
   }
-  setDisabledState?(disabled: boolean): void {
+  setDisabledState?(disabled: boolean): void {    
     this.disabled = disabled;
+    this.changeDetectorRef.markForCheck();
   }
   registerOnChange(onChange: any) {
     this.onChange = onChange;

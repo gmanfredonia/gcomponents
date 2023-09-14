@@ -13,7 +13,9 @@
 <div *ngIf="showLengthProgressBar" class="px-1">
   <ngb-progressbar
     type="secondary"
-    [value]="(100 * textArea.value.length) / (this.textualOptions.maxLength ?? 1)"
+    [value]="
+      (100 * textArea.value.length) / (this.textualOptions.maxLength ?? 1)
+    "
     height=".2rem"
   ></ngb-progressbar>
 </div>

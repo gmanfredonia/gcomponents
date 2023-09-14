@@ -12,11 +12,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
-import { GComponentsModule, GDropdownI18n } from 'gcomponents';
+import { GComponentsModule, GDropdownI18n, ValidationMessages } from 'gcomponents';
 import { DatepickerI18nService } from './services/datepicker-i18n.service';
 import { DateParserFormatterService } from './services/date-parser-formatter.service';
 import { InfoComponent } from './components/info/info.component';
 import { GDropdownI18nService } from './services/gdropdown-i18n.service';
+import { ValidationMessagesService } from './services/validation-messages.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -40,12 +41,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
-    }),
+    }),    
   ],
   providers: [
     { provide: GDropdownI18n, useClass: GDropdownI18nService },
     { provide: NgbDatepickerI18n, useClass: DatepickerI18nService },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatterService },
+    { provide: ValidationMessages, useClass: ValidationMessagesService },
   ],
   bootstrap: [AppComponent],
 })

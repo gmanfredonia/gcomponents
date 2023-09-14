@@ -4,11 +4,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Input,
-  OnInit,
-  NgZone,
+  Input,  
+  NgZone,  
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  ControlValueAccessor,  
+  NgControl,
+} from '@angular/forms';
 import AutoNumeric from 'autonumeric';
 import { GHelpersService } from 'ghelpers';
 import { ITextualOptions } from '../../models/itextual-options.model';
@@ -22,7 +24,7 @@ import { first } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputComponent
-  implements AfterViewInit, OnInit, ControlValueAccessor
+  implements AfterViewInit, ControlValueAccessor
 {
   //Input
   @Input()
@@ -70,16 +72,6 @@ export class InputComponent
         this.setType();
         this.filterText();
       }
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  @Input()
-  public get disabled(): boolean {
-    return this._disabled;
-  }
-  public set disabled(value: boolean) {
-    if (this._disabled !== value) {
-      this._disabled = value;
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -163,12 +155,12 @@ export class InputComponent
       this.textualOptions.showLengthProgressNumeric === true
     );
   }
+  public disabled: boolean;
 
   //Private properties
   private _label?: string;
   private _placeholder?: string;
   private _type: any;
-  private _disabled?: any;
   private _textualOptions: ITextualOptions;
   private _decimalOptions: IDecimalOptions;
   private _text: string;
@@ -181,7 +173,6 @@ export class InputComponent
   //[...]
 
   //Lifecycle events
-  ngOnInit(): void {}
   ngAfterViewInit(): void {
     this.initialized = true;
     this.setType();
@@ -190,7 +181,7 @@ export class InputComponent
   //Constructor
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    public ngControl: NgControl,
+    public ngControl: NgControl,    
     private ngZone: NgZone,
     public elementRef: ElementRef,
     private helpers: GHelpersService
@@ -200,10 +191,11 @@ export class InputComponent
     this._textualOptions = {};
     this._decimalOptions = { digitGroupSeparator: ',', decimalCharacter: '.' };
     this._text = '';
+    this.disabled = false;
 
     this.uniqueId = this.helpers.getUniqueId('input');
-    this.ngControl.valueAccessor = this;
-
+    this.ngControl.valueAccessor = this;    
+    
     //this.renderer.setAttribute(this.elementRef.nativeElement, 'checked', 'true');
     //this.elementRef.nativeElement.getElementsByTagName('input')[0].setAttribute('checked', '');
     //elementRef.nativeElement.querySelector('.selected-order').scrollIntoView();
@@ -324,6 +316,7 @@ export class InputComponent
   }
   setDisabledState?(disabled: boolean): void {
     this.disabled = disabled;
+    this.changeDetectorRef.markForCheck();
   }
   registerOnChange(onChange: any) {
     this.onChange = onChange;

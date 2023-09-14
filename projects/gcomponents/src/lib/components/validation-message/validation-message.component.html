@@ -1,3 +1,7 @@
-<ng-container *ngIf="this.control?.errors && this.control?.dirty">
-  {{ this.control?.errors | json }}
+<ng-container
+  *ngIf="control?.invalid && (control?.dirty || controlContainer.submitted)"
+>
+  <div *ngFor="let item of getErrors()">
+    {{ item }}
+  </div>
 </ng-container>

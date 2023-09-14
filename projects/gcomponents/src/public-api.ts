@@ -17,4 +17,5 @@ export * from './lib/models/idropdown-item.model';
 export * from './lib/models/idropdown-status.model';
 export * from './lib/models/idropdown-type.model';
 export * from './lib/services/gdropdown-i18n';
+export * from './lib/services/validation-messages';
 export * from './lib/gcomponents.module';

@@ -55,7 +55,7 @@
   },
   "gdropdown": {
     "labelNoItemsFound": "No items found!",
-    "labelNoResultsFiltered": "No results filtered!",    
+    "labelNoResultsFiltered": "No results filtered!",
     "status": {
       "labelCount": "Count",
       "labelFiltered": "Filtered",
@@ -65,5 +65,10 @@
       "labelDeselectAll": "Deselect all",
       "labelCancel": "Cancel selection"
     }
+  },
+  "messages": {
+    "required": "The field is mandatory!",
+    "minlength": "The minimum length is {{requiredLength}}!",
+    "email": "The field must be an eMail!"
   }
 }

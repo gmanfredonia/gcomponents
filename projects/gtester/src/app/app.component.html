@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row mb-4">
     <div class="col">
-      <!-- <div>{{ "hello" | translate : param }}</div>
-      <div>{{ titleTranslated }}</div> -->
+      <!-- <div>{{ "hello" | translate : param }}</div>-->
+      <div>{{ titleTranslated }}</div>
       <select
         [(ngModel)]="language"
         (change)="onChangeLanguage($any($event.target).value)"
@@ -25,7 +25,7 @@
           <button ngbNavLink>Input</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formInput" novalidate>
+              <form [formGroup]="formInput" (submit)="onSubmitInput()">
                 <div class="row">
                   <div class="col-4">
                     <h3>Component Input</h3>
@@ -49,10 +49,10 @@
                       }"
                       [decimalOptions]="decimalOptions"
                       [feedback]="txtFeedback.text"
-                      [disabled]="chkDisabled.checked"
                       formControlName="input"
                       #input
                     ></app-input>
+                    <button class="btn btn-primary">Submit</button>
                     <div class="mt-4">
                       <app-info [form]="formInput"></app-info>
                     </div>
@@ -133,7 +133,7 @@
           <button ngbNavLink>TextArea</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formTextArea">
+              <form [formGroup]="formTextArea" (submit)="onSubmitTextArea()">
                 <div class="row">
                   <div class="col-4">
                     <h3>Component TextArea</h3>
@@ -148,11 +148,11 @@
                         showLengthProgressNumeric:
                           chkShowLengthProgressNumeric.checked
                       }"
-                      [disabled]="chkDisabled.checked"
                       [feedback]="txtFeedback.text"
                       formControlName="textArea"
                       #textArea
                     ></app-text-area>
+                    <button class="btn btn-primary">Submit</button>
                     <div class="mt-4">
                       <app-info [form]="formTextArea"></app-info>
                     </div>
@@ -225,7 +225,7 @@
           <button ngbNavLink>CheckBox</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formCheckBox" novalidate>
+              <form [formGroup]="formCheckBox" (submit)="onSubmitCheckBox()">
                 <div class="row">
                   <div class="col-4">
                     <h3>Component CheckBox</h3>
@@ -243,6 +243,7 @@
                       formControlName="checkBox"
                       #checkBox
                     ></app-check-box>
+                    <button class="btn btn-primary">Submit</button>
                     <div class="mt-4">
                       <app-info [form]="formCheckBox"></app-info>
                     </div>
@@ -280,30 +281,28 @@
             </div>
           </ng-template>
         </li>
-        <li [ngbNavItem]="'tabRadioBox'">
+        <!--  <li [ngbNavItem]="'tabRadioBox'">
           <button ngbNavLink>RadioBox</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formRadioBox" novalidate>
+              <form [formGroup]="formRadioBox" (ngSubmit)="onSubmitRadioBox()">
                 <div class="row">
                   <div class="col-4">
                     <h3>Component RadioBox</h3>
                     <app-radio-box
-                      label="{{ txtLabel1.text | translate }}"
-                      [value]="txtValue1.text"
-                      [disabled]="chkDisabled1.checked"
-                      [checked]="chkChecked1.checked"
-                      formControlName="radioBox"
-                      #radioBox1
-                    ></app-radio-box>
-                    <app-radio-box
-                      label="{{ txtLabel2.text | translate }}"
-                      [value]="txtValue2.text"
-                      [disabled]="chkDisabled2.checked"
-                      [checked]="chkChecked2.checked"
-                      formControlName="radioBox"
-                      #radioBox2
-                    ></app-radio-box>
+                      [labels]="[
+                        txtLabel1.text | translate,
+                        txtLabel2.text | translate
+                      ]"
+                      [values]="[txtValue1.text, txtValue2.text]"                      
+                      [selectedValue]="chkChecked1.checked ? 'male': (chkChecked2.checked ? 'female': undefined)"
+                      [disabledValues]="[chkDisabled1.checked ? 'male': '', chkDisabled2.checked ? 'female': '']"
+                      formControlName="radioBox"                      
+                      #radioBox
+                    ></app-radio-box>                                                       
+                    <button type="submit" class="btn btn-primary">
+                      Submit
+                    </button>
                     <div class="mt-4">
                       <app-info [form]="formRadioBox"></app-info>
                     </div>
@@ -364,11 +363,11 @@
             </div>
           </ng-template>
         </li>
-        <li [ngbNavItem]="'tabDropdown'">
+       <li [ngbNavItem]="'tabDropdown'">
           <button ngbNavLink>Dropdown</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formDropdown" novalidate>
+              <form [formGroup]="formDropdown" >
                 <div class="row">
                   <div class="col-6">
                     <h3>Component Dropdown</h3>
@@ -507,7 +506,7 @@
           <button ngbNavLink>DatePicker</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formDatePicker" novalidate>
+              <form [formGroup]="formDatePicker" >
                 <div class="row">
                   <div class="col-4">
                     <h3>Component DatePicker</h3>
@@ -515,9 +514,9 @@
                       label="{{ txtDatePickerLabel.text | translate }}"
                       placeholder="{{
                         txtDatePickerPlaceholder.text | translate
-                      }}"                                            
+                      }}"
                       [feedback]="txtFeedback.text"
-                      [disabled]="chkDisabled.checked"                     
+                      [disabled]="chkDisabled.checked"
                       [open]="chkOpen.checked"
                       formControlName="datePicker"
                       #datePicker
@@ -576,7 +575,7 @@
           <button ngbNavLink>TimePicker</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formTimePicker" novalidate>
+              <form [formGroup]="formTimePicker" >
                 <div class="row">
                   <div class="col-4">
                     <h3>Component TimePicker</h3>
@@ -665,16 +664,15 @@
           <ng-template ngbNavContent>
             <div class="container pt-5"></div>
           </ng-template>
-        </li>
+        </li> 
         <li [ngbNavItem]="'tabGrid'">
           <button ngbNavLink>Grid</button>
           <ng-template ngbNavContent>
             <div class="container pt-5"></div>
           </ng-template>
-        </li>
+        </li>-->
       </ul>
       <div [ngbNavOutlet]="nav"></div>
     </div>
   </div>
 </div>
-

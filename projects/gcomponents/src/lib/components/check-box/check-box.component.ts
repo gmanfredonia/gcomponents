@@ -1,4 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { GHelpersService } from 'ghelpers';
 
@@ -6,9 +12,9 @@ import { GHelpersService } from 'ghelpers';
   selector: 'app-check-box',
   templateUrl: './check-box.component.html',
   styleUrls: ['./check-box.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckBoxComponent implements OnInit, AfterViewInit, ControlValueAccessor {
+export class CheckBoxComponent implements AfterViewInit, ControlValueAccessor {
   //Input
   @Input()
   public get label(): string | undefined {
@@ -16,7 +22,6 @@ export class CheckBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
   }
   public set label(value: string | undefined) {
     if (this._label !== value) this._label = value;
-
   }
   @Input()
   public get type(): 'standard' | 'switch' {
@@ -25,16 +30,6 @@ export class CheckBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
   public set type(value: 'standard' | 'switch') {
     if (this._type !== value) {
       this._type = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  @Input()
-  public get disabled(): any {
-    return this._disabled;
-  }
-  public set disabled(value: any) {
-    if (this._disabled !== value) {
-      this._disabled = value;
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -53,30 +48,33 @@ export class CheckBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
   //Private properties
   private _label?: string;
   private _type: any;
-  private _disabled?: any;
   private _checked: boolean;
 
   //ViewChild
   //[...]
 
   //Lifecycle events
-  ngOnInit(): void {
-  }
-  ngAfterViewInit(): void {    
+  ngAfterViewInit(): void {
     this.changeDetectorRef.detectChanges();
   }
 
   //Constructor
-  constructor(private changeDetectorRef: ChangeDetectorRef, public ngControl: NgControl, private helpers: GHelpersService) {
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    public ngControl: NgControl,
+    private helpers: GHelpersService
+  ) {
     this._type = 'standard';
     this._checked = false;
+    this.disabled = false;
 
     this.uniqueId = helpers.getUniqueId('checkbox');
     this.ngControl.valueAccessor = this;
   }
 
   //Public properties
-  uniqueId: string;  
+  uniqueId: string;
+  disabled: boolean;
 
   //Output
   //@Output() checkboxClick = new EventEmitter<boolean>();
@@ -86,22 +84,21 @@ export class CheckBoxComponent implements OnInit, AfterViewInit, ControlValueAcc
     this._checked = value;
     this.onChange(value);
     //this.checkboxClick.emit(value);
-  }
+  };
 
   //Interfaces
 
   //Interface ControlValueAccessor
-  onChange = (value: boolean) => { }
-  onTouched = () => { }
+  onChange = (value: boolean) => {};
+  onTouched = () => {};
 
   writeValue(value: any) {
-    if (typeof value === 'object')
-      this.checked = value?.value ?? false;
-    else
-      this.checked = value;
+    if (typeof value === 'object') this.checked = value?.value ?? false;
+    else this.checked = value;
   }
   setDisabledState?(disabled: boolean): void {
     this.disabled = disabled;
+    this.changeDetectorRef.markForCheck();
   }
   registerOnChange(onChange: any) {
     this.onChange = onChange;
