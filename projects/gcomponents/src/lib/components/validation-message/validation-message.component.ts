@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroupDirective, NgControl } from '@angular/forms';
+import { ControlContainer, FormGroupDirective, NgControl } from '@angular/forms';
 import { ValidationMessages } from '../../services/validation-messages';
 
 @Component({
@@ -24,8 +24,8 @@ export class ValidationMessageComponent {
   //Constructor
   constructor(
     private messagesService: ValidationMessages,
-    public controlContainer: FormGroupDirective
-  ) {}
+    public controlContainer: FormGroupDirective,    
+  ) { }
 
   //Public properties
   //[...]

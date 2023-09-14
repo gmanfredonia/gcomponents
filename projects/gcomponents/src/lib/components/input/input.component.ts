@@ -5,7 +5,8 @@ import {
   Component,
   ElementRef,
   Input,  
-  NgZone,  
+  NgZone,
+  OnInit,  
 } from '@angular/core';
 import {
   ControlValueAccessor,  
@@ -24,7 +25,7 @@ import { first } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputComponent
-  implements AfterViewInit, ControlValueAccessor
+  implements OnInit, AfterViewInit, ControlValueAccessor
 {
   //Input
   @Input()
@@ -173,6 +174,12 @@ export class InputComponent
   //[...]
 
   //Lifecycle events
+  ngOnInit(): void {
+    this.ngControl.valueChanges?.subscribe(() => {
+      debugger
+      this.changeDetectorRef.markForCheck();
+    });
+  }
   ngAfterViewInit(): void {
     this.initialized = true;
     this.setType();

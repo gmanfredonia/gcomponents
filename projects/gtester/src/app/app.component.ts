@@ -576,9 +576,12 @@ export class AppComponent implements AfterViewInit {
       label: ['example.input.label'],
       placeholder: ['example.input.placeholder'],
       type: ['text'],
-      maxLength: [undefined],
+      maxLength: [''],
       text: [''],
-      feedback: [''],
+      feedback: [
+        { value: '', disabled: false },
+        { validators: [Validators.required] },
+      ],
       disabled: [false],
       toUpperCase: [false],
       showLengthProgressBar: [false],
@@ -590,7 +593,7 @@ export class AppComponent implements AfterViewInit {
     });
     //Tab TextArea
     this.formTextArea = this.fb.group({
-      textArea: [{value: '', disabled: false }, [Validators.required]],
+      textArea: [{ value: '', disabled: false }, [Validators.required]],
       label: ['example.textArea.label'],
       placeholder: ['example.textArea.placeholder'],
       maxLength: [undefined],
@@ -755,7 +758,7 @@ export class AppComponent implements AfterViewInit {
 
     Object.keys(this.formInput.controls).forEach((field) => {
       var control = this.formInput.get(field);
-      control?.updateValueAndValidity({ onlySelf: true });
+      control?.updateValueAndValidity();
     });
   };
 
@@ -767,7 +770,7 @@ export class AppComponent implements AfterViewInit {
 
     Object.keys(this.formTextArea.controls).forEach((field) => {
       var control = this.formTextArea.get(field);
-      control?.updateValueAndValidity({ onlySelf: true });
+      control?.updateValueAndValidity();
     });
   };
 
