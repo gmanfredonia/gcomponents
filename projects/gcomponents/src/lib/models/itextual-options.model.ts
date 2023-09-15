@@ -1,4 +1,4 @@
- export interface ITextualOptions {
+export interface ITextualOptions {
   toUpperCase?: boolean;
   maxLength?: number;
   showLengthProgressBar?: boolean;

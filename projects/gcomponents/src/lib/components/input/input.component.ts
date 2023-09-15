@@ -32,7 +32,7 @@ export class InputComponent
   @Input() label: string | undefined;
   @Input() placeholder: string | undefined;
   @Input()
-  public get type():
+  get type():
     | 'text'
     | 'password'
     | 'alphabetic'
@@ -41,7 +41,7 @@ export class InputComponent
     | 'decimal' {
     return this._type;
   }
-  public set type(
+  set type(
     value:
       | 'text'
       | 'password'
@@ -56,80 +56,35 @@ export class InputComponent
         this.setType();
         this.filterText();
       }
-      this.changeDetectorRef.markForCheck();
     }
   }
   @Input()
-  public get textualOptions(): ITextualOptions {
+  get textualOptions(): ITextualOptions {
     return this._textualOptions;
   }
-  public set textualOptions(value: ITextualOptions) {
+  set textualOptions(value: ITextualOptions) {
     this._textualOptions = { ...this._textualOptions, ...value };
-    if (this.initialized) {
-      this.filterText();
-      this.changeDetectorRef.markForCheck();
-    }
+    if (this.initialized) this.filterText();
   }
   @Input()
-  public get decimalOptions(): IDecimalOptions {
+  get decimalOptions(): IDecimalOptions {
     return this._decimalOptions;
   }
-  public set decimalOptions(value: IDecimalOptions) {
+  set decimalOptions(value: IDecimalOptions) {
     this._decimalOptions = { ...this._decimalOptions, ...value };
     if (this.initialized) this.setType();
   }
   @Input()
-  public get text(): string {
+  get text(): string {
     return this._text;
   }
-  public set text(value: string) {
+  set text(value: string) {
     if (this._text !== value) {
       this._text = value;
       this.onChangeText();
-      this.changeDetectorRef.markForCheck();
     }
   }
   @Input() feedback: string | undefined;
-  public get inputType(): string {
-    return this.type === 'password' ? this.type : 'text';
-  }
-  public get isTextual(): boolean {
-    return this.type !== 'decimal';
-  }
-  public get isDecimal(): boolean {
-    return this.type === 'decimal';
-  }
-  public get isUpperCase(): boolean {
-    let result: boolean;
-
-    switch (this.type) {
-      case 'text':
-      case 'password':
-      case 'alphabetic':
-      case 'alphanumeric':
-        result = this.textualOptions.toUpperCase ?? false;
-        break;
-      default:
-        result = false;
-        break;
-    }
-
-    return result;
-  }
-  public get isMaxLengthSet(): boolean {
-    return this.isTextual && (this.textualOptions.maxLength ?? 0) > 0;
-  }
-  public get showLengthProgressBar(): boolean {
-    return (
-      this.isMaxLengthSet && this.textualOptions.showLengthProgressBar === true
-    );
-  }
-  public get showLengthProgressNumeric(): boolean {
-    return (
-      this.isMaxLengthSet &&
-      this.textualOptions.showLengthProgressNumeric === true
-    );
-  }  
 
   //Private properties
   private _type: any;
@@ -139,6 +94,7 @@ export class InputComponent
   private initialized: boolean;
   private autonumeric?: AutoNumeric;
   private expression?: RegExp;
+
 
   //ViewChild
   //[...]
@@ -166,7 +122,7 @@ export class InputComponent
     public elementRef: ElementRef,
     private helpers: GHelpersService
   ) {
-    this.initialized = false;
+    this.initialized = true;
     this._type = 'text';
     this._textualOptions = {};
     this._decimalOptions = { digitGroupSeparator: ',', decimalCharacter: '.' };
@@ -186,6 +142,46 @@ export class InputComponent
   //Public properties
   uniqueId: string;
   disabled: boolean;
+  get inputType(): string {
+    return this.type === 'password' ? this.type : 'text';
+  }
+  get isTextual(): boolean {
+    return this.type !== 'decimal';
+  }
+  get isDecimal(): boolean {
+    return this.type === 'decimal';
+  }
+  get isUpperCase(): boolean {
+    let result: boolean;
+
+    switch (this.type) {
+      case 'text':
+      case 'password':
+      case 'alphabetic':
+      case 'alphanumeric':
+        result = this.textualOptions.toUpperCase ?? false;
+        break;
+      default:
+        result = false;
+        break;
+    }
+
+    return result;
+  }
+  get isMaxLengthSet(): boolean {
+    return this.isTextual && (this.textualOptions.maxLength ?? 0) > 0;
+  }
+  get showLengthProgressBar(): boolean {
+    return (
+      this.isMaxLengthSet && this.textualOptions.showLengthProgressBar === true
+    );
+  }
+  get showLengthProgressNumeric(): boolean {
+    return (
+      this.isMaxLengthSet &&
+      this.textualOptions.showLengthProgressNumeric === true
+    );
+  }
 
   //Output
   //[...]
