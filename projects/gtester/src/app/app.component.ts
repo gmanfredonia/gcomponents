@@ -630,7 +630,7 @@ export class AppComponent implements AfterViewInit {
       disabled2: [false],
       checked1: [false],
       checked2: [false],
-    });    
+    });        
     //Tab Dropdown
     this.formDropdown = this.fb.group({
       dropdown: [

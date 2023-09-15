@@ -281,7 +281,7 @@
             </div>
           </ng-template>
         </li>
-         <li [ngbNavItem]="'tabRadioBox'">
+        <li [ngbNavItem]="'tabRadioBox'">
           <button ngbNavLink>RadioBox</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
@@ -294,12 +294,21 @@
                         txtLabel1.text | translate,
                         txtLabel2.text | translate
                       ]"
-                      [values]="[txtValue1.text, txtValue2.text]"                      
-                      [selectedValue]="chkChecked1.checked ? 'male': (chkChecked2.checked ? 'female': undefined)"
-                      [disabledValues]="[chkDisabled1.checked ? 'male': '', chkDisabled2.checked ? 'female': '']"
-                      formControlName="radioBox"                      
+                      [values]="[txtValue1.text, txtValue2.text]"
+                      [selectedValue]="
+                        chkChecked1.checked
+                          ? txtValue1.text
+                          : chkChecked2.checked
+                          ? txtValue2.text
+                          : undefined
+                      "
+                      [disabledValues]="[
+                        chkDisabled1.checked ? txtValue1.text : '',
+                        chkDisabled2.checked ? txtValue2.text : ''
+                      ]"
+                      formControlName="radioBox"
                       #radioBox
-                    ></app-radio-box>                                                       
+                    ></app-radio-box>
                     <button type="submit" class="btn btn-primary">
                       Submit
                     </button>
@@ -357,13 +366,27 @@
                       formControlName="checked2"
                       #chkChecked2
                     ></app-check-box>
+                    <button
+                      type="button"
+                      (click)="formRadioBox.disable()"
+                      class="btn btn-primary"
+                    >
+                      Disabilita tutto
+                    </button>
+                    <button
+                      type="button"
+                      (click)="formRadioBox.enable()"
+                      class="btn btn-primary"
+                    >
+                      Abilita tutto
+                    </button>
                   </div>
                 </div>
               </form>
             </div>
           </ng-template>
         </li>
-     <!--   <li [ngbNavItem]="'tabDropdown'">
+        <!--   <li [ngbNavItem]="'tabDropdown'">
           <button ngbNavLink>Dropdown</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
