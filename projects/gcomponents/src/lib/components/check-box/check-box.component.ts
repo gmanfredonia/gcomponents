@@ -4,8 +4,13 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  ControlContainer,
+  ControlValueAccessor,
+  NgControl,
+} from '@angular/forms';
 import { GHelpersService } from 'ghelpers';
 
 @Component({
@@ -14,25 +19,10 @@ import { GHelpersService } from 'ghelpers';
   styleUrls: ['./check-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckBoxComponent implements AfterViewInit, ControlValueAccessor {
+export class CheckBoxComponent implements OnInit, ControlValueAccessor {
   //Input
-  @Input()
-  public get label(): string | undefined {
-    return this._label;
-  }
-  public set label(value: string | undefined) {
-    if (this._label !== value) this._label = value;
-  }
-  @Input()
-  public get type(): 'standard' | 'switch' {
-    return this._type;
-  }
-  public set type(value: 'standard' | 'switch') {
-    if (this._type !== value) {
-      this._type = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
+  @Input() label: string | undefined;
+  @Input() type: 'standard' | 'switch';
   @Input()
   get checked(): boolean {
     return this._checked;
@@ -41,30 +31,33 @@ export class CheckBoxComponent implements AfterViewInit, ControlValueAccessor {
     if (this._checked !== value) {
       this._checked = value;
       this.onChange(value);
-      this.changeDetectorRef.markForCheck();
     }
   }
 
   //Private properties
-  private _label?: string;
-  private _type: any;
   private _checked: boolean;
 
   //ViewChild
   //[...]
 
   //Lifecycle events
-  ngAfterViewInit(): void {
-    this.changeDetectorRef.detectChanges();
+  ngOnInit(): void {
+    this.ngControl.valueChanges?.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
+    this.controlContainer.valueChanges?.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   //Constructor
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     public ngControl: NgControl,
+    public controlContainer: ControlContainer,
     private helpers: GHelpersService
   ) {
-    this._type = 'standard';
+    this.type = 'standard';
     this._checked = false;
     this.disabled = false;
 
@@ -97,8 +90,7 @@ export class CheckBoxComponent implements AfterViewInit, ControlValueAccessor {
     else this.checked = value;
   }
   setDisabledState?(disabled: boolean): void {
-    this.disabled = disabled;
-    this.changeDetectorRef.markForCheck();
+    this.disabled = disabled;    
   }
   registerOnChange(onChange: any) {
     this.onChange = onChange;

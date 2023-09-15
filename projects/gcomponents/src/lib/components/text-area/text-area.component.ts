@@ -1,10 +1,10 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,  
-  Input,  
+  Component,
+  Input,
 } from '@angular/core';
-import { FormControl, NgControl } from '@angular/forms';
+import { ControlContainer, NgControl } from '@angular/forms';
 import { ITextualOptions } from '../../models/itextual-options.model';
 import { GHelpersService } from 'ghelpers';
 
@@ -17,29 +17,11 @@ import { GHelpersService } from 'ghelpers';
 export class TextAreaComponent {
   //Input
   @Input()
-  public get label(): string | undefined {
-    return this._label;
-  }
-  public set label(value: string | undefined) {
-    if (this._label !== value) this._label = value;
-  }
+  label: string | undefined;
   @Input()
-  public get placeholder(): string | undefined {
-    return this._placeholder;
-  }
-  public set placeholder(value: string | undefined) {
-    if (this._placeholder !== value) this._placeholder = value;
-  }
+  placeholder: string | undefined;
   @Input()
-  public get feedback(): string | undefined {
-    return this._feedback;
-  }
-  public set feedback(value: string | undefined) {
-    if (this._feedback !== value) {
-      this._feedback = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
+  feedback: string | undefined;
   @Input()
   public get textualOptions(): ITextualOptions {
     return this._textualOptions;
@@ -79,31 +61,33 @@ export class TextAreaComponent {
       this.textualOptions.showLengthProgressNumeric === true
     );
   }
-  public disabled: boolean;  
 
   //Private properties
-  private _label?: string;
-  private _placeholder?: string;
-  private _feedback?: string;
   private _textualOptions: ITextualOptions;
   private _text: string;
-  private initialized: boolean;  
+  private initialized: boolean;
 
   //ViewChild
   //[...]
 
   //Lifecycle events
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.ngControl.valueChanges?.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
+    this.controlContainer.valueChanges?.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
+  }
   ngAfterViewInit(): void {
-    this.initialized = true;
-    this.formControl = this.ngControl?.control as FormControl;
-    this.changeDetectorRef.detectChanges();
+    this.initialized = true;    
   }
 
   //Constructor
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    public ngControl: NgControl,    
+    public ngControl: NgControl,
+    private controlContainer: ControlContainer,
     private helpers: GHelpersService
   ) {
     this.initialized = false;
@@ -112,12 +96,12 @@ export class TextAreaComponent {
 
     this.uniqueId = this.helpers.getUniqueId('textarea');
     this.ngControl.valueAccessor = this;
-    this.disabled = false;    
+    this.disabled = false;
   }
 
   //Public properties
   uniqueId: string;
-  formControl?: FormControl;
+  disabled: boolean;
 
   //Output
   //[...]
@@ -157,7 +141,7 @@ export class TextAreaComponent {
     if (typeof value === 'object') this.text = value?.value ?? '';
     else this.text = value.toString();
   }
-  setDisabledState?(disabled: boolean): void {    
+  setDisabledState?(disabled: boolean): void {
     this.disabled = disabled;
     this.changeDetectorRef.markForCheck();
   }

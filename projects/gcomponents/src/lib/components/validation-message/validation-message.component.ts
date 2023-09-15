@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { ControlContainer, FormGroupDirective, NgControl } from '@angular/forms';
+import {
+  ControlContainer,
+  FormGroupDirective,
+  NgControl,
+} from '@angular/forms';
 import { ValidationMessages } from '../../services/validation-messages';
 
 @Component({
@@ -24,8 +28,8 @@ export class ValidationMessageComponent {
   //Constructor
   constructor(
     private messagesService: ValidationMessages,
-    public controlContainer: FormGroupDirective,    
-  ) { }
+    public controlContainer: FormGroupDirective
+  ) {}
 
   //Public properties
   //[...]
@@ -35,17 +39,13 @@ export class ValidationMessageComponent {
 
   //Methods
   public getErrors(): string[] {
-    let result: string[];
-    debugger;
-
+    let result: string[];    
+    const errors = Object.entries(this.control!.errors!);
+    
     result = [];
-    if (this.control!.errors) {
-      const errors = Object.entries(this.control!.errors!);
-
-      errors.forEach((error) =>
-        result.push(this.messagesService.getMessage(error[0], error[1]))
-      );
-    }
+    errors.forEach((error) =>
+      result.push(this.messagesService.getMessage(error[0], error[1]))
+    );
 
     return result;
   }

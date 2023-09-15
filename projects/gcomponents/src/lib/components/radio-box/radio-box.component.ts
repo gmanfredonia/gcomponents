@@ -6,7 +6,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlContainer, ControlValueAccessor, NgControl } from '@angular/forms';
 import { GHelpersService } from 'ghelpers';
 
 @Component({
@@ -64,7 +64,14 @@ export class RadioBoxComponent
   //[...]
 
   //Lifecycle events
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.ngControl.valueChanges?.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
+    this.controlContainer.valueChanges?.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
+  }
   ngAfterViewInit(): void {
     this.uniqueIds = this.helpers.getUniqueIds('radiobox', this.labels.length);
   }
@@ -73,6 +80,7 @@ export class RadioBoxComponent
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     public ngControl: NgControl,
+    public controlContainer: ControlContainer,
     public helpers: GHelpersService
   ) {
     this.uniqueIds = [];    

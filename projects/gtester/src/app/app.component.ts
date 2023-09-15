@@ -573,14 +573,13 @@ export class AppComponent implements AfterViewInit {
           ],
         },
       ],
-      label: ['example.input.label'],
+      label: ['example.input.label', [Validators.required]],
       placeholder: ['example.input.placeholder'],
       type: ['text'],
       maxLength: [''],
       text: [''],
       feedback: [
-        { value: '', disabled: false },
-        { validators: [Validators.required] },
+        { value: '', disabled: false }
       ],
       disabled: [false],
       toUpperCase: [false],
@@ -594,7 +593,7 @@ export class AppComponent implements AfterViewInit {
     //Tab TextArea
     this.formTextArea = this.fb.group({
       textArea: [{ value: '', disabled: false }, [Validators.required]],
-      label: ['example.textArea.label'],
+      label: ['example.textArea.label', [Validators.required]],
       placeholder: ['example.textArea.placeholder'],
       maxLength: [undefined],
       text: [''],
@@ -611,7 +610,7 @@ export class AppComponent implements AfterViewInit {
     //Tab CheckBox
     this.formCheckBox = this.fb.group({
       checkBox: [{ value: false, disabled: false }, [Validators.requiredTrue]],
-      label: ['example.checkBox.label'],
+      label: ['example.checkBox.label', [Validators.required]],
       type: ['standard'],
       disabled: [false],
       checked: [false],
@@ -623,15 +622,15 @@ export class AppComponent implements AfterViewInit {
     //Tab RadioBox
     this.formRadioBox = this.fb.group({
       radioBox: [{ value: undefined, disabled: false }, [Validators.required]],
-      label1: ['example.radioBox.label1'],
-      label2: ['example.radioBox.label2'],
+      label1: ['example.radioBox.label1', [Validators.required]],
+      label2: ['example.radioBox.label2', [Validators.required]],
       value1: ['male'],
       value2: ['female'],
       disabled1: [false],
       disabled2: [false],
       checked1: [false],
       checked2: [false],
-    });
+    });    
     //Tab Dropdown
     this.formDropdown = this.fb.group({
       dropdown: [
@@ -756,10 +755,13 @@ export class AppComponent implements AfterViewInit {
     } else {
     }
 
-    Object.keys(this.formInput.controls).forEach((field) => {
+    //this.formInput.markAsDirty();
+    this.formInput.updateValueAndValidity();
+
+    /* Object.keys(this.formInput.controls).forEach((field) => {
       var control = this.formInput.get(field);
       control?.updateValueAndValidity();
-    });
+    }); */
   };
 
   onSubmitTextArea = () => {

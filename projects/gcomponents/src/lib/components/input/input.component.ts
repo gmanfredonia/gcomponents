@@ -4,19 +4,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Input,  
+  Input,
   NgZone,
-  OnInit,  
+  OnInit,
 } from '@angular/core';
 import {
-  ControlValueAccessor,  
+  ControlContainer,
+  ControlValueAccessor,
   NgControl,
 } from '@angular/forms';
 import AutoNumeric from 'autonumeric';
 import { GHelpersService } from 'ghelpers';
 import { ITextualOptions } from '../../models/itextual-options.model';
 import { IDecimalOptions } from '../../models/idecimal-options.model';
-import { first } from 'rxjs';
+import { filter, first } from 'rxjs';
 
 @Component({
   selector: 'app-input',
@@ -28,26 +29,8 @@ export class InputComponent
   implements OnInit, AfterViewInit, ControlValueAccessor
 {
   //Input
-  @Input()
-  public get label(): string | undefined {
-    return this._label;
-  }
-  public set label(value: string | undefined) {
-    if (this._label !== value) {
-      this._label = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  @Input()
-  public get placeholder(): string | undefined {
-    return this._placeholder;
-  }
-  public set placeholder(value: string | undefined) {
-    if (this._placeholder !== value) {
-      this._placeholder = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
+  @Input() label: string | undefined;
+  @Input() placeholder: string | undefined;
   @Input()
   public get type():
     | 'text'
@@ -106,16 +89,7 @@ export class InputComponent
       this.changeDetectorRef.markForCheck();
     }
   }
-  @Input()
-  public get feedback(): string | undefined {
-    return this._feedback;
-  }
-  public set feedback(value: string | undefined) {
-    if (this._feedback !== value) {
-      this._feedback = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
+  @Input() feedback: string | undefined;
   public get inputType(): string {
     return this.type === 'password' ? this.type : 'text';
   }
@@ -155,17 +129,13 @@ export class InputComponent
       this.isMaxLengthSet &&
       this.textualOptions.showLengthProgressNumeric === true
     );
-  }
-  public disabled: boolean;
+  }  
 
   //Private properties
-  private _label?: string;
-  private _placeholder?: string;
   private _type: any;
   private _textualOptions: ITextualOptions;
   private _decimalOptions: IDecimalOptions;
   private _text: string;
-  private _feedback?: string;
   private initialized: boolean;
   private autonumeric?: AutoNumeric;
   private expression?: RegExp;
@@ -176,7 +146,9 @@ export class InputComponent
   //Lifecycle events
   ngOnInit(): void {
     this.ngControl.valueChanges?.subscribe(() => {
-      debugger
+      this.changeDetectorRef.markForCheck();
+    });
+    this.controlContainer.valueChanges?.subscribe(() => {
       this.changeDetectorRef.markForCheck();
     });
   }
@@ -188,7 +160,8 @@ export class InputComponent
   //Constructor
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    public ngControl: NgControl,    
+    public ngControl: NgControl,
+    private controlContainer: ControlContainer,
     private ngZone: NgZone,
     public elementRef: ElementRef,
     private helpers: GHelpersService
@@ -201,8 +174,8 @@ export class InputComponent
     this.disabled = false;
 
     this.uniqueId = this.helpers.getUniqueId('input');
-    this.ngControl.valueAccessor = this;    
-    
+    this.ngControl.valueAccessor = this;
+
     //this.renderer.setAttribute(this.elementRef.nativeElement, 'checked', 'true');
     //this.elementRef.nativeElement.getElementsByTagName('input')[0].setAttribute('checked', '');
     //elementRef.nativeElement.querySelector('.selected-order').scrollIntoView();
@@ -212,6 +185,7 @@ export class InputComponent
 
   //Public properties
   uniqueId: string;
+  disabled: boolean;
 
   //Output
   //[...]
