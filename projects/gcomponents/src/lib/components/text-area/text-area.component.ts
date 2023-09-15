@@ -28,10 +28,7 @@ export class TextAreaComponent {
   }
   public set textualOptions(value: ITextualOptions) {
     this._textualOptions = { ...this._textualOptions, ...value };
-    if (this.initialized) {
-      this.filterText();
-      this.changeDetectorRef.markForCheck();
-    }
+    if (this.initialized) this.filterText();
   }
   @Input()
   public get text(): string {
@@ -40,27 +37,9 @@ export class TextAreaComponent {
   public set text(value: string) {
     if (this._text !== value) {
       this._text = value;
-      this.onChangeText();
-      this.changeDetectorRef.markForCheck();
+      this.onChangeText();      
     }
-  }
-  public get isUpperCase(): boolean {
-    return this.textualOptions.toUpperCase ?? false;
-  }
-  public get isMaxLengthSet(): boolean {
-    return (this.textualOptions.maxLength ?? 0) > 0;
-  }
-  public get showLengthProgressBar(): boolean {
-    return (
-      this.isMaxLengthSet && this.textualOptions.showLengthProgressBar === true
-    );
-  }
-  public get showLengthProgressNumeric(): boolean {
-    return (
-      this.isMaxLengthSet &&
-      this.textualOptions.showLengthProgressNumeric === true
-    );
-  }
+  }  
 
   //Private properties
   private _textualOptions: ITextualOptions;
@@ -80,7 +59,7 @@ export class TextAreaComponent {
     });
   }
   ngAfterViewInit(): void {
-    this.initialized = true;    
+    this.initialized = true;
   }
 
   //Constructor
@@ -102,7 +81,24 @@ export class TextAreaComponent {
   //Public properties
   uniqueId: string;
   disabled: boolean;
-
+  public get isUpperCase(): boolean {
+    return this.textualOptions.toUpperCase ?? false;
+  }
+  public get isMaxLengthSet(): boolean {
+    return (this.textualOptions.maxLength ?? 0) > 0;
+  }
+  public get showLengthProgressBar(): boolean {
+    return (
+      this.isMaxLengthSet && this.textualOptions.showLengthProgressBar === true
+    );
+  }
+  public get showLengthProgressNumeric(): boolean {
+    return (
+      this.isMaxLengthSet &&
+      this.textualOptions.showLengthProgressNumeric === true
+    );
+  }
+  
   //Output
   //[...]
 
@@ -143,7 +139,6 @@ export class TextAreaComponent {
   }
   setDisabledState?(disabled: boolean): void {
     this.disabled = disabled;
-    this.changeDetectorRef.markForCheck();
   }
   registerOnChange(onChange: any) {
     this.onChange = onChange;

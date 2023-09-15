@@ -95,7 +95,6 @@ export class InputComponent
   private autonumeric?: AutoNumeric;
   private expression?: RegExp;
 
-
   //ViewChild
   //[...]
 
@@ -292,8 +291,7 @@ export class InputComponent
     else this.text = value.toString();
   }
   setDisabledState?(disabled: boolean): void {
-    this.disabled = disabled;
-    this.changeDetectorRef.markForCheck();
+    this.disabled = disabled;    
   }
   registerOnChange(onChange: any) {
     this.onChange = onChange;

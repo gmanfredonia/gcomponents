@@ -3,7 +3,7 @@
     class="form-check-input"
     type="radio"
     [id]="uniqueIds[i]"
-    [disabled]="disabledValues.indexOf(value) !=-1"
+    [disabled]="disabledValues ? disabledValues.indexOf(value) !== -1 : false"
     [checked]="value === selectedValue"
     [name]="this.ngControl.name"
     [value]="value"
