@@ -1,6 +1,5 @@
 import {
-  AfterContentChecked,
-  AfterViewInit,
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -13,7 +12,11 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  ControlContainer,
+  ControlValueAccessor,
+  NgControl,
+} from '@angular/forms';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { IDropdownItem } from '../../models/idropdown-item.model';
 import { IDropdownStatus } from '../../models/idropdown-status.model';
@@ -30,66 +33,19 @@ import { GHelpersService } from 'ghelpers';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DropdownComponent
-  implements OnInit, AfterViewInit, AfterContentChecked, ControlValueAccessor
+  implements OnInit, AfterViewChecked, ControlValueAccessor
 {
   //Input
-  @Input()
-  get label(): string | undefined {
-    return this._label;
-  }
-  set label(value: string | undefined) {
-    if (this._label !== value) {
-      this._label = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  @Input()
-  get placeholderToggle(): string | undefined {
-    return this._placeholderToggle;
-  }
-  set placeholderToggle(value: string | undefined) {
-    if (this._placeholderToggle !== value) {
-      this._placeholderToggle = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  @Input()
-  get placeholderSearch(): string | undefined {
-    return this._placeholderSearch;
-  }
-  set placeholderSearch(value: string | undefined) {
-    if (this._placeholderSearch !== value) {
-      this._placeholderSearch = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  @Input()
-  get disabled(): boolean {
-    return this._disabled;
-  }
-  set disabled(value: boolean) {
-    if (this._disabled !== value) {
-      this._disabled = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  @Input()
-  get showSearch(): boolean | undefined {
-    return this._showSearch;
-  }
-  set showSearch(value: boolean | undefined) {
-    if (this._showSearch !== value) {
-      this._showSearch = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
+  @Input() label: string | undefined;
+  @Input() placeholderToggle: string | undefined;
+  @Input() placeholderSearch: string | undefined;
+  @Input() showSearch: boolean | undefined;
   @Input()
   get status(): IDropdownStatus {
     return this._status;
   }
   set status(value: IDropdownStatus) {
     this._status = { ...this._status, ...value };
-    this.changeDetectorRef.markForCheck();
   }
   @Input()
   get type(): IDropdownType {
@@ -106,7 +62,6 @@ export class DropdownComponent
     true            false       true
     true            outside     true */
     this._type = { ...this._type, ...value };
-    this.changeDetectorRef.markForCheck();
 
     this.ngZone.onStable.pipe(first()).subscribe(() => {
       this.dropdown.close();
@@ -122,7 +77,7 @@ export class DropdownComponent
       this._items = value;
       this.selectedItems = [];
       this.filtered = this.items;
-      this.changeDetectorRef.markForCheck();
+      //this.changeDetectorRef.markForCheck();
 
       this.searchReset();
       this.ngZone.onStable.pipe(first()).subscribe(() => {
@@ -133,30 +88,12 @@ export class DropdownComponent
       });
     }
   }
-  @Input()
-  get feedback(): string | undefined {
-    return this._feedback;
-  }
-  set feedback(value: string | undefined) {
-    if (this._feedback !== value) {
-      this._feedback = value;
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-  get activeElement(): HTMLElement | undefined {
-    return this.elementRef.nativeElement.querySelector('.dropdown-item.active');
-  }
+  @Input() feedback?: string;
 
   //Private properties
-  private _label?: string;
-  private _placeholderToggle?: string;
-  private _placeholderSearch?: string;
-  private _disabled?: any;
-  private _showSearch?: boolean;
   private _status: IDropdownStatus;
   private _type: IDropdownType;
   private _items!: IDropdownItem[];
-  private _feedback?: string;
   private previousSearchValue: string;
 
   //ViewChild
@@ -170,19 +107,26 @@ export class DropdownComponent
 
   //Lifecycle events
   ngOnInit() {
+    this.ngControl.valueChanges?.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
+    this.controlContainer.valueChanges?.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
     this.items.map((item) => {
       item.enabled ??= true;
     });
     this.filtered = this.items;
   }
-  ngAfterViewInit() {}
-  ngAfterContentChecked(): void {
+  ngAfterViewChecked(): void {
     if (
       this.type.autoClose === false &&
-      !this.disabled &&
       (this.feedback || !this.ngControl?.valid)
-    )
-      this.changeDetectorRef.markForCheck();
+    ) {
+      this.setFeedbackTop();
+      this.setValidationTop();
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   //Constructor
@@ -190,12 +134,14 @@ export class DropdownComponent
     private renderer: Renderer2,
     private elementRef: ElementRef,
     public ngControl: NgControl,
+    private controlContainer: ControlContainer,
     private ngZone: NgZone,
     private changeDetectorRef: ChangeDetectorRef,
     public helpers: GHelpersService,
     @Optional() public localization: GDropdownI18n
   ) {
     this.uniqueId = this.helpers.getUniqueId('dropdown');
+    this.disabled = false;
     this._type = { multiSelect: false, autoClose: true, open: false };
     this._status = {};
     this.previousSearchValue = '';
@@ -203,6 +149,8 @@ export class DropdownComponent
     this.items = [];
     this.filtered = [];
     this.focused = false;
+    this.feedbackTop = 0;
+    this.validationTop = 0;
 
     this.ngControl.valueAccessor = this;
     document.addEventListener('focusin', this.onFocusIn);
@@ -210,9 +158,15 @@ export class DropdownComponent
 
   //Public properties
   uniqueId: string;
+  disabled: boolean;
   selectedItems: IDropdownItem[];
   filtered: IDropdownItem[];
   focused: boolean;
+  feedbackTop: number;
+  validationTop: number;
+  get activeElement(): HTMLElement | undefined {
+    return this.elementRef.nativeElement.querySelector('.dropdown-item.active');
+  }
 
   //Output
   //[...]
@@ -231,11 +185,17 @@ export class DropdownComponent
 
     return result ?? this.placeholderToggle ?? 'Select an item';
   };
-  getFeedbackTop = (): string => {
-    return this.dropdownMenu.nativeElement.clientHeight + 5 + 'px';
+  setFeedbackTop = () => {
+    if (this.disabled) this.feedbackTop = 38;
+    else {
+      this.feedbackTop =
+        (this.dropdownMenu?.nativeElement.clientHeight ?? this.feedbackTop) +
+        42;
+    }
   };
-  getValidatonMessageTop = (): string => {
-    return this.feedback ? '0px' : this.getFeedbackTop();
+  setValidationTop = () => {
+    this.validationTop = this.feedbackTop;
+    if (this.feedback) this.validationTop += 15;
   };
 
   @HostListener('keydown.arrowup', ['$event'])
@@ -297,7 +257,7 @@ export class DropdownComponent
   };
   onFocusIn = (event: FocusEvent) => {
     this.focused = this.elementRef.nativeElement.contains(event.target);
-    this.changeDetectorRef.markForCheck();
+    //this.changeDetectorRef.markForCheck();
   };
   @HostListener('focusout')
   onFocusOut = () => {
@@ -475,8 +435,6 @@ export class DropdownComponent
     if (this.disabled !== disabled) {
       this.disabled = disabled;
       this.filtered = this.items;
-      this.changeDetectorRef.markForCheck();
-
       this.ngZone.onStable.pipe(first()).subscribe(() => {
         if (!this.disabled) {
           this.scrollToActiveElement(true);

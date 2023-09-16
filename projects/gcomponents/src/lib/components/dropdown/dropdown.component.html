@@ -11,7 +11,7 @@
   ngbDropdown
   #dropdown
 >
-  <div class="">
+  <div>
     <ng-container
       *ngIf="type.autoClose === true || type.autoClose === 'outside'"
     >
@@ -185,19 +185,16 @@
     </div>
   </div>
   <div
-    class="ps-1 smaller"
-    [style.position]="type.autoClose === false ? 'relative' : null"
-    [style.margin-top]="type.autoClose === false ? getFeedbackTop() : null"
     *ngIf="type.autoClose === false && feedback"
+    class="ps-1 smaller"
+    style="position: absolute"
+    [style.top.px]="feedbackTop"
   >
     {{ feedback }}
   </div>
-  <div
-    [style.position]="type.autoClose === false ? 'relative' : null"
-    [style.margin-top]="
-      type.autoClose === false ? getValidatonMessageTop() : null
-    "
-  >
-    <app-validation-message [control]="ngControl"></app-validation-message>
-  </div>
+  <app-validation-message
+    [control]="ngControl"
+    [style.position]="type.autoClose === false ? 'absolute' : null"
+    [style.top.px]="type.autoClose === false ? validationTop : null"
+  ></app-validation-message>
 </div>

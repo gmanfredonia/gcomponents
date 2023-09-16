@@ -122,11 +122,11 @@ export class InputComponent
     private helpers: GHelpersService
   ) {
     this.initialized = true;
+    this.disabled = false;
     this._type = 'text';
     this._textualOptions = {};
     this._decimalOptions = { digitGroupSeparator: ',', decimalCharacter: '.' };
-    this._text = '';
-    this.disabled = false;
+    this._text = '';    
 
     this.uniqueId = this.helpers.getUniqueId('input');
     this.ngControl.valueAccessor = this;

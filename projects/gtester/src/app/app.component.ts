@@ -457,7 +457,7 @@ export class AppComponent implements AfterViewInit {
       return 0;
     });
 
-  selectedTab: string = 'tabInput';
+  selectedTab: string = 'tabDropdown';
   formInput: FormGroup;
   inputTypes: IDropdownItem[];
   formTextArea: FormGroup;
@@ -573,13 +573,14 @@ export class AppComponent implements AfterViewInit {
           ],
         },
       ],
-      label: ['example.input.label', [Validators.required]],
+      label: ['example.input.label'],
       placeholder: ['example.input.placeholder'],
       type: ['text'],
       maxLength: [''],
       text: [''],
       feedback: [
-        { value: '', disabled: false }
+        { value: '', disabled: false },
+        { validators: [Validators.required] },
       ],
       disabled: [false],
       toUpperCase: [false],
@@ -593,11 +594,11 @@ export class AppComponent implements AfterViewInit {
     //Tab TextArea
     this.formTextArea = this.fb.group({
       textArea: [{ value: '', disabled: false }, [Validators.required]],
-      label: ['example.textArea.label', [Validators.required]],
+      label: ['example.textArea.label'],
       placeholder: ['example.textArea.placeholder'],
       maxLength: [undefined],
       text: [''],
-      feedback: [''],
+      feedback: ['', [Validators.required]],
       disabled: [false],
       toUpperCase: [false],
       showLengthProgressBar: [false],
@@ -630,7 +631,7 @@ export class AppComponent implements AfterViewInit {
       disabled2: [false],
       checked1: [false],
       checked2: [false],
-    });        
+    });
     //Tab Dropdown
     this.formDropdown = this.fb.group({
       dropdown: [
@@ -643,7 +644,7 @@ export class AppComponent implements AfterViewInit {
       label: ['example.dropdown.label'],
       placeholderToggle: ['example.dropdown.placeholderToggle'],
       placeholderSearch: ['example.dropdown.placeholderSearch'],
-      feedback: [''],
+      feedback: ['', [Validators.required]],
       disabled: [false],
       showSearch: [false],
       type: [
@@ -657,6 +658,10 @@ export class AppComponent implements AfterViewInit {
       statusJumpToFirst: [false],
       statusSelectAll: [false],
       statusCancel: [false],
+    });
+    this.formDropdown.get('disabled')?.valueChanges.subscribe((isDisabled) => {
+      if (isDisabled) this.formDropdown.get('dropdown')?.disable();
+      else this.formDropdown.get('dropdown')?.enable();
     });
     //Tab DatePicker
     this.formDatePicker = this.fb.group({
@@ -796,6 +801,17 @@ export class AppComponent implements AfterViewInit {
 
     Object.keys(this.formRadioBox.controls).forEach((field) => {
       var control = this.formRadioBox.get(field);
+      control?.updateValueAndValidity({ onlySelf: true });
+    });
+  };
+  onSubmitDropdown = () => {
+    if (this.formDropdown.valid) {
+      alert('ok');
+    } else {
+    }
+
+    Object.keys(this.formDropdown.controls).forEach((field) => {
+      var control = this.formDropdown.get(field);
       control?.updateValueAndValidity({ onlySelf: true });
     });
   };

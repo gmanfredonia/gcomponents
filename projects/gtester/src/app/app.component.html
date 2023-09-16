@@ -238,8 +238,7 @@
                             : 'default'
                         )
                       "
-                      [checked]="chkChecked.checked"
-                      [disabled]="chkDisabled.checked"
+                      [checked]="chkChecked.checked"                      
                       formControlName="checkBox"
                       #checkBox
                     ></app-check-box>
@@ -386,11 +385,11 @@
             </div>
           </ng-template>
         </li>
-        <!--   <li [ngbNavItem]="'tabDropdown'">
+          <li [ngbNavItem]="'tabDropdown'">
           <button ngbNavLink>Dropdown</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formDropdown" >
+              <form [formGroup]="formDropdown" (submit)="onSubmitDropdown()" >
                 <div class="row">
                   <div class="col-6">
                     <h3>Component Dropdown</h3>
@@ -403,8 +402,7 @@
                         placeholderSearch="{{
                           txtDropdownPlaceholderSearch.text | translate
                         }}"
-                        formControlName="dropdown"
-                        [disabled]="chkDisabled.checked"
+                        formControlName="dropdown"                        
                         [feedback]="txtFeedback.text"
                         [showSearch]="chkShowSearch.checked"
                         [status]="{
@@ -420,6 +418,7 @@
                         #dropdown
                       ></app-dropdown>
                     </div>
+                    <button class="btn btn-primary">Submit</button>
                     <div class="mt-4">
                       <app-info [form]="formDropdown"></app-info>
                     </div>
@@ -525,7 +524,7 @@
             </div>
           </ng-template>
         </li>
-        <li [ngbNavItem]="'tabDatePicker'">
+       <!--  <li [ngbNavItem]="'tabDatePicker'">
           <button ngbNavLink>DatePicker</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
