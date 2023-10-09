@@ -12,8 +12,7 @@ import { ITableResponse } from '../../models/gtable/itable-response.model';
 export class GTableComponent {
   @ViewChild(GTablePagerComponent) pager!: GTablePagerComponent;
   @ViewChild(GTablePageInfoComponent) pageInfo!: GTablePageInfoComponent;
-
-  constructor() {}
+  
   protected setSorting(event: IColumnSorting, request: ITableRequest) {
     if (event?.multi) {
       const index = request.columnsSorting.findIndex(
@@ -39,18 +38,22 @@ export class GTableComponent {
     }
   }
 
-  protected setPager(request: ITableRequest, count: number) {
+  protected setPager<TRow>(
+    request: ITableRequest,
+    response?: ITableResponse<TRow>
+  ) {    
     this.pager.pageIndex = request.pageIndex;
     this.pager.pageSize = request.pageSize;
-    this.pager.count = count;
+    this.pager.count = response?.filteredCount ?? 0;    
+    this.pager.refreshPager();
   }
   protected setPageInfo<TRow>(
     request: ITableRequest,
-    response: ITableResponse<TRow>
+    response?: ITableResponse<TRow>
   ) {
     this.pageInfo.pageIndex = request.pageIndex;
     this.pageInfo.pageSize = request.pageSize;
-    this.pageInfo.filteredCount = response.filteredCount;
-    this.pageInfo.totalCount = response.totalCount;
+    this.pageInfo.filteredCount = response?.filteredCount ?? 0; 
+    this.pageInfo.totalCount = response?.totalCount ?? 0;
   }
 }

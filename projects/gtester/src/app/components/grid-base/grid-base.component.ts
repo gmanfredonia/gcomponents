@@ -49,8 +49,9 @@ export class GridBaseComponent extends GTableComponent implements OnInit {
 
   private setData() {
     this.productsService.getFilteredProducts(this.request).subscribe((data) => {
+      debugger
       this.response = data;
-      this.setPager(this.request, data.filteredCount);
+      this.setPager(this.request, this.response);
       this.setPageInfo(this.request, this.response);
     });
   }

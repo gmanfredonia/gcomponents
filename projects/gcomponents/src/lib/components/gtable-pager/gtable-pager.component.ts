@@ -6,20 +6,18 @@ import {
   Input,
   Output,
 } from '@angular/core';
-//import { ITableRequestPage } from 'src/app/models/gtable/itable-request-page.model';
 
 @Component({
   selector: 'gtable-pager',
   templateUrl: './gtable-pager.component.html',
   styleUrls: ['./gtable-pager.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GTablePagerComponent {
-  /* @Input() pageIndex: number;
+  @Input() pageIndex: number;
   @Input() pageSize: number;
-  @Input() count: number; */
+  @Input() count: number;
 
-  @Input()
+  /*  @Input()
   public get pageIndex(): number {
     return this._pageIndex;
   }
@@ -46,22 +44,26 @@ export class GTablePagerComponent {
     this._count = v;
     //this.calculatePage();
     this.changeDetectorRef.markForCheck();
-  }
+  } */
 
   @Output() pageChange: EventEmitter<number>;
 
-  private _pageIndex: number;
+  /* private _pageIndex: number;
   private _pageSize: number;
-  private _count: number ;
+  private _count: number ; */
+
+  refreshPager() {
+    this.changeDetectorRef.markForCheck();
+  }
 
   onChangePage(event: number) {
-    this.pageChange.emit(this._pageIndex);
+    this.pageChange.emit(this.pageIndex);
   }
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
-    this._pageIndex = 1;
-    this._pageSize = 10;
-    this._count = 0;
+    this.pageIndex = 1;
+    this.pageSize = 10;
+    this.count = 0;
 
     this.pageChange = new EventEmitter<number>();
   }
