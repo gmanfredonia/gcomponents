@@ -457,7 +457,7 @@ export class AppComponent implements AfterViewInit {
       return 0;
     });
 
-  selectedTab: string = 'tabDropdown';
+  selectedTab: string = 'tabGrid';
   formInput: FormGroup;
   inputTypes: IDropdownItem[];
   formTextArea: FormGroup;
@@ -514,7 +514,8 @@ export class AppComponent implements AfterViewInit {
     private fb: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
     private translateService: TranslateService,
-    public dateFormatter: DateParserFormatterService
+    public dateFormatter: DateParserFormatterService    
+
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
     //translate.setDefaultLang('en');

@@ -238,7 +238,7 @@
                             : 'default'
                         )
                       "
-                      [checked]="chkChecked.checked"                      
+                      [checked]="chkChecked.checked"
                       formControlName="checkBox"
                       #checkBox
                     ></app-check-box>
@@ -385,11 +385,11 @@
             </div>
           </ng-template>
         </li>
-          <li [ngbNavItem]="'tabDropdown'">
+        <li [ngbNavItem]="'tabDropdown'">
           <button ngbNavLink>Dropdown</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formDropdown" (submit)="onSubmitDropdown()" >
+              <form [formGroup]="formDropdown" (submit)="onSubmitDropdown()">
                 <div class="row">
                   <div class="col-6">
                     <h3>Component Dropdown</h3>
@@ -402,7 +402,7 @@
                         placeholderSearch="{{
                           txtDropdownPlaceholderSearch.text | translate
                         }}"
-                        formControlName="dropdown"                        
+                        formControlName="dropdown"
                         [feedback]="txtFeedback.text"
                         [showSearch]="chkShowSearch.checked"
                         [status]="{
@@ -524,7 +524,7 @@
             </div>
           </ng-template>
         </li>
-       <!--  <li [ngbNavItem]="'tabDatePicker'">
+        <!--  <li [ngbNavItem]="'tabDatePicker'">
           <button ngbNavLink>DatePicker</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
@@ -686,13 +686,17 @@
           <ng-template ngbNavContent>
             <div class="container pt-5"></div>
           </ng-template>
-        </li> 
+        </li>-->
         <li [ngbNavItem]="'tabGrid'">
           <button ngbNavLink>Grid</button>
           <ng-template ngbNavContent>
-            <div class="container pt-5"></div>
+            <div class="container pt-5">
+              <!-- <div style="width: 800px"> -->
+                <app-grid-base></app-grid-base>
+             <!--  </div> -->
+            </div>
           </ng-template>
-        </li>-->
+        </li>
       </ul>
       <div [ngbNavOutlet]="nav"></div>
     </div>

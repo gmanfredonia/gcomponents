@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col">
+    <gtable-page-info></gtable-page-info>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <table
+      tableEnhanced
+      [scrollX]="true"
+      (changeSort)="onChangeSorting($any($event))"
+      class="table table-striped"
+    >
+      <thead>
+        <tr>
+          <th column="id" sortable direction="asc" width="100px">Id</th>
+          <th column="name" width="400px" sortable>Name</th>
+          <th width="400px">Description</th>
+          <th width="200px">Dimensions</th>
+          <th column="price" sortable width="100px">Price</th>
+          <th column="category" sortable width="300px">Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of response?.rows">
+          <td>{{ row.id }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ row.dimensions }}</td>
+          <td>{{ row.price }}</td>
+          <td>{{ row.category }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width: 1px;" -->
+</div>
+<div class="row justify-content-between mt-4">
+  <div class="col d-flex">
+    <app-gpage-size
+      labelBefore="Mostra"
+      labelAfter="righe per pagina"
+      (changePageSize)="onChangePageSize($event)"
+    ></app-gpage-size>
+  </div>
+  <div class="col d-flex justify-content-end">
+    <app-gtable-pager (pageChange)="onChangePage($event)"></app-gtable-pager>
+  </div>
+</div>

@@ -257,7 +257,7 @@ export class DropdownComponent
   };
   onFocusIn = (event: FocusEvent) => {
     this.focused = this.elementRef.nativeElement.contains(event.target);
-    //this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.markForCheck();
   };
   @HostListener('focusout')
   onFocusOut = () => {
