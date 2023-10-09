@@ -31,6 +31,5 @@ export * from './lib/services/gdropdown-i18n';
 export * from './lib/services/validation-messages';
 
 export * from './lib/directives/table.directive';
-export * from './lib/directives/gtable/gsortable.directive';
 
 export * from './lib/gcomponents.module';
