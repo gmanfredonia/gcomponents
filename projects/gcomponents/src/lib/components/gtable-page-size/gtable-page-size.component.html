@@ -1,0 +1,9 @@
+<!-- label="{{ 'Type' | translate }}" -->
+<label>{{ labelBefore }} <form [formGroup]="formGroup" class="d-inline-block" style="width: 5rem" >
+    <app-dropdown
+      formControlName="pageSize"
+      [items]="items"
+      (ngModelChange)="onModelChange($event)"
+    ></app-dropdown>
+  </form> {{ labelAfter }}</label>
+<div></div>
