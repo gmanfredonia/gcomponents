@@ -11,7 +11,7 @@ export * from './lib/components/radio-box/radio-box.component';
 export * from './lib/components/text-area/text-area.component';
 export * from './lib/components/time-picker/time-picker.component';
 export * from './lib/components/validation-message/validation-message.component';
-export * from './lib/components/gpage-size/gpage-size.component';
+export * from './lib/components/gtable-page-size/gtable-page-size.component';
 export * from './lib/components/gtable-pager/gtable-pager.component';
 export * from './lib/components/gtable/gtable.component';
 export * from './lib/components/gtable-page-info/gtable-page-info.component';

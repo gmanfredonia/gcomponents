@@ -9,7 +9,7 @@ import {
 //import { ITableRequestPage } from 'src/app/models/gtable/itable-request-page.model';
 
 @Component({
-  selector: 'app-gtable-pager',
+  selector: 'gtable-pager',
   templateUrl: './gtable-pager.component.html',
   styleUrls: ['./gtable-pager.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

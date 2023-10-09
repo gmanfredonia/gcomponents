@@ -38,13 +38,13 @@
 </div>
 <div class="row justify-content-between mt-4">
   <div class="col d-flex">
-    <app-gpage-size
+    <gtable-page-size
       labelBefore="Mostra"
       labelAfter="righe per pagina"
       (changePageSize)="onChangePageSize($event)"
-    ></app-gpage-size>
+    ></gtable-page-size>
   </div>
   <div class="col d-flex justify-content-end">
-    <app-gtable-pager (pageChange)="onChangePage($event)"></app-gtable-pager>
+    <gtable-pager (pageChange)="onChangePage($event)"></gtable-pager>
   </div>
 </div>

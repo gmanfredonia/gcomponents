@@ -17,7 +17,7 @@ import {
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { TableDirective } from './directives/table.directive';
 import { GTablePageInfoComponent } from './components/gtable-page-info/gtable-page-info.component';
-import { GPageSizeComponent } from './components/gpage-size/gpage-size.component';
+import { GTablePageSizeComponent } from './components/gtable-page-size/gtable-page-size.component';
 import { GTablePagerComponent } from './components/gtable-pager/gtable-pager.component';
 import { GTableComponent } from './components/gtable/gtable.component';
 
@@ -31,7 +31,7 @@ import { GTableComponent } from './components/gtable/gtable.component';
     TextAreaComponent,
     TimePickerComponent,
     ValidationMessageComponent,
-    GPageSizeComponent,
+    GTablePageSizeComponent,
     GTablePagerComponent,
     GTableComponent,
     GTablePageInfoComponent,
@@ -47,7 +47,7 @@ import { GTableComponent } from './components/gtable/gtable.component';
     TextAreaComponent,
     TimePickerComponent,
     ValidationMessageComponent,
-    GPageSizeComponent,
+    GTablePageSizeComponent,
     GTablePagerComponent,
     GTableComponent,
     GTablePageInfoComponent,

@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { GTablePagerComponent } from '../gtable-pager/gtable-pager.component';
 import { IColumnSorting } from '../../models/gtable/icolumn-sorting.model';
 import { ITableRequest } from '../../models/gtable/itable-request.model';
@@ -6,7 +6,7 @@ import { GTablePageInfoComponent } from '../gtable-page-info/gtable-page-info.co
 import { ITableResponse } from '../../models/gtable/itable-response.model';
 
 @Component({
-  selector: 'app-gtable',
+  selector: 'gtable',
   template: '',
 })
 export class GTableComponent {
