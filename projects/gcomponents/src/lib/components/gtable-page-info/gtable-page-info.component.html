@@ -1,14 +1,14 @@
-<ng-container
-  *ngIf="
-    pageIndex &&
-    pageSize !== undefined &&
-    filteredCount !== undefined &&
-    totalCount !== undefined
-  "
->
-  Showing {{ (pageIndex - 1) * pageSize }} to {{ pageIndex * pageSize - 1 }} of
-  {{ filteredCount }}
-  <span *ngIf="filteredCount !== totalCount"
-    >(total count:{{ totalCount }})</span
+<ng-container *ngIf="pageData">
+  Showing {{ (pageData.pageIndex - 1) * pageData.pageSize + 1 }} to
+  <span *ngIf="pageData.pageIndex < totalPages">{{
+    pageData.pageIndex * pageData.pageSize
+  }}</span
+  ><span *ngIf="pageData.pageIndex === totalPages">{{
+    pageData.filteredCount
+  }}</span>
+  of
+  {{ pageData.filteredCount }}
+  <span *ngIf="pageData.filteredCount !== pageData.totalCount"
+    >(total count:{{ pageData.totalCount }})</span
   >
 </ng-container>

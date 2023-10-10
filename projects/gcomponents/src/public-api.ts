@@ -26,6 +26,7 @@ export * from './lib/models/gtable/itable-request-filtering.model';
 export * from './lib/models/gtable/itable-request-page.model';
 export * from './lib/models/gtable/itable-request.model';
 export * from './lib/models/gtable/itable-response.model';
+export * from './lib/models/gtable/itable-page-data.model';
 
 export * from './lib/services/gdropdown-i18n';
 export * from './lib/services/validation-messages';

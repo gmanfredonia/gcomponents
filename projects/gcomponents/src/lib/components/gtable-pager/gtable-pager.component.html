@@ -1,10 +1,12 @@
-<ngb-pagination
-  [(page)]="pageIndex"
-  (pageChange)="onChangePage($event)"
-  [pageSize]="pageSize"
-  [collectionSize]="count"
-  [maxSize]="5"
-  [rotate]="true"
-  [ellipses]="false"
-  [boundaryLinks]="true"
-></ngb-pagination>
+<ng-container *ngIf="pageData">
+  <ngb-pagination
+    [(page)]="pageData.pageIndex"
+    (pageChange)="onChangePage($event)"
+    [pageSize]="pageData.pageSize"
+    [collectionSize]="pageData.filteredCount"
+    [maxSize]="5"
+    [rotate]="true"
+    [ellipses]="false"
+    [boundaryLinks]="true"
+  ></ngb-pagination>
+</ng-container>

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col">
-    <gtable-page-info></gtable-page-info>
+    <gtable-page-info [pageData]="pageData$ | async"></gtable-page-info>
   </div>
 </div>
 <div class="row">
@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of response?.rows">
+        <tr *ngFor="let row of (this.response$ | async)?.rows">
           <td>{{ row.id }}</td>
           <td>{{ row.name }}</td>
           <td>{{ row.description }}</td>
@@ -45,6 +45,9 @@
     ></gtable-page-size>
   </div>
   <div class="col d-flex justify-content-end">
-    <gtable-pager (pageChange)="onChangePage($event)"></gtable-pager>
+    <gtable-pager
+      [pageData]="pageData$ | async"
+      (pageChange)="onChangePage($event)"
+    ></gtable-pager>
   </div>
 </div>

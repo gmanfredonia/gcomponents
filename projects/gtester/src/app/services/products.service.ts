@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { AsyncSubject, BehaviorSubject, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
 import { ITableProductsFilter } from '../models/products/itable-products-filter.model';
 import { IProduct } from '../models/products/iproduct.model';
 import { ITableRequestFiltering, ITableResponse } from 'gcomponents';
@@ -9,9 +9,15 @@ import { ITableRequestFiltering, ITableResponse } from 'gcomponents';
   providedIn: 'root',
 })
 export class ProductsService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+    this.filteredProducts$ = this.subject.asObservable().pipe(
+      switchMap((params) => {      
+        return this.getFilteredProducts(params!);
+      })
+    );
+  }
 
-  getProducts(): Observable<IProduct[]> {
+  /* getProducts(): Observable<IProduct[]> {
     return this.httpClient.get<IProduct[]>(
       'https://localhost:7133/api/Products/all',
       {
@@ -21,11 +27,11 @@ export class ProductsService {
         },
       }
     );
-  }
+  } */
 
   getFilteredProducts(
     request: ITableRequestFiltering<ITableProductsFilter>
-  ): Observable<ITableResponse<IProduct>> {
+  ): Observable<ITableResponse<IProduct>> {   
     return this.httpClient.post<ITableResponse<IProduct>>(
       'https://localhost:7133/api/Products/table/filtering',
       request,
@@ -36,5 +42,13 @@ export class ProductsService {
         },
       }
     );
+  }
+
+  private subject = new BehaviorSubject<ITableRequestFiltering<ITableProductsFilter> | undefined>(undefined);
+
+  filteredProducts$!: Observable<ITableResponse<IProduct>>;
+
+  getFilteredProducts2(request: ITableRequestFiltering<ITableProductsFilter>) {    
+    this.subject.next(request);
   }
 }

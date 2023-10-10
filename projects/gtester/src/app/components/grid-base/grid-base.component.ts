@@ -1,13 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import {
   GTableComponent,
   IColumnSorting,
+  ITablePageData,
   ITableRequestFiltering,
   ITableResponse,
 } from 'gcomponents';
 import { IProduct } from '../../models/products/iproduct.model';
 import { ITableProductsFilter } from '../../models/products/itable-products-filter.model';
 import { ProductsService } from '../../services/products.service';
+import { Observable, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-grid-base',
@@ -15,18 +23,38 @@ import { ProductsService } from '../../services/products.service';
   styleUrls: ['./grid-base.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GridBaseComponent extends GTableComponent implements OnInit {
+export class GridBaseComponent
+  extends GTableComponent
+  implements OnInit, AfterViewInit
+{
   request: ITableRequestFiltering<ITableProductsFilter> = {
     pageIndex: 1,
     pageSize: 10,
     filtering: { filter: undefined },
     columnsSorting: [{ column: 'id', direction: 'asc' }],
   };
-  response?: ITableResponse<IProduct>;
+  
+  response$: Observable<ITableResponse<IProduct>>;
+  pageData$: Observable<ITablePageData>;
 
-  constructor(private productsService: ProductsService) {
-    super();        
+  constructor(
+    private productsService: ProductsService    
+  ) {
+    super();
+    this.response$ = this.productsService.filteredProducts$;
+    this.pageData$ = this.response$.pipe(
+      map((item) => {
+        return {
+          pageIndex: this.request.pageIndex,
+          pageSize: this.request.pageSize,
+          filteredCount: item.filteredCount,
+          totalCount: item.totalCount,
+        };
+      })
+    );
+
   }
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.setData();
@@ -46,13 +74,8 @@ export class GridBaseComponent extends GTableComponent implements OnInit {
     this.request.pageSize = event;
     this.setData();
   }
-
+  
   private setData() {
-    this.productsService.getFilteredProducts(this.request).subscribe((data) => {
-      debugger
-      this.response = data;
-      this.setPager(this.request, this.response);
-      this.setPageInfo(this.request, this.response);
-    });
+    this.productsService.getFilteredProducts2(this.request);
   }
 }
