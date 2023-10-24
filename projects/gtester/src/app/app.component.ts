@@ -5,29 +5,28 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
+  FormBuilder,  
   FormGroup,
   Validators,
 } from '@angular/forms';
 import {
-  CheckBoxComponent,
+  GCheckBoxComponent,
   DatePickerComponent,
   DropdownComponent,
   IDecimalOptions,
   IDropdownItem,
   IDropdownStatus,
   IDropdownType,
-  InputComponent,
-  RadioBoxComponent,
-  TextAreaComponent,
-  TimePickerComponent,
-  ValidationMessageComponent,
+  GInputComponent,
+  GRadioBoxComponent,
+  GTextAreaComponent,
+  TimePickerComponent,  
 } from 'gcomponents';
 import { IName } from './models/ilanguage.model';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { DateParserFormatterService } from './services/date-parser-formatter.service';
+import { SpinnerService } from './services/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -471,14 +470,14 @@ export class AppComponent implements AfterViewInit {
   formDatePicker: FormGroup;
   formTimePicker: FormGroup;
 
-  @ViewChild('input') input!: InputComponent;
-  @ViewChild('textArea') textArea!: TextAreaComponent;
-  @ViewChild('checkBox') checkBox!: CheckBoxComponent;
-  @ViewChild('radioBox') radioBox!: RadioBoxComponent;
+  @ViewChild('input') input!: GInputComponent;
+  @ViewChild('textArea') textArea!: GTextAreaComponent;
+  @ViewChild('checkBox') checkBox!: GCheckBoxComponent;
+  @ViewChild('radioBox') radioBox!: GRadioBoxComponent;
   @ViewChild('dropdown') dropdown!: DropdownComponent;
   @ViewChild('datePicker') datePicker!: DatePickerComponent;
   @ViewChild('timePicker') timePicker!: TimePickerComponent;
-  @ViewChild('chkShowMeridian') chkShowMeridian!: CheckBoxComponent;
+  @ViewChild('chkShowMeridian') chkShowMeridian!: GCheckBoxComponent;
 
   changeDropdownType = (value: string): IDropdownType => {
     let result: IDropdownType;
@@ -514,7 +513,8 @@ export class AppComponent implements AfterViewInit {
     private fb: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
     private translateService: TranslateService,
-    public dateFormatter: DateParserFormatterService    
+    public dateFormatter: DateParserFormatterService,    
+    public spinnerService: SpinnerService
 
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -763,11 +763,13 @@ export class AppComponent implements AfterViewInit {
 
     //this.formInput.markAsDirty();
     this.formInput.updateValueAndValidity();
+    //this.formInput.markAllAsTouched();
 
-    /* Object.keys(this.formInput.controls).forEach((field) => {
+   /*   Object.keys(this.formInput.controls).forEach((field) => {
       var control = this.formInput.get(field);
+      control?.markAsDirty();
       control?.updateValueAndValidity();
-    }); */
+    });  */
   };
 
   onSubmitTextArea = () => {

@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { ITablePageData as ITablePageData } from '../../models/gtable/itable-page-data.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'gtable-pager',
@@ -16,8 +15,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GTablePagerComponent implements OnInit {
-  @Input() pageData?: ITablePageData | null;
-  //@Input() pageData?: Observable<ITablePageData>;
+  @Input() pageData?: ITablePageData | null;  
   @Output() pageChange: EventEmitter<number>;
 
   onChangePage(event: number) {
@@ -25,10 +23,7 @@ export class GTablePagerComponent implements OnInit {
   }
 
   constructor() {
-    this.pageChange = new EventEmitter<number>();
-    /* this.pageData$?.subscribe((item) => {
-      this.pageData = item;
-    }); */
+    this.pageChange = new EventEmitter<number>();    
   }
 
   ngOnInit(): void {}

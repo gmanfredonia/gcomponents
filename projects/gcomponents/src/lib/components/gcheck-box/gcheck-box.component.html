@@ -1,0 +1,19 @@
+<div class="form-check" [class.form-switch]="type === 'switch'">
+  <input
+    class="form-check-input"
+    [ngClass]="{
+      'is-invalid':
+        ngControl.invalid && (ngControl.dirty || controlContainer.submitted)
+    }"
+    type="checkbox"
+    [id]="uniqueId"
+    [disabled]="disabled"
+    [checked]="checked"
+    (change)="onChangeInternal($any($event.target).checked)"
+    (blur)="onTouched()"
+  />
+  <label class="form-check-label" [for]="uniqueId" *ngIf="label">
+    {{ label }}
+  </label>
+</div>
+<gvalidation-message [control]="ngControl"></gvalidation-message>

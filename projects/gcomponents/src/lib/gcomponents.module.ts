@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CheckBoxComponent } from './components/check-box/check-box.component';
+import { GCheckBoxComponent } from './components/gcheck-box/gcheck-box.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
-import { InputComponent } from './components/input/input.component';
-import { RadioBoxComponent } from './components/radio-box/radio-box.component';
-import { TextAreaComponent } from './components/text-area/text-area.component';
-import { ValidationMessageComponent } from './components/validation-message/validation-message.component';
+import { GInputComponent } from './components/ginput/ginput.component';
+import { GRadioBoxComponent } from './components/gradio-box/gradio-box.component';
+import { GTextAreaComponent } from './components/gtext-area/gtext-area.component';
+import { GValidationMessageComponent } from './components/gvalidation-messages/gvalidation-messages.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {
@@ -20,38 +20,51 @@ import { GTablePageInfoComponent } from './components/gtable-page-info/gtable-pa
 import { GTablePageSizeComponent } from './components/gtable-page-size/gtable-page-size.component';
 import { GTablePagerComponent } from './components/gtable-pager/gtable-pager.component';
 import { GTableComponent } from './components/gtable/gtable.component';
+import { GDropdownToolsComponent } from './components/gdropdown-tools/gdropdown-tools.component';
+import { GSpinnerComponent } from './components/gspinner/gspinner.component';
+
 
 @NgModule({
   declarations: [
-    CheckBoxComponent,
+    GCheckBoxComponent,
     DatePickerComponent,
     DropdownComponent,
-    InputComponent,
-    RadioBoxComponent,
-    TextAreaComponent,
+    GInputComponent,
+    GRadioBoxComponent,
+    GTextAreaComponent,
     TimePickerComponent,
-    ValidationMessageComponent,
+    GValidationMessageComponent,
     GTablePageSizeComponent,
     GTablePagerComponent,
     GTableComponent,
     GTablePageInfoComponent,
-    TableDirective,        
+    TableDirective,
+    GDropdownToolsComponent,
+    GSpinnerComponent,
   ],
-  imports: [FormsModule, BrowserModule, NgbModule, NgbPaginationModule, ReactiveFormsModule],
+  imports: [
+    FormsModule,
+    BrowserModule,
+    NgbModule,
+    NgbPaginationModule,
+    ReactiveFormsModule,
+  ],
   exports: [
-    CheckBoxComponent,
+    GCheckBoxComponent,
     DatePickerComponent,
     DropdownComponent,
-    InputComponent,
-    RadioBoxComponent,
-    TextAreaComponent,
+    GInputComponent,
+    GRadioBoxComponent,
+    GTextAreaComponent,
     TimePickerComponent,
-    ValidationMessageComponent,
+    GValidationMessageComponent,
     GTablePageSizeComponent,
     GTablePagerComponent,
     GTableComponent,
     GTablePageInfoComponent,
-    TableDirective
+    TableDirective,
+    GDropdownToolsComponent,
+    GSpinnerComponent,
   ],
   providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })

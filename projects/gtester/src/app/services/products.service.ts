@@ -1,6 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AsyncSubject, BehaviorSubject, Observable, ReplaySubject, Subject, switchMap } from 'rxjs';
+import {
+  AsyncSubject,
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  Subject,
+  map,
+  share,
+  switchMap,
+} from 'rxjs';
 import { ITableProductsFilter } from '../models/products/itable-products-filter.model';
 import { IProduct } from '../models/products/iproduct.model';
 import { ITableRequestFiltering, ITableResponse } from 'gcomponents';
@@ -11,10 +20,18 @@ import { ITableRequestFiltering, ITableResponse } from 'gcomponents';
 export class ProductsService {
   constructor(private httpClient: HttpClient) {
     this.filteredProducts$ = this.subject.asObservable().pipe(
-      switchMap((params) => {      
-        return this.getFilteredProducts(params!);
+      switchMap((params) => {       
+        return this.getFilteredProducts(params!);        
       })
     );
+
+    /* this.filteredProducts$ = this.subject.asObservable().pipe(
+      switchMap((params) => {     
+        concat(of({ type: 'start'}) ,
+          this.getFilteredProducts(params!).pipe(map(v => { type: 'finish', v}))
+        )
+      })
+    ); */
   }
 
   /* getProducts(): Observable<IProduct[]> {
@@ -29,9 +46,9 @@ export class ProductsService {
     );
   } */
 
-  getFilteredProducts(
+  private getFilteredProducts(
     request: ITableRequestFiltering<ITableProductsFilter>
-  ): Observable<ITableResponse<IProduct>> {   
+  ): Observable<ITableResponse<IProduct>> {
     return this.httpClient.post<ITableResponse<IProduct>>(
       'https://localhost:7133/api/Products/table/filtering',
       request,
@@ -44,11 +61,13 @@ export class ProductsService {
     );
   }
 
-  private subject = new BehaviorSubject<ITableRequestFiltering<ITableProductsFilter> | undefined>(undefined);
+  private subject = new BehaviorSubject<
+    ITableRequestFiltering<ITableProductsFilter> | undefined
+  >(undefined);
 
   filteredProducts$!: Observable<ITableResponse<IProduct>>;
 
-  getFilteredProducts2(request: ITableRequestFiltering<ITableProductsFilter>) {    
+  getFilteredProducts2(request: ITableRequestFiltering<ITableProductsFilter>) {
     this.subject.next(request);
   }
 }

@@ -13,6 +13,6 @@ export class GTablePageInfoComponent {
   get totalPages(): number {
     return this.pageData
       ? Math.ceil(this.pageData.filteredCount / this.pageData.pageSize)
-      : NaN;
+      : 0;
   }
 }

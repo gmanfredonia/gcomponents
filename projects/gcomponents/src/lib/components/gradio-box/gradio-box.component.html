@@ -1,0 +1,21 @@
+<div class="form-check" *ngFor="let value of values; let i = index">
+  <input
+    class="form-check-input"
+    [ngClass]="{
+      'is-invalid':
+        ngControl.invalid && (ngControl.dirty || controlContainer.submitted)
+    }"
+    type="radio"
+    [id]="uniqueIds[i]"
+    [disabled]="disabledValues ? disabledValues.indexOf(value) !== -1 : false"
+    [checked]="value === selectedValue"
+    [name]="this.ngControl.name"
+    [value]="value"
+    (change)="onChangeInternal($any($event.target).value)"
+    (blur)="onTouched()"
+  />
+  <label class="form-check-label" [for]="uniqueIds[i]" *ngIf="labels">
+    {{ labels[i] }}
+  </label>
+</div>
+<gvalidation-message [control]="ngControl"></gvalidation-message>

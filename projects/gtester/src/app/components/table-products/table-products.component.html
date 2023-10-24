@@ -1,0 +1,72 @@
+<div class="container-fluid p-0">
+  <div class="row align-items-center">
+    <div class="col">
+      <gtable-page-info [pageData]="pageData$ | async"></gtable-page-info>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <button type="button" class="btn btn-primary btn-lg" (click)="modalComponent.open()">
+        <i class="bi bi-plus-circle"></i> Crea
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <table
+      tableEnhanced
+      [scrollX]="true"
+      (changeSort)="onChangeSorting($any($event))"
+      class="table table-striped"
+    >
+      <thead>
+        <tr>
+          <th width="40px"></th>
+          <th column="id" sortable direction="asc" width="100px">Id</th>
+          <th column="name" width="400px" sortable>Name</th>
+          <th width="400px">Description</th>
+          <th width="200px">Dimensions</th>
+          <th column="price" sortable width="100px">Price</th>
+          <th column="category" sortable width="300px">Category</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="(this.response$ | async)?.rows as data">
+        <tr *ngFor="let row of data">
+          <td style="position: sticky; left: 0">
+            <gdropdown-tools imageClass="bi bi-gear-fill"
+              ><button ngbDropdownItem>Edit</button>
+              <button ngbDropdownItem>Remove</button>
+              <div class="dropdown-divider"></div>
+              <button ngbDropdownItem>Details</button></gdropdown-tools
+            >
+          </td>
+          <td>{{ row.id }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ row.dimensions }}</td>
+          <td>{{ row.price }}</td>
+          <td>{{ row.category }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width: 1px;" -->
+</div>
+<div class="row justify-content-between mt-4">
+  <div class="col d-flex">
+    <gtable-page-size
+      labelBefore="Mostra"
+      labelAfter="righe per pagina"
+      (changePageSize)="onChangePageSize($event)"
+    ></gtable-page-size>
+  </div>
+  <div class="col d-flex justify-content-end">
+    <gtable-pager
+      [pageData]="pageData$ | async"
+      (pageChange)="onChangePage($event)"
+    ></gtable-pager>
+  </div>
+</div>
+
+<modal-product></modal-product>

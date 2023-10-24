@@ -192,9 +192,9 @@
   >
     {{ feedback }}
   </div>
-  <app-validation-message
+  <gvalidation-message
     [control]="ngControl"
     [style.position]="type.autoClose === false ? 'absolute' : null"
     [style.top.px]="type.autoClose === false ? validationTop : null"
-  ></app-validation-message>
+  ></gvalidation-message>
 </div>

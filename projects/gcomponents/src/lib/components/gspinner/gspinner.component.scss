@@ -1,0 +1,60 @@
+$spinner-color: orange;
+
+.spinner {
+    display: block;
+}
+
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: .5;
+    z-index: 10000;
+}
+
+.spinner-loading {
+    position: fixed;
+    //display: inline-block;
+    width: 60px;
+    top: calc(50% - 45px);
+    left: calc(50%);
+    z-index: 20100;
+}
+
+.spinner-text {
+    font-size: 10px;
+    width: 60px;
+    position: absolute;
+    top: calc(50% - 22.5px);
+    left: calc(50% - 45px);
+    text-align: center;
+    user-select: none;
+}
+
+.spinner-loading:before {
+    content: "";
+    height: 90px;
+    width: 90px;
+    margin: -15px auto auto -15px;
+    position: absolute;
+    top: calc(50% - 45px);
+    left: calc(50% - 45px);
+    border-width: 10px;
+    border-style: solid;
+    border-color: $spinner-color transparent $spinner-color transparent;
+    border-radius: 100%;
+    animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}

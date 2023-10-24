@@ -1,0 +1,101 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <div class="modal-body">
+      <div class="mb-3">
+        <ginput
+          label="Nome"
+          placeholder="inserisci il nome del prodotto"
+          [textualOptions]="{ showLengthProgressBar: true, maxLength: 50 }"
+          formControlName="name"
+        ></ginput>
+      </div>
+      <div class="mb-3">
+        <gtext-area
+          label="Descrizione"
+          placeholder="inserisci la descrizione del prodotto"
+          [textualOptions]="{ showLengthProgressBar: true, maxLength: 1024 }"
+          formControlName="description"
+        ></gtext-area>
+      </div>
+      <div class="row mb-3">
+        <div class="col">
+          <ginput
+            label="Altezza"
+            placeholder="inserisci l'altezza"
+            type="decimal"
+            formControlName="height"
+          ></ginput>
+        </div>
+        <div class="col">
+          <ginput
+            label="Larghezza"
+            placeholder="inserisci la larghezza"
+            type="decimal"
+            formControlName="width"
+          ></ginput>
+        </div>
+        <div class="col">
+          <ginput
+            label="Profondità"
+            placeholder="inserisci la profondità"
+            type="decimal"
+            formControlName="depth"
+          ></ginput>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-4">
+          <ginput
+            label="Prezzo"
+            placeholder="inserisci il prezzo"
+            type="decimal"
+            formControlName="price"
+          ></ginput>
+        </div>
+      </div>
+      <div class="mb-3">
+        <gradio-box
+        [labels]="[
+          'Uso interno',
+          'Uso esterno'
+        ]"
+        [values]="['I', 'E']"                
+        formControlName="useType"        
+      ></gradio-box>
+      </div>
+      <div class="mb-3">
+        <gcheck-box
+          label="Abilitato"
+          formControlName="enabled"
+        ></gcheck-box>
+      </div>
+      <div class="mb-3">
+        <app-date-picker
+          label="Valido dal"
+          placeholder="inserisci una data"
+          formControlName="validFrom"
+        ></app-date-picker>
+      </div>
+      <div class="mb-3">
+        <app-dropdown
+          label="Categoria"
+          placeholder="inserisci una categoria"
+          formControlName="category"
+        ></app-dropdown>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-dark">Save</button>
+      <!--    (click)="modal.close('Save click')" -->
+    </div>
+  </form>
+</ng-template>

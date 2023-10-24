@@ -7,23 +7,25 @@ import {
   NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import {
   GComponentsModule,
-  GDropdownI18n,
-  TableDirective,
-  ValidationMessages,
+  GDropdownI18n,  
+  GValidationMessages,
 } from 'gcomponents';
 import { DatepickerI18nService } from './services/datepicker-i18n.service';
 import { DateParserFormatterService } from './services/date-parser-formatter.service';
 import { InfoComponent } from './components/info/info.component';
 import { GDropdownI18nService } from './services/gdropdown-i18n.service';
-import { ValidationMessagesService } from './services/validation-messages.service';
-import { GridBaseComponent } from './components/grid-base/grid-base.component';
+import { GValidationMessagesService } from './services/gvalidation-messages.service';
+import { TableProductsComponent } from './components/table-products/table-products.component';
+import { WithLoadingPipe } from './pipes/with-loading.pipe';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
+import { ModalProductComponent } from './components/modal-product/modal-product.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -31,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, InfoComponent, GridBaseComponent],
+  declarations: [AppComponent, InfoComponent, TableProductsComponent, WithLoadingPipe, ModalProductComponent],
   imports: [
     BrowserModule,
     GComponentsModule,
@@ -53,7 +55,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     { provide: GDropdownI18n, useClass: GDropdownI18nService },
     { provide: NgbDatepickerI18n, useClass: DatepickerI18nService },
     { provide: NgbDateParserFormatter, useClass: DateParserFormatterService },
-    { provide: ValidationMessages, useClass: ValidationMessagesService },
+    { provide: GValidationMessages, useClass: GValidationMessagesService },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

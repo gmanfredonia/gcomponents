@@ -29,7 +29,7 @@
                 <div class="row">
                   <div class="col-4">
                     <h3>Component Input</h3>
-                    <app-input
+                    <ginput
                       label="{{ txtLabel.text | translate }}"
                       placeholder="{{ txtPlaceholder.text | translate }}"
                       [type]="
@@ -51,7 +51,7 @@
                       [feedback]="txtFeedback.text"
                       formControlName="input"
                       #input
-                    ></app-input>
+                    ></ginput>
                     <button class="btn btn-primary">Submit</button>
                     <div class="mt-4">
                       <app-info [form]="formInput"></app-info>
@@ -60,18 +60,18 @@
                   <div class="offset-2 col-6">
                     <h3>Options</h3>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Label key"
                         formControlName="label"
                         #txtLabel
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Placeholder key"
                         formControlName="placeholder"
                         #txtPlaceholder
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
                       <app-dropdown
@@ -82,47 +82,47 @@
                       ></app-dropdown>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="MaxLength"
                         type="numeric"
                         formControlName="maxLength"
                         #txtMaxLength
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Text"
                         formControlName="text"
                         #txtText
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Feedback"
                         formControlName="feedback"
                         #txtFeedback
-                      ></app-input>
+                      ></ginput>
                     </div>
-                    <app-check-box
+                    <gcheck-box
                       label="Disabled"
                       formControlName="disabled"
                       #chkDisabled
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="ToUpperCase"
                       formControlName="toUpperCase"
                       #chkToUpperCase
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="ShowLengthProgressBar (works together maxLength property)"
                       formControlName="showLengthProgressBar"
                       #chkShowLengthProgressBar
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="ShowLengthProgressNumeric (works together maxLength property)"
                       formControlName="showLengthProgressNumeric"
                       #chkShowLengthProgressNumeric
-                    ></app-check-box>
+                    ></gcheck-box>
                   </div>
                 </div>
               </form>
@@ -137,7 +137,7 @@
                 <div class="row">
                   <div class="col-4">
                     <h3>Component TextArea</h3>
-                    <app-text-area
+                    <gtext-area
                       label="{{ txtLabel.text | translate }}"
                       placeholder="{{ txtPlaceholder.text | translate }}"
                       [text]="txtText.text"
@@ -151,7 +151,7 @@
                       [feedback]="txtFeedback.text"
                       formControlName="textArea"
                       #textArea
-                    ></app-text-area>
+                    ></gtext-area>
                     <button class="btn btn-primary">Submit</button>
                     <div class="mt-4">
                       <app-info [form]="formTextArea"></app-info>
@@ -160,61 +160,61 @@
                   <div class="offset-2 col-6">
                     <h3>Options</h3>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Label key"
                         formControlName="label"
                         #txtLabel
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Placeholder key"
                         formControlName="placeholder"
                         #txtPlaceholder
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Text"
                         formControlName="text"
                         #txtText
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="MaxLength"
                         type="numeric"
                         formControlName="maxLength"
                         #txtMaxLength
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Feedback"
                         formControlName="feedback"
                         #txtFeedback
-                      ></app-input>
+                      ></ginput>
                     </div>
-                    <app-check-box
+                    <gcheck-box
                       label="Disabled"
                       formControlName="disabled"
                       #chkDisabled
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="ToUpperCase"
                       formControlName="toUpperCase"
                       #chkToUpperCase
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="ShowLengthProgressBar (works together maxLength property)"
                       formControlName="showLengthProgressBar"
                       #chkShowLengthProgressBar
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="ShowLengthProgressNumeric (works together maxLength property)"
                       formControlName="showLengthProgressNumeric"
                       #chkShowLengthProgressNumeric
-                    ></app-check-box>
+                    ></gcheck-box>
                   </div>
                 </div>
               </form>
@@ -229,7 +229,7 @@
                 <div class="row">
                   <div class="col-4">
                     <h3>Component CheckBox</h3>
-                    <app-check-box
+                    <gcheck-box
                       label="{{ txtCheckBoxLabel.text | translate }}"
                       [type]="
                         $any(
@@ -241,7 +241,7 @@
                       [checked]="chkChecked.checked"
                       formControlName="checkBox"
                       #checkBox
-                    ></app-check-box>
+                    ></gcheck-box>
                     <button class="btn btn-primary">Submit</button>
                     <div class="mt-4">
                       <app-info [form]="formCheckBox"></app-info>
@@ -250,11 +250,11 @@
                   <div class="offset-2 col-6">
                     <h3>Options</h3>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Label key"
                         formControlName="label"
                         #txtCheckBoxLabel
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
                       <app-dropdown
@@ -264,16 +264,16 @@
                         #ddType
                       ></app-dropdown>
                     </div>
-                    <app-check-box
+                    <gcheck-box
                       label="Checked"
                       formControlName="checked"
                       #chkChecked
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Disabled"
                       formControlName="disabled"
                       #chkDisabled
-                    ></app-check-box>
+                    ></gcheck-box>
                   </div>
                 </div>
               </form>
@@ -288,7 +288,7 @@
                 <div class="row">
                   <div class="col-4">
                     <h3>Component RadioBox</h3>
-                    <app-radio-box
+                    <gradio-box
                       [labels]="[
                         txtLabel1.text | translate,
                         txtLabel2.text | translate
@@ -307,7 +307,7 @@
                       ]"
                       formControlName="radioBox"
                       #radioBox
-                    ></app-radio-box>
+                    ></gradio-box>
                     <button type="submit" class="btn btn-primary">
                       Submit
                     </button>
@@ -318,53 +318,53 @@
                   <div class="offset-2 col-6">
                     <h3>Options</h3>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Label key 1"
                         formControlName="label1"
                         #txtLabel1
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Label key 2"
                         formControlName="label2"
                         #txtLabel2
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Value 1"
                         formControlName="value1"
                         #txtValue1
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Value 2"
                         formControlName="value2"
                         #txtValue2
-                      ></app-input>
+                      ></ginput>
                     </div>
-                    <app-check-box
+                    <gcheck-box
                       label="Disabled 1"
                       formControlName="disabled1"
                       #chkDisabled1
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Disabled 2"
                       formControlName="disabled2"
                       #chkDisabled2
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Checked 1"
                       formControlName="checked1"
                       #chkChecked1
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Checked 2"
                       formControlName="checked2"
                       #chkChecked2
-                    ></app-check-box>
+                    ></gcheck-box>
                     <button
                       type="button"
                       (click)="formRadioBox.disable()"
@@ -426,25 +426,25 @@
                   <div class="offset-0 col-6">
                     <h3>Options</h3>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Label key"
                         formControlName="label"
                         #txtDropdownLabel
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Placeholder toggle key"
                         formControlName="placeholderToggle"
                         #txtDropdownPlaceholderToggle
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Placeholder search key"
                         formControlName="placeholderSearch"
                         #txtDropdownPlaceholderSearch
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
                       <app-dropdown
@@ -460,60 +460,60 @@
                       ></app-dropdown>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Feedback"
                         formControlName="feedback"
                         #txtFeedback
-                      ></app-input>
+                      ></ginput>
                     </div>
-                    <app-check-box
+                    <gcheck-box
                       label="Disabled"
                       formControlName="disabled"
                       #chkDisabled
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Show Search"
                       formControlName="showSearch"
                       #chkShowSearch
-                    ></app-check-box>
+                    ></gcheck-box>
                     <hr />
                     <br />
                     <h5>Status Bar</h5>
-                    <app-check-box
+                    <gcheck-box
                       label="Show"
                       formControlName="statusShow"
                       #chkStatusShow
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Count"
                       formControlName="statusCount"
                       #chkStatusCount
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Filtered (works together statusShow and statusSearch properties)"
                       formControlName="statusFiltered"
                       #chkStatusFiltered
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Selected (works together statusShow and type=Multi select properties)"
                       formControlName="statusSelected"
                       #chkStatusSelected
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Jump To First"
                       formControlName="statusJumpToFirst"
                       #chkStatusJumpToFirst
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Select All (works together statusShow and type=Multi select properties)"
                       formControlName="statusSelectAll"
                       #chkStatusSelectAll
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Cancel"
                       formControlName="statusCancel"
                       #chkStatusCancel
-                    ></app-check-box>
+                    ></gcheck-box>
                     <hr />
                     <br />
                     <h5>Localization</h5>
@@ -550,43 +550,43 @@
                   <div class="offset-2 col-6">
                     <h3>Options</h3>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Label key"
                         formControlName="label"
                         #txtDatePickerLabel
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Placeholder key"
                         formControlName="placeholder"
                         #txtDatePickerPlaceholder
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Formatted date"
                         formControlName="text"
                         #txtText
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Feedback"
                         formControlName="feedback"
                         #txtFeedback
-                      ></app-input>
+                      ></ginput>
                     </div>
-                    <app-check-box
+                    <gcheck-box
                       label="Disabled"
                       formControlName="disabled"
                       #chkDisabled
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Open"
                       formControlName="open"
                       #chkOpen
-                    ></app-check-box>
+                    ></gcheck-box>
                   </div>
                 </div>
               </form>
@@ -622,53 +622,53 @@
                   <div class="offset-2 col-6">
                     <h3>Options</h3>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Label key"
                         formControlName="label"
                         #txtTimePickerLabel
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Placeholder key"
                         formControlName="placeholder"
                         #txtTimePickerPlaceholder
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Formatted time"
                         formControlName="text"
                         #txtText
-                      ></app-input>
+                      ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-input
+                      <ginput
                         label="Feedback"
                         formControlName="feedback"
                         #txtFeedback
-                      ></app-input>
+                      ></ginput>
                     </div>
-                    <app-check-box
+                    <gcheck-box
                       label="Disabled"
                       formControlName="disabled"
                       #chkDisabled
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Open"
                       formControlName="open"
                       #chkOpen
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Show second"
                       formControlName="showSecond"
                       #chkShowSecond
-                    ></app-check-box>
-                    <app-check-box
+                    ></gcheck-box>
+                    <gcheck-box
                       label="Show meridian"
                       formControlName="showMeridian"
                       #chkShowMeridian
-                    ></app-check-box>
+                    ></gcheck-box>
                   </div>
                 </div>
               </form>
@@ -692,7 +692,7 @@
           <ng-template ngbNavContent>
             <div class="container pt-5">
               <!-- <div style="width: 800px"> -->
-                <app-grid-base></app-grid-base>
+                <table-products></table-products>
              <!--  </div> -->
             </div>
           </ng-template>
@@ -702,3 +702,7 @@
     </div>
   </div>
 </div>
+<div *ngIf="spinnerService.isLoading | async">  
+  <gspinner></gspinner>
+</div>
+

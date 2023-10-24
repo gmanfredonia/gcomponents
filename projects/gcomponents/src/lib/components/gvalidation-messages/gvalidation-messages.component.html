@@ -1,0 +1,7 @@
+<ng-container
+  *ngIf="control?.invalid && (control?.dirty || controlContainer.submitted)"
+>
+  <div *ngFor="let item of getErrors()" class="text-invalid">
+    {{ item }}
+  </div>
+</ng-container>

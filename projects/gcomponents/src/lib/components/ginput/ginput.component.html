@@ -1,0 +1,39 @@
+<label [for]="uniqueId" class="form-label mb-0" *ngIf="label">{{ label }}</label>
+<input
+  [type]="inputType"
+  class="form-control"
+  [ngClass]="{
+    'is-invalid':
+      ngControl.invalid && (ngControl.dirty || controlContainer.submitted)
+  }"
+  [class.text-end]="type === 'numeric' || type === 'decimal'"
+  [id]="uniqueId"
+  [attr.placeholder]="placeholder"
+  [disabled]="disabled"
+  [attr.maxLength]=""
+  [value]="text"
+  (keypress)="onKeypress($event)"
+  (input)="onChangeInternal($event)"
+  (blur)="onTouched()"
+  #input
+/>
+<!-- [attr.maxLength]="this.textualOptions.maxLength" -->
+<div *ngIf="showLengthProgressBar" class="px-1">
+  <ngb-progressbar
+    type="secondary"
+    [value]="(100 * input.value.length) / (this.textualOptions.maxLength ?? 1)"
+    height=".2rem"
+  ></ngb-progressbar>
+</div>
+<div
+  class="smaller d-flex"
+  [class.justify-content-end]="!feedback"
+  [class.justify-content-between]="feedback"
+  *ngIf="feedback || showLengthProgressNumeric"
+>
+  <div class="ps-1" *ngIf="feedback">{{ feedback }}</div>
+  <div class="pe-1" *ngIf="showLengthProgressNumeric">
+    {{ input.value.length }} / {{ this.textualOptions.maxLength }}
+  </div>
+</div>
+<gvalidation-message [control]="ngControl"></gvalidation-message>
