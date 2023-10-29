@@ -5,3 +5,7 @@ textarea::placeholder {
 textarea.form-control {
     box-shadow: none !important;
 }
+
+textarea.form-control:disabled {
+    cursor: not-allowed;
+}

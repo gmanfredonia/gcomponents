@@ -12,7 +12,7 @@
       </select>
     </div>
   </div>
-  <div class="row">
+  <div class="row" style="background-color: #fffafa">
     <div class="col">
       <ul
         ngbNav
@@ -74,12 +74,12 @@
                       ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-dropdown
+                      <gdropdown
                         label="Type"
                         formControlName="type"
                         [items]="inputTypes"
                         #ddType
-                      ></app-dropdown>
+                      ></gdropdown>
                     </div>
                     <div class="mb-3">
                       <ginput
@@ -257,12 +257,12 @@
                       ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-dropdown
+                      <gdropdown
                         label="Type"
                         formControlName="type"
                         [items]="checkBoxTypes"
                         #ddType
-                      ></app-dropdown>
+                      ></gdropdown>
                     </div>
                     <gcheck-box
                       label="Checked"
@@ -394,7 +394,7 @@
                   <div class="col-6">
                     <h3>Component Dropdown</h3>
                     <div style="height: 550px">
-                      <app-dropdown
+                      <gdropdown
                         label="{{ txtDropdownLabel.text | translate }}"
                         placeholderToggle="{{
                           txtDropdownPlaceholderToggle.text | translate
@@ -416,7 +416,7 @@
                         }"
                         [items]="dropdownNames"
                         #dropdown
-                      ></app-dropdown>
+                      ></gdropdown>
                     </div>
                     <button class="btn btn-primary">Submit</button>
                     <div class="mt-4">
@@ -447,7 +447,7 @@
                       ></ginput>
                     </div>
                     <div class="mb-3">
-                      <app-dropdown
+                      <gdropdown
                         label="{{ 'Type' | translate }}"
                         formControlName="type"
                         [items]="dropdownTypes"
@@ -457,7 +457,7 @@
                           )
                         "
                         #dropdownType
-                      ></app-dropdown>
+                      ></gdropdown>
                     </div>
                     <div class="mb-3">
                       <ginput

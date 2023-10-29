@@ -30,7 +30,7 @@
           <th column="category" sortable width="300px">Category</th>
         </tr>
       </thead>
-      <tbody *ngIf="(this.response$ | async)?.rows as data">
+      <tbody *ngIf="(data$ | async)?.rows as data">
         <tr *ngFor="let row of data">
           <td style="position: sticky; left: 0">
             <gdropdown-tools imageClass="bi bi-gear-fill"

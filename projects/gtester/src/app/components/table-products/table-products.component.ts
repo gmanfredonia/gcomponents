@@ -30,13 +30,13 @@ export class TableProductsComponent extends GTableComponent implements OnInit {
     filtering: { filter: undefined },
     columnsSorting: [{ column: 'id', direction: 'asc' }],
   };
-  response$: Observable<ITableResponse<IProduct>>;
+  data$: Observable<ITableResponse<IProduct>>;
   @ViewChild(ModalProductComponent) modalComponent!: ModalProductComponent;
 
   constructor(private productsService: ProductsService) {
     super();
-    this.response$ = this.productsService.filteredProducts$.pipe(share());
-    this.setPageData(this.request, this.response$);
+    this.data$ = this.productsService.dataTableProducts$.pipe(share());
+    this.setPageData(this.request, this.data$);
   }
 
   ngOnInit(): void {
@@ -59,6 +59,6 @@ export class TableProductsComponent extends GTableComponent implements OnInit {
   }
 
   private setData() {
-    this.productsService.getFilteredProducts2(this.request);
+    this.productsService.getTableProducts(this.request);
   }
 }

@@ -1,11 +1,15 @@
 <label
   [attr.for]="disabled ? null : uniqueId"
-  class="form-label"
+  class="form-label mb-0"
   *ngIf="label"
   >{{ label }}</label
 >
 <div
   [class.focused]="focused"
+  [ngClass]="{
+    'is-invalid':
+      ngControl.invalid && (ngControl.dirty || controlContainer.submitted)
+  }"
   [autoClose]="type.autoClose"
   (openChange)="onOpenChange($event)"
   ngbDropdown
@@ -23,7 +27,7 @@
         (blur)="onTouched()"
         ngbDropdownToggle
       >
-        <span>
+        <span class="pe-5">
           {{ getToggleText() }}
         </span>
       </button>
@@ -80,7 +84,7 @@
           class="dropdown-item"
           tabindex="-1"
           [class.active]="item === selectedItems[0]"
-          [class.disabled]="!item.enabled"
+          [class.disabled]="!(item.enabled === undefined || item.enabled)"
           (click)="onChangeInternal(item)"
         >
           {{ item.name }}
@@ -98,7 +102,7 @@
               type="checkbox"
               tabindex="-1"
               [checked]="selectedItems.indexOf(item) !== -1"
-              [disabled]="!item.enabled"
+              [disabled]="!(item.enabled === undefined || item.enabled)"
             />
             <label class="form-check-label">
               {{ item.name }}

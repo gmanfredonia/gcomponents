@@ -12,7 +12,7 @@ import {
 import {
   GCheckBoxComponent,
   DatePickerComponent,
-  DropdownComponent,
+  GDropdownComponent,
   IDecimalOptions,
   IDropdownItem,
   IDropdownStatus,
@@ -474,7 +474,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('textArea') textArea!: GTextAreaComponent;
   @ViewChild('checkBox') checkBox!: GCheckBoxComponent;
   @ViewChild('radioBox') radioBox!: GRadioBoxComponent;
-  @ViewChild('dropdown') dropdown!: DropdownComponent;
+  @ViewChild('dropdown') dropdown!: GDropdownComponent;
   @ViewChild('datePicker') datePicker!: DatePickerComponent;
   @ViewChild('timePicker') timePicker!: TimePickerComponent;
   @ViewChild('chkShowMeridian') chkShowMeridian!: GCheckBoxComponent;
@@ -553,13 +553,13 @@ export class AppComponent implements AfterViewInit {
       });
     });
     this.dropdownTypes = [
-      { id: '1', name: 'Single select / no autoclose / stay opened' },
-      { id: '2', name: 'Single select / autoclose / starts opened' },
-      { id: '3', name: 'Single select / autoclose / starts closed' },
-      { id: '4', name: 'Single select / outside / starts opened' },
-      { id: '5', name: 'Single select / outside / starts closed' },
-      { id: '6', name: 'Multi select / no autoclose / stay opened' },
-      { id: '7', name: 'Multi select / outside / starts opened' },
+      { id: '1', name: 'Single select / no autoclose / stay opened', enabled: true },
+      { id: '2', name: 'Single select / autoclose / starts opened' , enabled: true},
+      { id: '3', name: 'Single select / autoclose / starts closed' , enabled: true},
+      { id: '4', name: 'Single select / outside / starts opened', enabled: true },
+      { id: '5', name: 'Single select / outside / starts closed', enabled: true },
+      { id: '6', name: 'Multi select / no autoclose / stay opened', enabled: true },
+      { id: '7', name: 'Multi select / outside / starts opened', enabled: true },
     ];
 
     //Tab Input
@@ -569,14 +569,14 @@ export class AppComponent implements AfterViewInit {
         {
           validators: [
             Validators.required,
-            Validators.minLength(10),
-            Validators.email,
+            //Validators.minLength(10),
+            //Validators.email,
           ],
         },
       ],
       label: ['example.input.label'],
       placeholder: ['example.input.placeholder'],
-      type: ['text'],
+      type: ['decimal'],
       maxLength: [''],
       text: [''],
       feedback: [

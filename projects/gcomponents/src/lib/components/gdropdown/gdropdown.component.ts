@@ -15,6 +15,7 @@ import {
 import {
   ControlContainer,
   ControlValueAccessor,
+  FormGroupDirective,
   NgControl,
 } from '@angular/forms';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
@@ -27,12 +28,12 @@ import { first } from 'rxjs';
 import { GHelpersService } from 'ghelpers';
 
 @Component({
-  selector: 'app-dropdown',
-  templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss'],
+  selector: 'gdropdown',
+  templateUrl: './gdropdown.component.html',
+  styleUrls: ['./gdropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownComponent
+export class GDropdownComponent
   implements OnInit, AfterViewChecked, ControlValueAccessor
 {
   //Input
@@ -107,15 +108,6 @@ export class DropdownComponent
 
   //Lifecycle events
   ngOnInit() {
-    this.ngControl.valueChanges?.subscribe(() => {
-      this.changeDetectorRef.markForCheck();
-    });
-    this.controlContainer.valueChanges?.subscribe(() => {
-      this.changeDetectorRef.markForCheck();
-    });
-    this.items.map((item) => {
-      item.enabled ??= true;
-    });
     this.filtered = this.items;
   }
   ngAfterViewChecked(): void {
@@ -134,7 +126,7 @@ export class DropdownComponent
     private renderer: Renderer2,
     private elementRef: ElementRef,
     public ngControl: NgControl,
-    private controlContainer: ControlContainer,
+    public controlContainer: FormGroupDirective,
     private ngZone: NgZone,
     private changeDetectorRef: ChangeDetectorRef,
     public helpers: GHelpersService,
@@ -385,6 +377,8 @@ export class DropdownComponent
         this.dropdownItems.nativeElement.scrollTop += scrollValue;
     }
   }
+  private isEnabled = (value?: boolean): boolean => value === undefined || value;
+
   private findFirstEnabled = (
     limit: number,
     direction: 'up' | 'down'
@@ -397,9 +391,11 @@ export class DropdownComponent
       limit = items.length - 1 - limit;
     } else items = this.filtered;
 
-    result = items.findIndex((r, i) => i > limit && r.enabled);
+    result = items.findIndex((r, i) => i > limit && this.isEnabled(r.enabled));
     if (result === -1)
-      result = items.findIndex((r, i) => i <= limit && r.enabled);
+      result = items.findIndex(
+        (r, i) => i <= limit && this.isEnabled(r.enabled)
+      );
 
     if (direction === 'up' && result !== -1)
       result = this.filtered.length - 1 - result;
@@ -427,8 +423,7 @@ export class DropdownComponent
 
     if (ids)
       this.selectedItems = this.items.filter(
-        (r) =>
-          ids?.indexOf(r.id) !== -1 && (r.enabled === undefined || r.enabled)
+        (r) => ids?.indexOf(r.id) !== -1 && this.isEnabled(r.enabled)
       );
   }
   setDisabledState?(disabled: boolean) {

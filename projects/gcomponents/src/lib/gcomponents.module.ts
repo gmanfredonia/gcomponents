@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { GCheckBoxComponent } from './components/gcheck-box/gcheck-box.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
-import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { GDropdownComponent } from './components/gdropdown/gdropdown.component';
 import { GInputComponent } from './components/ginput/ginput.component';
 import { GRadioBoxComponent } from './components/gradio-box/gradio-box.component';
 import { GTextAreaComponent } from './components/gtext-area/gtext-area.component';
@@ -23,12 +23,11 @@ import { GTableComponent } from './components/gtable/gtable.component';
 import { GDropdownToolsComponent } from './components/gdropdown-tools/gdropdown-tools.component';
 import { GSpinnerComponent } from './components/gspinner/gspinner.component';
 
-
 @NgModule({
   declarations: [
     GCheckBoxComponent,
     DatePickerComponent,
-    DropdownComponent,
+    GDropdownComponent,
     GInputComponent,
     GRadioBoxComponent,
     GTextAreaComponent,
@@ -52,7 +51,7 @@ import { GSpinnerComponent } from './components/gspinner/gspinner.component';
   exports: [
     GCheckBoxComponent,
     DatePickerComponent,
-    DropdownComponent,
+    GDropdownComponent,
     GInputComponent,
     GRadioBoxComponent,
     GTextAreaComponent,

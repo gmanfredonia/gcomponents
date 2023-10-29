@@ -64,19 +64,13 @@
       </div>
       <div class="mb-3">
         <gradio-box
-        [labels]="[
-          'Uso interno',
-          'Uso esterno'
-        ]"
-        [values]="['I', 'E']"                
-        formControlName="useType"        
-      ></gradio-box>
+          [labels]="['Uso interno', 'Uso esterno']"
+          [values]="['I', 'E']"
+          formControlName="useType"
+        ></gradio-box>
       </div>
       <div class="mb-3">
-        <gcheck-box
-          label="Abilitato"
-          formControlName="enabled"
-        ></gcheck-box>
+        <gcheck-box label="Abilitato" formControlName="enabled"></gcheck-box>
       </div>
       <div class="mb-3">
         <app-date-picker
@@ -86,11 +80,12 @@
         ></app-date-picker>
       </div>
       <div class="mb-3">
-        <app-dropdown
+        <gdropdown
           label="Categoria"
           placeholder="inserisci una categoria"
           formControlName="category"
-        ></app-dropdown>
+          [items]="(dataCategories$ | async) ?? []"
+        ></gdropdown>
       </div>
     </div>
     <div class="modal-footer">

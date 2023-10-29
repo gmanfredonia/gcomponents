@@ -6,12 +6,12 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import {  
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProductsService } from '../../services/products.service';
+import { Observable, map, share, tap } from 'rxjs';
+import { ICategory } from '../../models/products/icategory.model';
+import { IDropdownItem } from 'gcomponents';
 
 @Component({
   selector: 'modal-product',
@@ -22,26 +22,38 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class ModalProductComponent implements AfterViewInit {
   closeResult = '';
   form: FormGroup;
+  dataCategories$: Observable<IDropdownItem[]>;
 
   @ViewChild('content') content!: TemplateRef<any>;
 
   constructor(
-    private fb: FormBuilder,
-    private modalService: NgbModal,    
+    fb: FormBuilder,
+    private modalService: NgbModal,
+    private productsService: ProductsService
   ) {
     this.form = fb.group({
-      name: ['', [Validators.required, Validators.email]],
+      name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       height: [null],
       width: [null],
       depth: [null],
       price: [null, [Validators.required]],
       useType: [null, [Validators.required]],
-      enabled: [false, [Validators.requiredTrue]],
+      enabled: [false, [Validators.required]],
       validFrom: [null, [Validators.required]],
       category: [null, [Validators.required]],
     });
+
+    this.dataCategories$ = this.productsService.dataCategories$.pipe(
+      map((rows) =>
+        rows.map((row) => {
+          return { id: row.key.toString(), name: row.description, enabled: true };
+        })
+      ),
+      share()
+    );
   }
+
   ngAfterViewInit(): void {}
 
   open() {
@@ -57,7 +69,7 @@ export class ModalProductComponent implements AfterViewInit {
       );
   }
 
-  onSubmit() {    
+  onSubmit() {
     //this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
     console.log(this.form.value);

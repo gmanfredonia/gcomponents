@@ -10,6 +10,7 @@
   --bs-form-invalid-color: #ff5555;
   --bs-form-color: black; // Colore del testo nei form
   --bs-form-bg: white; // Colore di sfondo dei form   */
+
 }
 
 $input-border-color: gray;
@@ -22,7 +23,7 @@ $input-invalid-bg-color: #ffeeee;
 
 $input-border-focus: orange;
 $input-focus: var(--bs-form-color);
-$input-bg-focus: #fff3cd;
+$input-bg-focus: #fff4e0;
 
 $input-darken-border-focus: #F29D00;
 $input-darken-focus: $input-focus;
@@ -33,6 +34,7 @@ $input-invalid-focus: var(--bs-form-invalid-color);
 $input-invalid-bg-focus: #ffcccc;
 
 $input-placeholder-color: gray;
+$input-disabled-bg-color: #dadada;
 $input-disabled-opacity: 0.65;
 
 //Colors
@@ -105,12 +107,6 @@ body {
   font-size: 0.95rem;
 }
 
-.form-control:disabled {
-  background-color: $input-background-disabled-color;
-  opacity: $disabled-opacity;
-  cursor: not-allowed;
-}
-
 //Text
 .text-invalid {
   color: $input-invalid-color;
@@ -127,16 +123,16 @@ textarea.form-control {
   border-color: $input-border-color;
 }
 
-input.form-control.is-invalid,
-textarea.form-control.is-invalid {
-  //color: $input-invalid-color;
-  background-color: $input-invalid-bg-color;
-}
-
 input.form-control:focus,
 textarea.form-control:focus {
   border-color: $input-border-focus;
   background-color: $input-bg-focus;
+}
+
+input.form-control.is-invalid,
+textarea.form-control.is-invalid {
+  //color: $input-invalid-color;
+  background-color: $input-invalid-bg-color;
 }
 
 input.form-control.is-invalid:focus,
@@ -146,6 +142,7 @@ textarea.form-control.is-invalid:focus {
 
 input.form-control:disabled,
 textarea.form-control:disabled {
+  background-color: $input-disabled-bg-color;
   opacity: $input-disabled-opacity;
 }
 
@@ -153,6 +150,11 @@ textarea.form-control:disabled {
 input.form-check-input {
   border-color: $input-border-color;
   background-color: $input-bg-color;
+}
+
+input.form-check-input:focus {
+  border-color: $input-border-focus;
+  background-color: $input-bg-focus;
 }
 
 input.form-check-input.is-invalid {
@@ -165,23 +167,22 @@ input.form-check-input:checked {
   background-color: $input-border-focus;
 }
 
+input.form-check-input:checked:focus {
+  border-color: $input-darken-border-focus;
+  background-color: $input-darken-bg-focus;
+}
+
 input.form-check-input:checked.is-invalid {
   background-color: $input-invalid-bg-color;
 }
 
-input.form-check-input:focus {
-  border-color: $input-border-focus;
-  background-color: $input-bg-focus;
-}
-
-input.form-check-input.is-invalid:focus {
+input.form-check-input:focus.is-invalid {
   border-color: $input-invalid-border-focus;
   background-color: $input-invalid-bg-focus;
 }
 
-input.form-check-input:checked:focus {
-  border-color: $input-darken-border-focus;
-  background-color: $input-darken-bg-focus;
+input.form-check-input:disabled {
+  background-color: $input-disabled-bg-color;
 }
 
 input.form-check-input:disabled,
@@ -189,84 +190,73 @@ input.form-check-input:disabled~.form-check-label {
   opacity: $input-disabled-opacity;
 }
 
-
-
-
 //Dropdown
-app-dropdown {
-  >label.form-label {
-    margin-bottom: 0 !important;
-  }
-
-  button.btn.dropdown-toggle {
-    background-color: $input-background-color;
-    border-color: $input-border-color !important;
-    color: $dropdown-button-color;
-    padding: 0.3rem 0.75rem;
-  }
-
-  //Buttons
-  button.btn.dropdown-toggle:disabled {
-    color: $dropdown-button-color-disabled;
-    background-color: $input-background-disabled-color !important;
-  }
-
-  .dropdown.focused button.btn.dropdown-toggle {
-    background-color: $input-background-focus-color;
-    border-color: $input-border-focus-color !important;
-  }
-
-  &.ng-invalid.ng-dirty button.btn.dropdown-toggle {
-    background-color: $input-background-error-color;
-    border-color: $input-border-error-color !important;
-  }
-
-  &.ng-invalid.ng-dirty .dropdown.focused button.btn.dropdown-toggle {
-    background-color: $input-background-error-focus-color;
-    border-color: $input-border-error-focus-color !important;
+gdropdown {
+  button.dropdown-toggle {
+    border-color: $input-border-color !important;   
+    background-color: $input-bg-color !important;
   }
 
   .dropdown-menu {
-    &.show {
-      background-color: $input-background-color;
-      border-color: $input-border-color !important;
-    }
+    border-color: $input-border-color !important;
+    background-color: $input-bg-color !important;
 
-    input[type="text"].form-control {
-      background-color: $dropdown-input-background-color;
-      border-color: $dropdown-input-border-color;
+    input.form-control {
+      border-color: $input-border-color !important;
+      background-color: $input-bg-color;
     }
 
     .dropdown-status {
       border-color: $input-border-color !important;
     }
+  }
+
+  .dropdown.focused button.dropdown-toggle {
+    border-color: $input-border-focus !important;
+    background-color: $input-bg-focus !important;
   }
 
   .dropdown.focused .dropdown-menu {
-    background-color: $input-background-focus-color;
-    border-color: $input-border-focus-color !important;
+    border-color: $input-border-focus !important;
+    background-color: $input-bg-focus !important;
 
     .dropdown-status {
-      border-color: $input-border-focus-color !important;
+      border-color: $input-border-focus !important;
     }
   }
 
-  &.ng-invalid.ng-dirty .dropdown-menu {
-    background-color: $input-background-error-color;
-    border-color: $input-border-error-color !important;
+  .is-invalid button.dropdown-toggle {
+    border-color: $input-invalid-border-color !important;
+    background-color: $input-invalid-bg-color !important;   
+  }
+
+  .is-invalid .dropdown-menu {
+    border-color: $input-invalid-border-color !important;
+    background-color: $input-invalid-bg-color !important;
 
     .dropdown-status {
-      border-color: $input-border-error-color !important;
+      border-color: $input-invalid-border-color !important;
     }
   }
 
-  &.ng-invalid.ng-dirty .dropdown.focused .dropdown-menu {
-    background-color: $input-background-error-focus-color;
-    border-color: $input-border-error-focus-color !important;
+  .is-invalid.focused button.dropdown-toggle {
+    border-color: $input-invalid-border-focus !important;
+    background-color: $input-invalid-bg-focus !important;
+  }  
+
+  .is-invalid.focused .dropdown-menu {
+    border-color: $input-invalid-border-focus !important;
+    background-color: $input-invalid-bg-focus !important;
 
     .dropdown-status {
-      border-color: $input-border-error-focus-color !important;
+      border-color: $input-invalid-border-focus !important;
     }
+  }
+
+  button.dropdown-toggle:disabled {
+    opacity: $input-disabled-opacity;
+    // color: $dropdown-button-color-disabled;
+    //background-color: $input-background-disabled-color !important; 
   }
 }
 

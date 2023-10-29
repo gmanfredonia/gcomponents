@@ -5,6 +5,7 @@ import {
   ElementRef,
   Input,
   NgZone,
+  OnDestroy,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -15,7 +16,7 @@ import AutoNumeric from 'autonumeric';
 import { GHelpersService } from 'ghelpers';
 import { ITextualOptions } from '../../models/itextual-options.model';
 import { IDecimalOptions } from '../../models/idecimal-options.model';
-import { first } from 'rxjs';
+import { Subject, Subscription, first } from 'rxjs';
 
 @Component({
   selector: 'ginput',
@@ -23,7 +24,9 @@ import { first } from 'rxjs';
   styleUrls: ['./ginput.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GInputComponent implements AfterViewInit, ControlValueAccessor {
+export class GInputComponent
+  implements AfterViewInit, OnDestroy, ControlValueAccessor
+{
   //Input
   @Input() label: string | undefined;
   @Input() placeholder: string | undefined;
@@ -75,9 +78,19 @@ export class GInputComponent implements AfterViewInit, ControlValueAccessor {
     return this._text;
   }
   set text(value: string) {
+    let result: string;
     if (this._text !== value) {
+      this.textChanged = true;
       this._text = value;
-      this.onChangeText();
+      this.filterText();
+
+      if (this.isDecimal) {
+        this.autonumeric!.set(this._text);
+        result = this.autonumeric!.getNumericString() ?? '';
+      } else {
+        result = this._text;
+      }
+      this.onChange(result);
     }
   }
   @Input() feedback: string | undefined;
@@ -90,6 +103,8 @@ export class GInputComponent implements AfterViewInit, ControlValueAccessor {
   private initialized: boolean;
   private autonumeric?: AutoNumeric;
   private expression?: RegExp;
+  private textChanged?: boolean;
+  private subscriptionAutonumeric!: Subscription;
 
   //ViewChild
   //[...]
@@ -97,7 +112,20 @@ export class GInputComponent implements AfterViewInit, ControlValueAccessor {
   //Lifecycle events
   ngAfterViewInit(): void {
     this.initialized = true;
-    this.setType();      
+    this.setType();
+
+    this.subscriptionAutonumeric = this.ngZone.onStable.subscribe(() => {
+      if (this.isDecimal)
+        if (this.textChanged) {
+          this.textChanged = false;
+          this.createAutonumeric(this._text);
+        } else if (!this.autonumeric) {
+          this.createAutonumeric();
+        }
+    });
+  }
+  ngOnDestroy(): void {
+    this.subscriptionAutonumeric.unsubscribe();
   }
 
   //Constructor
@@ -108,7 +136,7 @@ export class GInputComponent implements AfterViewInit, ControlValueAccessor {
     public elementRef: ElementRef,
     helpers: GHelpersService
   ) {
-    this.initialized = true;
+    this.initialized = false;
     this.disabled = false;
     this._type = 'text';
     this._textualOptions = {};
@@ -181,18 +209,9 @@ export class GInputComponent implements AfterViewInit, ControlValueAccessor {
     const element = event.target as HTMLInputElement;
     this._text = element.value;
     this.filterText(element);
-    if (this.isDecimal)
-      this.onChange(this.autonumeric!.getNumericString() ?? '');
-    else this.onChange(this._text);
-  }
-  onChangeText() {
-    this.filterText();
-    if (this.isDecimal) {
-      this.ngZone.onStable.pipe(first()).subscribe(() => {
-        this.createAutonumeric(this._text);
-        this.onChange(this.autonumeric!.getNumericString() ?? '');
-      });
-    } else this.onChange(this._text);
+    this.onChange(
+      this.isDecimal ? this.autonumeric!.getNumericString() ?? '' : this._text
+    );
   }
   createAutonumeric = (text?: string) => {
     if (this.autonumeric) {
@@ -226,9 +245,9 @@ export class GInputComponent implements AfterViewInit, ControlValueAccessor {
         break;
       case 'decimal':
         this.expression = undefined;
-        this.ngZone.onStable.pipe(first()).subscribe(() => {
+        /* this.ngZone.onStable.subscribe(() => {
           this.createAutonumeric();
-        });
+        }); */
         break;
       default:
         this.expression = undefined;

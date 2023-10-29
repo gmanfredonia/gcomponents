@@ -13,61 +13,56 @@ import {
 import { ITableProductsFilter } from '../models/products/itable-products-filter.model';
 import { IProduct } from '../models/products/iproduct.model';
 import { ITableRequestFiltering, ITableResponse } from 'gcomponents';
+import { ICategory } from '../models/products/icategory.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
   constructor(private httpClient: HttpClient) {
-    this.filteredProducts$ = this.subject.asObservable().pipe(
-      switchMap((params) => {       
-        return this.getFilteredProducts(params!);        
+    this.dataTableProducts$ = this.subjectTableProducts.asObservable().pipe(
+      switchMap((params) => {
+        return this.httpClient.post<ITableResponse<IProduct>>(
+          'https://localhost:7133/api/products/table/filtering',
+          params,
+          {
+            headers: {
+              Authorization:
+                'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdtYW5mcmVkb25pYUBpbndpbmQuaXQiLCJ1bmlxdWVfbmFtZSI6InN0cmluZyIsImp0aSI6IjU2ZGY2MmZhLTNlZTMtNDkxZS04YWFiLTI3MTliNWJkZWNjNCIsIm5iZiI6MTY5NTYzNjkzOSwiZXhwIjoxNjk1NjM3MjM5LCJpYXQiOjE2OTU2MzY5MzksImlzcyI6Imh0dHBzOi8vd3d3LmF1LmNvbS8iLCJhdWQiOiJodHRwczovL3d3dy5hdS5jb20vIn0.QGsez_Ao83QhWon0QVPwZsbG4iNqQpQhdLKHgzfiSYNJnslNgqgWOd5imxs6ifF6Cc6eRUgo8wXxj-b29GM9ew',
+            },
+          }
+        );
       })
     );
-
-    /* this.filteredProducts$ = this.subject.asObservable().pipe(
-      switchMap((params) => {     
-        concat(of({ type: 'start'}) ,
-          this.getFilteredProducts(params!).pipe(map(v => { type: 'finish', v}))
-        )
+    this.dataCategories$ = this.subjectCategories.asObservable().pipe(
+      switchMap((key) => {
+        return this.httpClient.get<ICategory[]>(
+          `https://localhost:7133/api/products/categories/enabled/${key ?? ''}`,
+          {
+            headers: {
+              Authorization:
+                'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdtYW5mcmVkb25pYUBpbndpbmQuaXQiLCJ1bmlxdWVfbmFtZSI6InN0cmluZyIsImp0aSI6IjU2ZGY2MmZhLTNlZTMtNDkxZS04YWFiLTI3MTliNWJkZWNjNCIsIm5iZiI6MTY5NTYzNjkzOSwiZXhwIjoxNjk1NjM3MjM5LCJpYXQiOjE2OTU2MzY5MzksImlzcyI6Imh0dHBzOi8vd3d3LmF1LmNvbS8iLCJhdWQiOiJodHRwczovL3d3dy5hdS5jb20vIn0.QGsez_Ao83QhWon0QVPwZsbG4iNqQpQhdLKHgzfiSYNJnslNgqgWOd5imxs6ifF6Cc6eRUgo8wXxj-b29GM9ew',
+            },
+          }
+        );
       })
-    ); */
-  }
-
-  /* getProducts(): Observable<IProduct[]> {
-    return this.httpClient.get<IProduct[]>(
-      'https://localhost:7133/api/Products/all',
-      {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdtYW5mcmVkb25pYUBpbndpbmQuaXQiLCJ1bmlxdWVfbmFtZSI6InN0cmluZyIsImp0aSI6IjU2ZGY2MmZhLTNlZTMtNDkxZS04YWFiLTI3MTliNWJkZWNjNCIsIm5iZiI6MTY5NTYzNjkzOSwiZXhwIjoxNjk1NjM3MjM5LCJpYXQiOjE2OTU2MzY5MzksImlzcyI6Imh0dHBzOi8vd3d3LmF1LmNvbS8iLCJhdWQiOiJodHRwczovL3d3dy5hdS5jb20vIn0.QGsez_Ao83QhWon0QVPwZsbG4iNqQpQhdLKHgzfiSYNJnslNgqgWOd5imxs6ifF6Cc6eRUgo8wXxj-b29GM9ew',
-        },
-      }
-    );
-  } */
-
-  private getFilteredProducts(
-    request: ITableRequestFiltering<ITableProductsFilter>
-  ): Observable<ITableResponse<IProduct>> {
-    return this.httpClient.post<ITableResponse<IProduct>>(
-      'https://localhost:7133/api/Products/table/filtering',
-      request,
-      {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdtYW5mcmVkb25pYUBpbndpbmQuaXQiLCJ1bmlxdWVfbmFtZSI6InN0cmluZyIsImp0aSI6IjU2ZGY2MmZhLTNlZTMtNDkxZS04YWFiLTI3MTliNWJkZWNjNCIsIm5iZiI6MTY5NTYzNjkzOSwiZXhwIjoxNjk1NjM3MjM5LCJpYXQiOjE2OTU2MzY5MzksImlzcyI6Imh0dHBzOi8vd3d3LmF1LmNvbS8iLCJhdWQiOiJodHRwczovL3d3dy5hdS5jb20vIn0.QGsez_Ao83QhWon0QVPwZsbG4iNqQpQhdLKHgzfiSYNJnslNgqgWOd5imxs6ifF6Cc6eRUgo8wXxj-b29GM9ew',
-        },
-      }
     );
   }
 
-  private subject = new BehaviorSubject<
+  private subjectTableProducts = new BehaviorSubject<
     ITableRequestFiltering<ITableProductsFilter> | undefined
   >(undefined);
+  private subjectCategories = new BehaviorSubject<number | undefined>(
+    undefined
+  );
 
-  filteredProducts$!: Observable<ITableResponse<IProduct>>;
+  dataTableProducts$!: Observable<ITableResponse<IProduct>>;
+  dataCategories$!: Observable<ICategory[]>;
 
-  getFilteredProducts2(request: ITableRequestFiltering<ITableProductsFilter>) {
-    this.subject.next(request);
+  getTableProducts(request: ITableRequestFiltering<ITableProductsFilter>) {
+    this.subjectTableProducts.next(request);
+  }
+  getCategories(key?: number) {
+    this.subjectCategories.next(key);
   }
 }

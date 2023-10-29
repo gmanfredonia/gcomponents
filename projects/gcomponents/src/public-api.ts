@@ -5,7 +5,7 @@
 
 export * from './lib/components/gcheck-box/gcheck-box.component';
 export * from './lib/components/date-picker/date-picker.component';
-export * from './lib/components/dropdown/dropdown.component';
+export * from './lib/components/gdropdown/gdropdown.component';
 export * from './lib/components/gdropdown-tools/gdropdown-tools.component';
 export * from './lib/components/ginput/ginput.component';
 export * from './lib/components/gradio-box/gradio-box.component';

@@ -1,4 +1,6 @@
-<label [for]="uniqueId" class="form-label mb-0" *ngIf="label">{{ label }}</label>
+<label [for]="uniqueId" class="form-label mb-0" *ngIf="label">{{
+  label
+}}</label>
 <input
   [type]="inputType"
   class="form-control"
@@ -17,7 +19,6 @@
   (blur)="onTouched()"
   #input
 />
-<!-- [attr.maxLength]="this.textualOptions.maxLength" -->
 <div *ngIf="showLengthProgressBar" class="px-1">
   <ngb-progressbar
     type="secondary"

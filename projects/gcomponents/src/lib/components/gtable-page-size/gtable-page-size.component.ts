@@ -21,7 +21,7 @@ export class GTablePageSizeComponent {
   items: IDropdownItem[];
   constructor(private fb: FormBuilder) {
     this.items = [
-      { id: '10', name: '10' },
+      { id: '10', name: '10', enabled: true },
       { id: '50', name: '50' },
       { id: '100', name: '100' },
     ];
