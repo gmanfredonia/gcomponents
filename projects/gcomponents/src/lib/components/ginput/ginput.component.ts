@@ -78,15 +78,19 @@ export class GInputComponent
     return this._text;
   }
   set text(value: string) {
-    let result: string;
+    let result: string | number | null;
     if (this._text !== value) {
       this.textChanged = true;
       this._text = value;
-      this.filterText();
-
+      this.filterText();      
       if (this.isDecimal) {
-        this.autonumeric!.set(this._text);
-        result = this.autonumeric!.getNumericString() ?? '';
+        this.createAutonumeric(this._text);
+        result = this.autonumeric!.getNumericString();
+        if (result !== null && result !== '')
+          result = parseFloat(result.toString());
+        else {
+          result = null;
+        }
       } else {
         result = this._text;
       }
@@ -206,16 +210,25 @@ export class GInputComponent
       event.preventDefault();
   }
   onChangeInternal(event: any) {
+    let result: string | number | null;
     const element = event.target as HTMLInputElement;
     this._text = element.value;
     this.filterText(element);
-    this.onChange(
-      this.isDecimal ? this.autonumeric!.getNumericString() ?? '' : this._text
-    );
+    if (this.isDecimal) {
+      result = this.autonumeric!.getNumericString();
+      if (result !== null && result !== '')
+        result = parseFloat(result.toString());
+      else {
+        result = null;
+      }
+    } else {
+      result = this._text;
+    }
+    this.onChange(result);
   }
   createAutonumeric = (text?: string) => {
     if (this.autonumeric) {
-      const value = text ?? this.autonumeric.getNumericString();
+      const value = text ?? this.autonumeric!.getNumericString();
       this.autonumeric.update(this._decimalOptions!);
       this.autonumeric.set(value);
     } else
@@ -245,9 +258,6 @@ export class GInputComponent
         break;
       case 'decimal':
         this.expression = undefined;
-        /* this.ngZone.onStable.subscribe(() => {
-          this.createAutonumeric();
-        }); */
         break;
       default:
         this.expression = undefined;
@@ -289,7 +299,7 @@ export class GInputComponent
   //Interfaces
 
   //Interface ControlValueAccessor
-  onChange = (value: string) => {};
+  onChange = (value: string | number | null) => {};
   onTouched = () => {};
 
   writeValue(value: any) {

@@ -21,12 +21,12 @@ import { GHelpersService } from 'ghelpers';
 import { TimeParserFormatter } from '../../services/time-parser-formatter';
 
 @Component({
-  selector: 'app-time-picker',
-  templateUrl: './time-picker.component.html',
-  styleUrls: ['./time-picker.component.scss'],
+  selector: 'gtime-picker',
+  templateUrl: './gtime-picker.component.html',
+  styleUrls: ['./gtime-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimePickerComponent
+export class GTimePickerComponent
   implements OnInit, AfterViewInit, ControlValueAccessor
 {
   //Input

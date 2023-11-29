@@ -1,17 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Importing Bootstrap SCSS file. */
-@import "bootstrap/scss/bootstrap";
-@import "~bootstrap-icons/font/bootstrap-icons.css";
-
-//Colors
+$primary: orange;
+$btn-focus-box-shadow: none;
 :root {
   --bs-form-invalid-border-color: red;
   --bs-form-invalid-color: #ff5555;
   --bs-form-color: black; // Colore del testo nei form
   --bs-form-bg: white; // Colore di sfondo dei form   */
-
 }
+
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 $input-border-color: gray;
 $input-color: var(--bs-form-color);
@@ -111,6 +111,9 @@ body {
 .text-invalid {
   color: $input-invalid-color;
 }
+.smaller {
+  font-size: 0.7rem;
+}
 
 //Input, Textarea
 input.form-control::-webkit-input-placeholder,
@@ -193,7 +196,7 @@ input.form-check-input:disabled~.form-check-label {
 //Dropdown
 gdropdown {
   button.dropdown-toggle {
-    border-color: $input-border-color !important;   
+    border-color: $input-border-color !important;
     background-color: $input-bg-color !important;
   }
 
@@ -227,7 +230,7 @@ gdropdown {
 
   .is-invalid button.dropdown-toggle {
     border-color: $input-invalid-border-color !important;
-    background-color: $input-invalid-bg-color !important;   
+    background-color: $input-invalid-bg-color !important;
   }
 
   .is-invalid .dropdown-menu {
@@ -242,7 +245,7 @@ gdropdown {
   .is-invalid.focused button.dropdown-toggle {
     border-color: $input-invalid-border-focus !important;
     background-color: $input-invalid-bg-focus !important;
-  }  
+  }
 
   .is-invalid.focused .dropdown-menu {
     border-color: $input-invalid-border-focus !important;
@@ -506,17 +509,26 @@ app-time-picker {
 }
 
 //Buttons
-.btn:disabled {
+.btn {
+  --bs-btn-focus-box-shadow: none;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  --bs-btn-color: white;
+  --bs-btn-active-color: #444444;
+  --bs-btn-hover-color: 444444;
+  font-weight: bold;
+}
+
+/* .btn:disabled {
   opacity: $disabled-opacity;
   pointer-events: unset;
   cursor: not-allowed !important;
 }
 
-/* .btn-primary {
-  color: $black-color;
-  background-color: $orange-color;
-  border-color: $orange-color;
-}*/
 .btn-secondary {
   color: $white-color;
   background-color: $gray-color;
@@ -550,8 +562,5 @@ app-time-picker {
     border-color: $gray-darken-color !important;
     box-shadow: none !important;
   }
-}
+} */
 
-.smaller {
-  font-size: 0.7rem;
-}

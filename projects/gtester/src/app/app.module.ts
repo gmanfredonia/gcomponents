@@ -26,6 +26,7 @@ import { TableProductsComponent } from './components/table-products/table-produc
 import { WithLoadingPipe } from './pipes/with-loading.pipe';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { ModalProductComponent } from './components/modal-product/modal-product.component';
+import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -33,7 +34,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, InfoComponent, TableProductsComponent, WithLoadingPipe, ModalProductComponent],
+  declarations: [AppComponent, InfoComponent, TableProductsComponent, WithLoadingPipe, ModalProductComponent, ModalConfirmComponent],
   imports: [
     BrowserModule,
     GComponentsModule,

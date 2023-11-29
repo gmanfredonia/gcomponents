@@ -1,0 +1,26 @@
+<label [for]="uniqueId" class="form-label mb-0" *ngIf="label">{{
+  label
+}}</label>
+<input
+  class="form-control"
+  [ngClass]="{
+    'is-invalid':
+      ngControl.invalid && (ngControl.dirty || controlContainer.submitted)
+  }"
+  [id]="uniqueId"
+  [attr.placeholder]="placeholder"
+  [disabled]="disabled"
+  [value]="text"
+  [ngbTypeahead]="search"  
+  [resultTemplate]="itemTemplate"
+  [inputFormatter]="inputFormatter"
+  (input)="onChangeInternal($event)"
+  (blur)="onTouched()"
+  #input
+/>
+
+
+<div class="smaller d-flex" *ngIf="feedback">
+  <div class="ps-1">{{ feedback }}</div>
+</div>
+<gvalidation-message [control]="ngControl"></gvalidation-message>

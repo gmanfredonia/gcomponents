@@ -4,14 +4,10 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import {
-  FormBuilder,  
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   GCheckBoxComponent,
-  DatePickerComponent,
+  GDatePickerComponent,
   GDropdownComponent,
   IDecimalOptions,
   IDropdownItem,
@@ -20,13 +16,22 @@ import {
   GInputComponent,
   GRadioBoxComponent,
   GTextAreaComponent,
-  TimePickerComponent,  
+  GTimePickerComponent,
 } from 'gcomponents';
 import { IName } from './models/ilanguage.model';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { DateParserFormatterService } from './services/date-parser-formatter.service';
 import { SpinnerService } from './services/spinner.service';
+import {
+  Observable,
+  OperatorFunction,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs';
+import { ProductsService } from './services/products.service';
+import { IProductItem } from './models/products/iproduct-item.model';
 
 @Component({
   selector: 'app-root',
@@ -456,7 +461,7 @@ export class AppComponent implements AfterViewInit {
       return 0;
     });
 
-  selectedTab: string = 'tabGrid';
+  selectedTab: string = 'tabUpload';
   formInput: FormGroup;
   inputTypes: IDropdownItem[];
   formTextArea: FormGroup;
@@ -469,14 +474,15 @@ export class AppComponent implements AfterViewInit {
   dropdownTypes: IDropdownItem[];
   formDatePicker: FormGroup;
   formTimePicker: FormGroup;
+  formTypeahead: FormGroup;
 
   @ViewChild('input') input!: GInputComponent;
   @ViewChild('textArea') textArea!: GTextAreaComponent;
   @ViewChild('checkBox') checkBox!: GCheckBoxComponent;
   @ViewChild('radioBox') radioBox!: GRadioBoxComponent;
   @ViewChild('dropdown') dropdown!: GDropdownComponent;
-  @ViewChild('datePicker') datePicker!: DatePickerComponent;
-  @ViewChild('timePicker') timePicker!: TimePickerComponent;
+  @ViewChild('datePicker') datePicker!: GDatePickerComponent;
+  @ViewChild('timePicker') timePicker!: GTimePickerComponent;
   @ViewChild('chkShowMeridian') chkShowMeridian!: GCheckBoxComponent;
 
   changeDropdownType = (value: string): IDropdownType => {
@@ -513,9 +519,9 @@ export class AppComponent implements AfterViewInit {
     private fb: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
     private translateService: TranslateService,
-    public dateFormatter: DateParserFormatterService,    
-    public spinnerService: SpinnerService
-
+    public dateFormatter: DateParserFormatterService,
+    public spinnerService: SpinnerService,
+    private productService: ProductsService
   ) {
     // this language will be used as a fallback when a translation isn't found in the current language
     //translate.setDefaultLang('en');
@@ -553,13 +559,41 @@ export class AppComponent implements AfterViewInit {
       });
     });
     this.dropdownTypes = [
-      { id: '1', name: 'Single select / no autoclose / stay opened', enabled: true },
-      { id: '2', name: 'Single select / autoclose / starts opened' , enabled: true},
-      { id: '3', name: 'Single select / autoclose / starts closed' , enabled: true},
-      { id: '4', name: 'Single select / outside / starts opened', enabled: true },
-      { id: '5', name: 'Single select / outside / starts closed', enabled: true },
-      { id: '6', name: 'Multi select / no autoclose / stay opened', enabled: true },
-      { id: '7', name: 'Multi select / outside / starts opened', enabled: true },
+      {
+        id: '1',
+        name: 'Single select / no autoclose / stay opened',
+        enabled: true,
+      },
+      {
+        id: '2',
+        name: 'Single select / autoclose / starts opened',
+        enabled: true,
+      },
+      {
+        id: '3',
+        name: 'Single select / autoclose / starts closed',
+        enabled: true,
+      },
+      {
+        id: '4',
+        name: 'Single select / outside / starts opened',
+        enabled: true,
+      },
+      {
+        id: '5',
+        name: 'Single select / outside / starts closed',
+        enabled: true,
+      },
+      {
+        id: '6',
+        name: 'Multi select / no autoclose / stay opened',
+        enabled: true,
+      },
+      {
+        id: '7',
+        name: 'Multi select / outside / starts opened',
+        enabled: true,
+      },
     ];
 
     //Tab Input
@@ -679,7 +713,6 @@ export class AppComponent implements AfterViewInit {
     this.formDatePicker.controls['text'].valueChanges.subscribe((value) => {
       this.datePicker.baseDate = this.dateFormatter.parse(value);
     });
-
     //Tab TimePicker
     this.formTimePicker = this.fb.group({
       timePicker: [{ disabled: false }, [Validators.required]],
@@ -691,6 +724,27 @@ export class AppComponent implements AfterViewInit {
       open: [false],
       showSecond: [false],
       showMeridian: [false],
+    });
+    //Tab TypeAHead
+    this.formTypeahead = this.fb.group({
+      typeahead: [
+        { value: '', disabled: false },
+        {
+          validators: [
+            Validators.required,
+            //Validators.minLength(10),
+            //Validators.email,
+          ],
+        },
+      ],
+      label: ['example.typeahead.label'],
+      placeholder: ['example.typeahead.placeholder'],
+      text: [''],
+      feedback: [
+        { value: '', disabled: false },
+        { validators: [Validators.required] },
+      ],
+      disabled: [false],
     });
 
     /*  this.formTimePicker.controls['disabled'].valueChanges.subscribe((value) => {
@@ -765,7 +819,7 @@ export class AppComponent implements AfterViewInit {
     this.formInput.updateValueAndValidity();
     //this.formInput.markAllAsTouched();
 
-   /*   Object.keys(this.formInput.controls).forEach((field) => {
+    /*   Object.keys(this.formInput.controls).forEach((field) => {
       var control = this.formInput.get(field);
       control?.markAsDirty();
       control?.updateValueAndValidity();
@@ -819,55 +873,34 @@ export class AppComponent implements AfterViewInit {
     });
   };
 
-  /* onSubmit = () => {
-    console.log(this.form.value);
-    console.log(this.form.get('languageDDL')?.value.id)
-  }
-  onSubmit2 = (form: NgForm) => {
-    console.log(form.value);
-  } */
-  /* onEnable = () => {
-    let formControl = this.form.get('languageDDL');
-    if (formControl?.enabled)
-      formControl.disable();
-    else
-      formControl?.enable();
-    //this.changeDetectorRef.detectChanges();
-  }; */
-  /* onChangeLabel = () => {
-    //this.dropdown.showSearch = !this.dropdown.showSearch;
+  onSubmitTypeahead = () => {
+    if (this.formTypeahead.valid) {
+      alert('ok');
+    } else {
+    }
 
+    //this.formInput.markAsDirty();
+    this.formTypeahead.updateValueAndValidity();
+    //this.formInput.markAllAsTouched();
 
-    this.dropdown.label = 'ciao!';
+    /*   Object.keys(this.formInput.controls).forEach((field) => {
+      var control = this.formInput.get(field);
+      control?.markAsDirty();
+      control?.updateValueAndValidity();
+    });  */
+  };
 
+  typeaheadSearch = (text$: Observable<string>) => {
+    //debugger;
+    var v = text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      //tap(() => (this.searching = true)),
+      switchMap((term) => this.productService.searchProducts(term))
+      //tap(() => (this.searching = false)),
+    );
 
-    //let v = this.languagesDDL.find(r => r.id === '135')!;
-    //v.name= 'Gianluca Manfredonia';
-
-   //  this.languagesDDL = [];
-//
-   // this.languages.forEach((itemL, index) => {
-   //   this.languagesDDL.push({ id: itemL.id.toString(), name: 'Gian', enabled: true });
-   // });
-
-    let v = [...this.languagesDDL];
-    v[0].enabled = !v[0].enabled;
-    this.languagesDDL = v;
-
-    //this.languagesDDL[0].enabled = false;
-
-    //this.dropdown.open();
-
-    //this.dropdown.autoClose = !this.dropdown.autoClose;
-
-  } */
-  /* onTimePickerEnable = () => {
-    this.timepicker.disabled = !this.timepicker.disabled;
-  }
-  onTimepickerLabelChange = () => { }
-  onTimepickerPlaceholderChange = () => { }
-
-
-  onTimepickerShowSecond = () => { }
-  onTimepickerShowMeridian = () => { } */
+    return v;
+  };
+  typeaheadInputFormatter = (item: IProductItem) => item.description;
 }

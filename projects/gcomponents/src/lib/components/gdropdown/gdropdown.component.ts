@@ -215,6 +215,34 @@ export class GDropdownComponent
       this.scrollToActiveElement();
     }
   }
+ /*  @HostListener('keydown.return', ['$event'])
+  onItemReturn(event: KeyboardEvent) {
+    let indexActive: number;
+    let activeElement: HTMLElement | undefined;
+
+    //  event.preventDefault();
+
+    if (this.activeElement) {
+      this.onChangeInternal(this.filtered.find());
+    }
+
+    if (this.filtered.length > 0) {
+      indexActive = -1;
+
+      activeElement = this.activeElement;
+      if (activeElement)
+        indexActive = [
+          ...this.elementRef.nativeElement.querySelectorAll('.dropdown-item'),
+        ].indexOf(activeElement);
+      indexActive = this.findFirstEnabled(
+        indexActive,
+        event.key === 'ArrowUp' ? 'up' : 'down'
+      );
+
+      this.setActiveElement(indexActive);
+      this.scrollToActiveElement();
+    }
+  } */
   onSearchKeyup = (event: KeyboardEvent) => {
     let value = (event.target as HTMLInputElement).value;
     let index: number;
@@ -280,7 +308,7 @@ export class GDropdownComponent
         if (index === -1) this.selectedItems.push(item);
         else this.selectedItems.splice(index, 0, item);
       } else this.selectedItems.splice(indexSelected, 1);
-      this.onChange(this.selectedItems);
+      this.onChange(this.selectedItems.map((item) => item.id));
 
       this.searchFocus();
       this.ngZone.onStable.pipe(first()).subscribe(() => {
@@ -290,7 +318,7 @@ export class GDropdownComponent
     } else {
       this.selectedItems = [item];
       this.filtered = this.items;
-      this.onChange(item);
+      this.onChange(item.id);
 
       this.searchReset();
       this.searchFocus();
@@ -315,7 +343,7 @@ export class GDropdownComponent
   };
   onSelectAll = () => {
     this.selectedItems = [...this.filtered];
-    this.onChange(this.selectedItems);
+    this.onChange(this.selectedItems.map((item) => item.id));
 
     this.searchFocus();
     this.ngZone.onStable.pipe(first()).subscribe(() => {
@@ -326,7 +354,7 @@ export class GDropdownComponent
   onCancel = () => {
     this.selectedItems = [];
     if (!this.type.multiSelect) this.filtered = this.items;
-    this.onChange(this.selectedItems);
+    this.onChange(this.selectedItems.map((item) => item.id));
 
     if (!this.type.multiSelect) this.searchReset();
     this.searchFocus();
@@ -377,7 +405,8 @@ export class GDropdownComponent
         this.dropdownItems.nativeElement.scrollTop += scrollValue;
     }
   }
-  private isEnabled = (value?: boolean): boolean => value === undefined || value;
+  private isEnabled = (value?: boolean): boolean =>
+    value === undefined || value;
 
   private findFirstEnabled = (
     limit: number,

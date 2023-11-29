@@ -8,14 +8,15 @@
       (click)="modal.dismiss('Cross click')"
     ></button>
   </div>
-  <form [formGroup]="form" (submit)="onSubmit()">
+  <form [formGroup]="form" (submit)="onSubmit()" gAutoFocus>
     <div class="modal-body">
+      <input type="hidden" formControlName="id" />
       <div class="mb-3">
         <ginput
           label="Nome"
           placeholder="inserisci il nome del prodotto"
           [textualOptions]="{ showLengthProgressBar: true, maxLength: 50 }"
-          formControlName="name"
+          formControlName="name"       
         ></ginput>
       </div>
       <div class="mb-3">
@@ -73,19 +74,20 @@
         <gcheck-box label="Abilitato" formControlName="enabled"></gcheck-box>
       </div>
       <div class="mb-3">
-        <app-date-picker
-          label="Valido dal"
-          placeholder="inserisci una data"
-          formControlName="validFrom"
-        ></app-date-picker>
-      </div>
-      <div class="mb-3">
         <gdropdown
           label="Categoria"
           placeholder="inserisci una categoria"
-          formControlName="category"
-          [items]="(dataCategories$ | async) ?? []"
+          formControlName="categoryId"
+          [items]="dataCategories"
         ></gdropdown>
+        <!-- [items]="(dataCategories$ | async) ?? []" -->
+      </div>
+      <div class="mb-3">
+        <gdate-picker
+          label="Valido dal"
+          placeholder="inserisci una data"
+          formControlName="validFrom"
+        ></gdate-picker>
       </div>
     </div>
     <div class="modal-footer">

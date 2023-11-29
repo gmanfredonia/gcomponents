@@ -80,7 +80,27 @@
       font-weight: bold;
     }
 
-    .dropdown-item {  
+    .dropdown-item { 
+      input.form-check-input {
+        width: 1.3rem;
+        height: 1.3rem;
+        margin-top: 0.08rem;
+        box-shadow: none !important;
+      }
+
+      input.form-check-input~.form-check-label {
+        margin-left: 0.5rem;
+      }
+      
+      input.form-check-input:disabled {
+        pointer-events: unset;
+        cursor: not-allowed;
+      }
+      
+      input.form-check-input:disabled~.form-check-label {
+        user-select: none;
+      }
+      
       &.active,
       &:active {
         background-color: gray !important;

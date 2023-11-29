@@ -12,7 +12,7 @@
       </select>
     </div>
   </div>
-  <div class="row" style="background-color: #fffafa">
+  <div class="row">
     <div class="col">
       <ul
         ngbNav
@@ -524,15 +524,15 @@
             </div>
           </ng-template>
         </li>
-        <!--  <li [ngbNavItem]="'tabDatePicker'">
+        <li [ngbNavItem]="'tabDatePicker'">
           <button ngbNavLink>DatePicker</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formDatePicker" >
+              <form [formGroup]="formDatePicker">
                 <div class="row">
                   <div class="col-4">
                     <h3>Component DatePicker</h3>
-                    <app-date-picker
+                    <gdate-picker
                       label="{{ txtDatePickerLabel.text | translate }}"
                       placeholder="{{
                         txtDatePickerPlaceholder.text | translate
@@ -542,7 +542,7 @@
                       [open]="chkOpen.checked"
                       formControlName="datePicker"
                       #datePicker
-                    ></app-date-picker>
+                    ></gdate-picker>
                     <div class="mt-4">
                       <app-info [form]="formDatePicker"></app-info>
                     </div>
@@ -597,11 +597,11 @@
           <button ngbNavLink>TimePicker</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
-              <form [formGroup]="formTimePicker" >
+              <form [formGroup]="formTimePicker">
                 <div class="row">
                   <div class="col-4">
                     <h3>Component TimePicker</h3>
-                    <app-time-picker
+                    <gtime-picker
                       label="{{ txtTimePickerLabel.text | translate }}"
                       placeholder="{{
                         txtTimePickerPlaceholder.text | translate
@@ -614,7 +614,7 @@
                       [showMeridian]="chkShowMeridian.checked"
                       formControlName="timePicker"
                       #timePicker
-                    ></app-time-picker>
+                    ></gtime-picker>
                     <div class="mt-4">
                       <app-info [form]="formTimePicker"></app-info>
                     </div>
@@ -677,23 +677,88 @@
         </li>
         <li [ngbNavItem]="'tabTypeahead'">
           <button ngbNavLink>Typeahead</button>
+          <ng-template #productItem let-item="result" let-term="term">
+            <!-- <img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px" /> -->
+            <ngb-highlight [result]="item.description" [term]="term"></ngb-highlight>            
+          </ng-template>
           <ng-template ngbNavContent>
-            <div class="container pt-5"></div>
+            <div class="container pt-5">
+              <form [formGroup]="formTypeahead" (submit)="onSubmitTypeahead()">
+                <div class="row">
+                  <div class="col-4">
+                    <h3>Component TypeAHead</h3>
+                    <gtype-ahead
+                      label="{{ txtLabel.text | translate }}"
+                      placeholder="{{ txtPlaceholder.text | translate }}"
+                      [text]="txtText.text"
+                      [feedback]="txtFeedback.text"
+                      formControlName="typeahead"
+                      [search]="typeaheadSearch"                      
+                      [itemTemplate]="productItem"
+                      [inputFormatter]="typeaheadInputFormatter"
+                      #typeahead
+                    ></gtype-ahead>
+                    <button class="btn btn-primary">Submit</button>
+                    <div class="mt-4">
+                      <app-info [form]="formTypeahead"></app-info>
+                    </div>
+                  </div>
+                  <div class="offset-2 col-6">
+                    <h3>Options</h3>
+                    <div class="mb-3">
+                      <ginput
+                        label="Label key"
+                        formControlName="label"
+                        #txtLabel
+                      ></ginput>
+                    </div>
+                    <div class="mb-3">
+                      <ginput
+                        label="Placeholder key"
+                        formControlName="placeholder"
+                        #txtPlaceholder
+                      ></ginput>
+                    </div>
+                    <div class="mb-3">
+                      <ginput
+                        label="Text"
+                        formControlName="text"
+                        #txtText
+                      ></ginput>
+                    </div>
+                    <div class="mb-3">
+                      <ginput
+                        label="Feedback"
+                        formControlName="feedback"
+                        #txtFeedback
+                      ></ginput>
+                    </div>
+                    <gcheck-box
+                      label="Disabled"
+                      formControlName="disabled"
+                      #chkDisabled
+                    ></gcheck-box>
+                  </div>
+                </div>
+              </form>
+            </div>
           </ng-template>
         </li>
         <li [ngbNavItem]="'tabUpload'">
           <button ngbNavLink>Upload</button>
           <ng-template ngbNavContent>
-            <div class="container pt-5"></div>
+            <div class="container pt-5">
+              <gupload address="https://localhost:7133/api/helpers/upload"></gupload>
+            </div>
           </ng-template>
-        </li>-->
+        </li>
         <li [ngbNavItem]="'tabGrid'">
           <button ngbNavLink>Grid</button>
           <ng-template ngbNavContent>
             <div class="container pt-5">
               <!-- <div style="width: 800px"> -->
-                <table-products></table-products>
-             <!--  </div> -->
+              <table-products></table-products>
+              <!--  </div> -->
             </div>
           </ng-template>
         </li>
@@ -702,7 +767,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="spinnerService.isLoading | async">  
+<div *ngIf="spinnerService.isLoading | async">
   <gspinner></gspinner>
 </div>
-

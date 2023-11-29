@@ -11,7 +11,7 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { first } from 'rxjs';
+import { debounceTime, first, last } from 'rxjs';
 import {
   IColumnSorting,
   SortDirection,
@@ -31,27 +31,11 @@ const rotate: { [key in SortDirection]: SortDirection } = {
      '(click)': 'rotate($event)', 
   }, */
 })
-export class TableDirective implements OnInit, AfterViewInit, OnDestroy {
-  //   @Input() width?: number;
+export class TableDirective implements OnInit, OnDestroy {
   @Input() scrollX?: boolean;
   @Input() scrollY?: number;
-  //@ViewChildren('th') tableHeaders!: QueryList<ElementRef>;
-  //@ContentChildren('th') thElements!: QueryList<ElementRef>;
 
   @Output() changeSort = new EventEmitter<IColumnSorting>();
-
-  /* rotate(event: KeyboardEvent) {
-    debugger;
-        let sorting: IColumnSorting;
-
-    this.direction = rotate[this.direction];
-
-    sorting = {
-      multi: event.shiftKey,
-      column: this.column,
-      direction: this.direction,
-    };   
-  } */
 
   private tableWrapper!: ElementRef<HTMLElement>;
   private headerScroll!: ElementRef<HTMLElement>;
@@ -60,15 +44,14 @@ export class TableDirective implements OnInit, AfterViewInit, OnDestroy {
   private body!: ElementRef<HTMLElement>;
 
   private scrollListener: (event: any) => void;
-  //private sortListener: (event: any) => void;
+  private subscriptionHeader: any;
+  private subscriptionHeaderWidth: any;
 
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private ngZone: NgZone
   ) {
-
-
     // Crea la funzione di gestione dell'evento scroll
     this.scrollListener = (event: any) => {
       //solo se orizzintale deve eseguire il codice
@@ -77,19 +60,6 @@ export class TableDirective implements OnInit, AfterViewInit, OnDestroy {
 
       htmlHeaderScroll.scrollLeft = target.scrollLeft;
     };
-    // Crea la funzione di gestione dell'evento sort
-    /* this.sortListener = (event: KeyboardEvent) => {
-      debugger;
-      const target = event.target as HTMLElement;
-      const sortDirection = target.getAttribute('direction') as SortDirection;
-      const column = target.getAttribute('column') ?? '';
-      this.renderer.setAttribute(target, 'direction', rotate[sortDirection]);
-      this.changeSort.emit({
-        multi: event.shiftKey,
-        column: column,
-        direction: rotate[sortDirection],
-      });
-    }; */
   }
 
   ngOnDestroy(): void {
@@ -98,14 +68,9 @@ export class TableDirective implements OnInit, AfterViewInit, OnDestroy {
       'scroll',
       this.scrollListener
     );
-    // Rimuovi l'ascoltatore di evento sort quando la direttiva viene distrutta
-    /* (this.header as unknown as HTMLElement)
-      .querySelectorAll('[sortable]')
-      .forEach((element) =>
-        element.removeEventListener('click', this.sortListener)
-      ); */
+    this.subscriptionHeader?.unsubscribe();
+    this.subscriptionHeaderWidth?.unsubscribe();
   }
-  ngAfterViewInit(): void {}
 
   ngOnInit() {
     const nativeElement = this.elementRef.nativeElement; //this is the element to wrap
@@ -161,97 +126,94 @@ export class TableDirective implements OnInit, AfterViewInit, OnDestroy {
     this.renderer.appendChild(this.bodyScroll, this.body);
     this.renderer.appendChild(this.tableWrapper, this.bodyScroll);
 
-    //When table rendered, set width for header scrollable columns
-    this.ngZone.onStable.pipe(first()).subscribe(() => {
-      let totalWidth = 0;
-      let totalHeight = 0;
+    //When table is rendered, set attributes for header columns
+    this.subscriptionHeader = this.ngZone.onStable
+      .pipe(first())
+      .subscribe(() => {
+        let totalWidth = 0;
+        let totalHeight = 0;
 
-      if (this.scrollX) {
+        if (this.scrollX) {
+          const thElements: HTMLElement[] =
+            this.elementRef.nativeElement.querySelectorAll('thead > tr > th');
+
+          //Take total width
+          thElements.forEach((header: HTMLElement, index: number) => {
+            let cW = parseInt(header.getAttribute('width') ?? '');
+            cW = isNaN(cW) ? header.clientWidth : cW;
+            totalWidth += cW;
+          });
+        }
+
+        if (this.scrollY) {
+          const trElements: HTMLElement[] =
+            this.elementRef.nativeElement.querySelectorAll('tbody > tr');
+
+          //Take total height
+          trElements.forEach((header: HTMLElement, index: number) => {
+            let cH = parseInt(header.getAttribute('height') ?? '');
+            cH = isNaN(cH) ? header.clientHeight : cH;
+            totalHeight += cH;
+          });
+        }
+
+        const overflowXScroll = this.scrollX
+          ? totalWidth > parentNode.offsetWidth
+          : false;
+        //const overflowYScroll = this.scrollY ? totalHeight > this.scrollY : false;
+        const overflowYScroll = this.scrollY;
+
+        if (overflowXScroll) {
+          this.renderer.setStyle(
+            this.header,
+            'width',
+            totalWidth + (overflowYScroll ? 25 : 0) + 'px'
+          );
+          this.renderer.setStyle(this.body, 'width', totalWidth + 'px');
+        }
+
+        if (overflowXScroll && overflowYScroll)
+          this.renderer.addClass(this.bodyScroll, 'overflow-scroll');
+        else if (overflowXScroll)
+          this.renderer.addClass(this.bodyScroll, 'overflow-x-scroll');
+        else if (overflowYScroll)
+          this.renderer.addClass(this.bodyScroll, 'overflow-y-scroll');
+
+        //Set header column
         const thElements: HTMLElement[] =
           this.elementRef.nativeElement.querySelectorAll('thead > tr > th');
-
-        //Take total width
         thElements.forEach((header: HTMLElement, index: number) => {
-          let cW = parseInt(header.getAttribute('width') ?? '');
-          cW = isNaN(cW) ? header.clientWidth : cW;
-          totalWidth += cW;
+          const htmlHeader = this.header as unknown as HTMLElement;
+          const el = htmlHeader.childNodes[index] as HTMLElement;
+          this.renderer.addClass(el, 'column-header');
+          const column = header.getAttribute('column');
+          if (column) this.renderer.setAttribute(el, 'column', column);
+          if (header.hasAttribute('sortable'))
+            this.renderer.setAttribute(el, 'sortable', '');
+          const direction = header.getAttribute('direction');
+          if (direction) this.renderer.setAttribute(el, 'direction', direction);
         });
-      }
 
-      if (this.scrollY) {
-        const trElements: HTMLElement[] =
-          this.elementRef.nativeElement.querySelectorAll('tbody > tr');
-
-        //Take total height
-        trElements.forEach((header: HTMLElement, index: number) => {
-          let cH = parseInt(header.getAttribute('height') ?? '');
-          cH = isNaN(cH) ? header.clientHeight : cH;
-          totalHeight += cH;
-        });
-      }
-
-      const overflowXScroll = this.scrollX
-        ? totalWidth > parentNode.offsetWidth
-        : false;
-      //const overflowYScroll = this.scrollY ? totalHeight > this.scrollY : false;
-      const overflowYScroll = this.scrollY;
-
-      if (overflowXScroll) {
         this.renderer.setStyle(
-          this.header,
-          'width',
-          totalWidth + (overflowYScroll ? 25 : 0) + 'px'
+          this.elementRef.nativeElement.getElementsByTagName('thead')[0],
+          'visibility',
+          'collapse'
         );
-        this.renderer.setStyle(this.body, 'width', totalWidth + 'px');
-      }
+      });
 
-      if (overflowXScroll && overflowYScroll)
-        this.renderer.addClass(this.bodyScroll, 'overflow-scroll');
-      else if (overflowXScroll)
-        this.renderer.addClass(this.bodyScroll, 'overflow-x-scroll');
-      else if (overflowYScroll)
-        this.renderer.addClass(this.bodyScroll, 'overflow-y-scroll');
-
-      //Set header column
+    //When table is rendered, set width for header scrollable columns
+    this.subscriptionHeaderWidth = this.ngZone.onStable.pipe().subscribe(() => {
+      //Set header column width
       const thElements: HTMLElement[] =
         this.elementRef.nativeElement.querySelectorAll('thead > tr > th');
       thElements.forEach((header: HTMLElement, index: number) => {
         const htmlHeader = this.header as unknown as HTMLElement;
         const el = htmlHeader.childNodes[index] as HTMLElement;
-        this.renderer.addClass(el, 'column-header');
-        const column = header.getAttribute('column');
-        if (column) this.renderer.setAttribute(el, 'column', column);
-        if (header.hasAttribute('sortable'))
-          this.renderer.setAttribute(el, 'sortable', '');
-        const direction = header.getAttribute('direction');
-        if (direction) this.renderer.setAttribute(el, 'direction', direction);
         el.style.width = header.clientWidth + 'px';
       });
-      /*  (this.header as unknown as HTMLElement)
-        .querySelectorAll('[sortable]')
-        .forEach((element) =>
-          element.addEventListener('click', this.sortListener)
-        ); */
-
-      this.renderer.setStyle(
-        this.elementRef.nativeElement.getElementsByTagName('thead')[0],
-        'visibility',
-        'collapse'
-      );
     });
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event) {
-    //Set header column width
-    const thElements: HTMLElement[] =
-      this.elementRef.nativeElement.querySelectorAll('thead > tr > th');
-    thElements.forEach((header: HTMLElement, index: number) => {
-      const htmlHeader = this.header as unknown as HTMLElement;
-      const el = htmlHeader.childNodes[index] as HTMLElement;
-      el.style.width = header.clientWidth + 'px';
-    });
-  }
   @HostListener('body:click', ['$event'])
   onSort(event: KeyboardEvent) {
     let v = Array.from(
@@ -277,10 +239,6 @@ export class TableDirective implements OnInit, AfterViewInit, OnDestroy {
         direction: rotate[sortDirection],
       });
     }
-
-    /* if (event.target) {
-      this.rotate(event as KeyboardEvent);
-    } */
   }
 }
 

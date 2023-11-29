@@ -1,0 +1,38 @@
+<input
+  type="file"
+  class="file-input"
+  (change)="onFileSelected($event)"
+  #fileUpload
+/>
+
+<div class="row">
+  <div class="col-4">
+    <div class="file-upload">
+      {{ fileName || "No file uploaded yet." }}
+      <button
+        type="button"
+        class="btn btn-primary fab-btn"
+        color="primary"
+        (click)="fileUpload.click()"
+      >
+        <i class="bi bi-paperclip"></i>
+      </button>
+
+      <div *ngIf="uploadProgress"  class="mt-2">
+        <ngb-progressbar
+          type="secondary"
+          [value]="uploadProgress!"
+        ></ngb-progressbar>
+
+        <button
+          class="btn btn-secondary cancel-upload mt-2"
+          (click)="cancelUpload()"
+        >
+          Cancel
+        </button>
+       
+      </div>
+      {{message}}
+    </div>
+  </div>
+</div>

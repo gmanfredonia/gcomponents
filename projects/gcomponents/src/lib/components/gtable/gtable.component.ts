@@ -32,6 +32,7 @@ export class GTableComponent {
   }
 
   protected setSorting(event: IColumnSorting, request: ITableRequest) {
+    debugger
     if (event?.multi) {
       const index = request.columnsSorting.findIndex(
         (item) => item.column === event.column

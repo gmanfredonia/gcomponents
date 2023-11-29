@@ -4,13 +4,16 @@
       <gtable-page-info [pageData]="pageData$ | async"></gtable-page-info>
     </div>
     <div class="col d-flex justify-content-end">
-      <button type="button" class="btn btn-primary btn-lg" (click)="modalComponent.open()">
+      <button
+        type="button"
+        class="btn btn-primary btn-lg"
+        (click)="modalComponent.open()"
+      >
         <i class="bi bi-plus-circle"></i> Crea
       </button>
     </div>
   </div>
 </div>
-
 <div class="row">
   <div class="col">
     <table
@@ -21,7 +24,12 @@
     >
       <thead>
         <tr>
-          <th width="40px"></th>
+          <th
+            width="40px"
+            style="position: sticky; left: 0; background-color: white"
+          >
+            &nbsp;
+          </th>
           <th column="id" sortable direction="asc" width="100px">Id</th>
           <th column="name" width="400px" sortable>Name</th>
           <th width="400px">Description</th>
@@ -34,8 +42,12 @@
         <tr *ngFor="let row of data">
           <td style="position: sticky; left: 0">
             <gdropdown-tools imageClass="bi bi-gear-fill"
-              ><button ngbDropdownItem>Edit</button>
-              <button ngbDropdownItem>Remove</button>
+              ><button ngbDropdownItem (click)="modalComponent.open(row.id)">
+                Edit
+              </button>
+              <button ngbDropdownItem (click)="modalConfirm.open()">
+                Remove
+              </button>
               <div class="dropdown-divider"></div>
               <button ngbDropdownItem>Details</button></gdropdown-tools
             >
@@ -68,5 +80,5 @@
     ></gtable-pager>
   </div>
 </div>
-
-<modal-product></modal-product>
+<modal-product (close)="onModalClose($event)"></modal-product>
+<modal-confirm (close)="onModalClose($event)"></modal-confirm>

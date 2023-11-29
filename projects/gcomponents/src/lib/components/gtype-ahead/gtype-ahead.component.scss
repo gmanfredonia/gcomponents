@@ -1,0 +1,7 @@
+input.form-control {
+    box-shadow: none !important;
+}
+
+input.form-control:disabled {
+    cursor: not-allowed;
+}

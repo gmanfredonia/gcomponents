@@ -20,12 +20,12 @@ import {
 import { GHelpersService } from 'ghelpers';
 
 @Component({
-  selector: 'app-date-picker',
-  templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.scss'],
+  selector: 'gdate-picker',
+  templateUrl: './gdate-picker.component.html',
+  styleUrls: ['./gdate-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatePickerComponent
+export class GDatePickerComponent
   implements OnInit, AfterViewInit, ControlValueAccessor
 {
   //Input
